@@ -1,1 +1,337 @@
-"hello world" 
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Toast House</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/uikit.css" />
+	<script src="js/uikit.js"></script>
+	<script src="js/uikit-icons.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+	<link rel='icon' type='image/png' href='images/favicon.png' />
+	<style>
+	#logo {
+		padding-top: 18%;	
+	}
+	@font-face {
+		font-family: noodle;
+		src: url(fonts/big_noodle_titling.ttf);
+	}
+	.uk-navbar-container {
+		background-color: #121212!important;
+	}
+	.uk-navbar-nav > li > a {
+		color: #ece300;
+	}
+	.uk-active > a {
+
+	}
+	a:hover {
+		color: #ece300;
+	}
+	a {
+		font-size:24px!important;
+	}
+	img {
+		height: auto;
+	}
+	html {
+		background-color: #121212;
+		color: #9c9eab;
+	}
+	hr {
+		border-color: #9c9eab;
+	}
+	.uk-button {
+		color: #ece300;
+	}
+	.uk-button:hover {
+		background-color: #ece300;
+		color: black;
+		border:1px solid black;
+	}
+	h1, .uk-h1, h2, .uk-h2, h3, .uk-h3, h4, .uk-h4, h5, .uk-h5, h6, .uk-h6 {
+		color: #ece300;
+		text-align: center;
+		margin-top:20px;
+		font-family: noodle;
+	}
+	p {
+		margin:30px;
+	}
+	a:hover {
+
+	}
+	.uk-icon [stroke*='#']:not(.uk-preserve), .uk-icon [STROKE*='#']:not(.uk-preserve) {
+		stroke: #ece300;
+	}
+	#nav {
+		border-bottom: 1px solid #9c9eab;
+	}
+	.goal {
+		font-family: noodle;
+		text-align: center;
+		color:white;
+		font-size:18px;
+	}
+	#footerbtn {
+	    padding: 30%;
+	    padding-top: 0;
+	    padding-bottom: 0;
+	}
+</style>
+</head>
+<body>
+	<div id="mainPic" data-src="images/background.jpg" class="uk-width-1-1 uk-hidden-touch" uk-img uk-height-viewport uk-parallax="bgy: -100">
+		<img id="logo"
+			sizes="(max-width: 350px) 100vw, 350px"
+			srcset="
+			images/logo_leeuwl_c_scale,w_190.png 190w,
+			images/logo_leeuwl_c_scale,w_253.png 253w,
+			images/logo_leeuwl_c_scale,w_310.png 310w,
+			images/logo_leeuwl_c_scale,w_350.png 350w"
+			src="images/logo_leeuwl_c_scale,w_350.png"
+			alt="" class="uk-align-center">
+		<a href="#aboutUs" class="uk-hidden-touch" uk-scroll='{"offset":100}'><span uk-icon="icon: chevron-down; ratio: 3.5" class="uk-position-bottom-center"></span></a>
+		<a href="#aboutUs" class="uk-hidden-notouch" ><span uk-icon="icon: chevron-down; ratio: 3.5" class="uk-position-bottom-center"></span></a>
+	</div>
+	<img src="images/background.jpg" class="uk-hidden-notouch"/>
+	<div class="uk-dark" uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; bottom: #transparent-sticky-navbar">
+		<nav id="nav" class="uk-navbar-container" uk-navbar>
+			<div class="uk-width-1-1">
+				<ul class="uk-navbar-nav">
+					<li class="uk-width-1-3@m uk-hidden-touch">
+						<a href ="#mainPic" uk-scroll><i style="font-size: 55px; font-family: noodle;">Toast House</i></a>
+					</li>
+					<li class="uk-width-1-6 uk-hidden-touch uk-text-center">
+						<a href="#aboutUs" uk-scroll='{"offset":100}' style="font-family:noodle;">About Us</a>
+					</li>
+					<li class="uk-width-1-6 uk-hidden-touch uk-text-center">
+						<a href="#goals" uk-scroll='{"offset":100}' style="font-family:noodle;">Our Goals</a>
+					</li>
+					<li class="uk-width-1-6 uk-hidden-touch uk-text-center">
+						<a href="#spec" uk-scroll='{"offset":100}' style="font-family:noodle;">Our Specialities</a>
+					</li>
+					<li class=" uk-width-1-6 uk-hidden-touch uk-text-center" >
+						<a href="#footer" uk-scroll style="font-family:noodle;">Contact Us</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<!-- BODY -->
+	<div style="margin:0 auto">
+		<div class="uk-section uk-dark">
+			<div uk-scrollspy="cls: uk-animation-fade; target: > div >; delay: 500; repeat: true">
+				<div class="uk-width-1-3@m uk-float-left uk-hidden-touch">
+					<img
+						sizes="(max-width: 1920px) 100vw, 1920px"
+						srcset="
+						images/pencils1_rudxoq_c_scale,w_190.jpg 190w,
+						images/pencils1_rudxoq_c_scale,w_489.jpg 489w,
+						images/pencils1_rudxoq_c_scale,w_673.jpg 673w,
+						images/pencils1_rudxoq_c_scale,w_823.jpg 823w,
+						images/pencils1_rudxoq_c_scale,w_940.jpg 940w,
+						images/pencils1_rudxoq_c_scale,w_1038.jpg 1038w,
+						images/pencils1_rudxoq_c_scale,w_1128.jpg 1128w,
+						images/pencils1_rudxoq_c_scale,w_1220.jpg 1220w,
+						images/pencils1_rudxoq_c_scale,w_1296.jpg 1296w,
+						images/pencils1_rudxoq_c_scale,w_1373.jpg 1373w,
+						images/pencils1_rudxoq_c_scale,w_1445.jpg 1445w,
+						images/pencils1_rudxoq_c_scale,w_1516.jpg 1516w,
+						images/pencils1_rudxoq_c_scale,w_1584.jpg 1584w,
+						images/pencils1_rudxoq_c_scale,w_1651.jpg 1651w,
+						images/pencils1_rudxoq_c_scale,w_1714.jpg 1714w,
+						images/pencils1_rudxoq_c_scale,w_1772.jpg 1772w,
+						images/pencils1_rudxoq_c_scale,w_1833.jpg 1833w,
+						images/pencils1_rudxoq_c_scale,w_1895.jpg 1895w,
+						images/pencils1_rudxoq_c_scale,w_1912.jpg 1912w,
+						images/pencils1_rudxoq_c_scale,w_1920.jpg 1920w"
+						src="images/pencils1_rudxoq_c_scale,w_1920.jpg"
+						alt="">
+				</div>
+				<div class="uk-width-1-3@m uk-width-1-1@s uk-float-left">
+					<h2 id="aboutUs" class="uk-text-center">About Us</h2>
+					<hr>
+					<div>
+						<p>
+							Toast.House is a full service web design agency based in Edinburgh.
+						</p>
+						<p> We design and create engaging and dynamic websites which are fully responsive on any mobile device, our aim is to build websites
+							that exceed our clients’ expectations every time.
+						</p>
+					</div>
+				</div>
+				<div class="uk-width-1-3@m uk-float-right uk-hidden-touch">
+					<img
+						sizes="(max-width: 1920px) 100vw, 1920px"
+						srcset="
+						images/pencils2_isndvd_c_scale,w_190.jpg 190w,
+						images/pencils2_isndvd_c_scale,w_557.jpg 557w,
+						images/pencils2_isndvd_c_scale,w_733.jpg 733w,
+						images/pencils2_isndvd_c_scale,w_869.jpg 869w,
+						images/pencils2_isndvd_c_scale,w_980.jpg 980w,
+						images/pencils2_isndvd_c_scale,w_1077.jpg 1077w,
+						images/pencils2_isndvd_c_scale,w_1165.jpg 1165w,
+						images/pencils2_isndvd_c_scale,w_1251.jpg 1251w,
+						images/pencils2_isndvd_c_scale,w_1327.jpg 1327w,
+						images/pencils2_isndvd_c_scale,w_1403.jpg 1403w,
+						images/pencils2_isndvd_c_scale,w_1475.jpg 1475w,
+						images/pencils2_isndvd_c_scale,w_1541.jpg 1541w,
+						images/pencils2_isndvd_c_scale,w_1605.jpg 1605w,
+						images/pencils2_isndvd_c_scale,w_1669.jpg 1669w,
+						images/pencils2_isndvd_c_scale,w_1731.jpg 1731w,
+						images/pencils2_isndvd_c_scale,w_1789.jpg 1789w,
+						images/pencils2_isndvd_c_scale,w_1848.jpg 1848w,
+						images/pencils2_isndvd_c_scale,w_1907.jpg 1907w,
+						images/pencils2_isndvd_c_scale,w_1915.jpg 1915w,
+						images/pencils2_isndvd_c_scale,w_1920.jpg 1920w"
+						src="images/pencils2_isndvd_c_scale,w_1920.jpg"
+						alt="">
+				</div>
+				<div class="uk-width-1-1 uk-float-right uk-hidden-notouch">
+					<img
+						sizes="(max-width: 1920px) 100vw, 1920px"
+						srcset="
+						images/pencils_hz5a1m_c_scale,w_190.jpg 190w,
+						images/pencils_hz5a1m_c_scale,w_606.jpg 606w,
+						images/pencils_hz5a1m_c_scale,w_817.jpg 817w,
+						images/pencils_hz5a1m_c_scale,w_985.jpg 985w,
+						images/pencils_hz5a1m_c_scale,w_1117.jpg 1117w,
+						images/pencils_hz5a1m_c_scale,w_1239.jpg 1239w,
+						images/pencils_hz5a1m_c_scale,w_1336.jpg 1336w,
+						images/pencils_hz5a1m_c_scale,w_1435.jpg 1435w,
+						images/pencils_hz5a1m_c_scale,w_1529.jpg 1529w,
+						images/pencils_hz5a1m_c_scale,w_1608.jpg 1608w,
+						images/pencils_hz5a1m_c_scale,w_1686.jpg 1686w,
+						images/pencils_hz5a1m_c_scale,w_1769.jpg 1769w,
+						images/pencils_hz5a1m_c_scale,w_1842.jpg 1842w,
+						images/pencils_hz5a1m_c_scale,w_1916.jpg 1916w,
+						images/pencils_hz5a1m_c_scale,w_1920.jpg 1920w"
+						src="images/pencils_hz5a1m_c_scale,w_1920.jpg"
+						alt="">
+				</div>
+			</div>
+		</div>
+		<h2 id="goals" class="uk-text-center">Our Goals</h2>
+		<hr>
+		<div class="uk-section uk-dark">
+			<div uk-scrollspy="cls: uk-animation-fade; target: > div >; delay: 1200; repeat: true">
+				<div class="uk-align-center" style="width:500px;">
+					<div>
+						<p class="goal">
+							<span style="color:#ece300;">Our goal is to</span> help businesses and individuals increase their web presence.
+						</p>
+					</div>
+					<div>
+						<p class="goal">
+							We have more than 10 years’ experience designing and developing websites for clients across all sectors, ranging from small boutique and start up companies to Larger organisations. 
+						</p>
+					</div>
+					<div>
+						<p class="goal">
+							Let us work with you to <span style="color:#ece300;">create your vision</span> and increase your visibility to the largest possible audience through our specialist knowledge in website design, development and search engine optimisation. Whether that is to increase visibility to attract new customers, to display the services you offer or just give your website a fresh new look.  Our aim is to exceed our clients expectations every time and we will not stop until each aspect is perfect.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h2 id="spec" class="uk-text-center">Our Specialities</h2>
+		<hr>
+		<div class="uk-section uk-dark">
+			<div uk-scrollspy="cls: uk-animation-fade; target: > div >; delay: 350; repeat: true">
+				<div class="uk-width-2-3@m uk-width-1-1@s uk-float-left ">
+					<img
+						sizes="(max-width: 1920px) 100vw, 1920px"
+						srcset="
+						images/camera_d98qsk_c_scale,w_190.jpg 190w,
+						images/camera_d98qsk_c_scale,w_620.jpg 620w,
+						images/camera_d98qsk_c_scale,w_936.jpg 936w,
+						images/camera_d98qsk_c_scale,w_1159.jpg 1159w,
+						images/camera_d98qsk_c_scale,w_1376.jpg 1376w,
+						images/camera_d98qsk_c_scale,w_1583.jpg 1583w,
+						images/camera_d98qsk_c_scale,w_1751.jpg 1751w,
+						images/camera_d98qsk_c_scale,w_1918.jpg 1918w,
+						images/camera_d98qsk_c_scale,w_1920.jpg 1920w"
+						src="images/camera_d98qsk_c_scale,w_1920.jpg"
+						alt="">
+				</div>
+				<div class="uk-width-1-3@m uk-width-1-1@s uk-float-right ">
+					<h3>Web Design</h3>
+					<hr>
+					<p>We have experience In designing and developing websites, from brochure style sites to more complex multi page and e-commerce websites. Whether you are a startup business, established company or individual we can help talk you through each stage of the design process, and work with you to create exactly what you are looking for. </p>
+				</div>
+				<div class="uk-width-2-3@m uk-width-1-1@s uk-float-right ">
+					<img
+						sizes="(max-width: 1920px) 100vw, 1920px"
+						srcset="
+						images/coffeeEdit_pbz1lb_c_scale,w_190.jpg 190w,
+						images/coffeeEdit_pbz1lb_c_scale,w_568.jpg 568w,
+						images/coffeeEdit_pbz1lb_c_scale,w_780.jpg 780w,
+						images/coffeeEdit_pbz1lb_c_scale,w_934.jpg 934w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1064.jpg 1064w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1165.jpg 1165w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1265.jpg 1265w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1351.jpg 1351w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1432.jpg 1432w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1510.jpg 1510w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1584.jpg 1584w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1656.jpg 1656w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1720.jpg 1720w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1786.jpg 1786w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1846.jpg 1846w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1909.jpg 1909w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1919.jpg 1919w,
+						images/coffeeEdit_pbz1lb_c_scale,w_1920.jpg 1920w"
+						src="images/coffeeEdit_pbz1lb_c_scale,w_1920.jpg"
+						alt="">
+				</div>
+				<div class="uk-width-1-3@m uk-width-1-1@s uk-float-left ">
+					<h3>Branding</h3>
+					<hr>
+					<p>Your brand is how customers see you and how you see yourself, so it is vital that your brand is displaying your values and objectives this will help making your business memorable and instantly recognisable . A solid brand can not only help in marketing your business but also support recruitment, sales and help maintain a competitive advantage. </p>
+				</div>
+				<div class="uk-width-2-3@m uk-width-1-1@s uk-float-left ">
+					<img
+						sizes="(max-width: 1920px) 100vw, 1920px"
+						srcset="
+						images/seo_khilfw_c_scale,w_190.jpg 190w,
+						images/seo_khilfw_c_scale,w_465.jpg 465w,
+						images/seo_khilfw_c_scale,w_662.jpg 662w,
+						images/seo_khilfw_c_scale,w_797.jpg 797w,
+						images/seo_khilfw_c_scale,w_928.jpg 928w,
+						images/seo_khilfw_c_scale,w_1037.jpg 1037w,
+						images/seo_khilfw_c_scale,w_1130.jpg 1130w,
+						images/seo_khilfw_c_scale,w_1215.jpg 1215w,
+						images/seo_khilfw_c_scale,w_1304.jpg 1304w,
+						images/seo_khilfw_c_scale,w_1382.jpg 1382w,
+						images/seo_khilfw_c_scale,w_1459.jpg 1459w,
+						images/seo_khilfw_c_scale,w_1531.jpg 1531w,
+						images/seo_khilfw_c_scale,w_1601.jpg 1601w,
+						images/seo_khilfw_c_scale,w_1677.jpg 1677w,
+						images/seo_khilfw_c_scale,w_1738.jpg 1738w,
+						images/seo_khilfw_c_scale,w_1797.jpg 1797w,
+						images/seo_khilfw_c_scale,w_1865.jpg 1865w,
+						images/seo_khilfw_c_scale,w_1918.jpg 1918w,
+						images/seo_khilfw_c_scale,w_1920.jpg 1920w"
+						src="images/seo_khilfw_c_scale,w_1920.jpg"
+						alt="">
+				</div>
+				<div class="uk-width-1-3@m uk-width-1-1@s uk-float-right ">
+					<h3>SEO</h3>
+					<hr>
+					<p>Search Engine Optimisation is a powerful method used to increase a website's visibility on search engines such as Google, Yahoo and Bing. We can help put your business out in front of the largest possible audience, not only displaying the products and services your business offers but ensuring you are found above your competitors. 
+						Let us help you get to the top of the major search engines and stay there. 
+					</p>
+				</div>
+			</div>
+		</div>
+		<!-- FOOOTER !-->	
+		<div class="uk-section uk-dark" id="footer">
+			<div id="footerbtn">
+				<a href="mailto:admin@toast.house" class="uk-button uk-button-default uk-button-large uk-align-center">Contact Us</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
