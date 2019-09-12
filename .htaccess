@@ -1,0 +1,2 @@
+RewriteEngine On RewriteCond %{HTTP_HOST} ^www\.toast\.house
+RewriteRule (.*) http://toast.house/$1 [R=301,L]
