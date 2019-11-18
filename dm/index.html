@@ -14,9 +14,18 @@
 			rel="stylesheet"
 			href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 		/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
+		<!-- overlay-->
+		<div class="overlay first"></div>
+		<div class="overlay second"><span class="overlayTitle">Toast.House</span></div>
+		<div class="overlay third"></div>
+
 		<nav class="nav">
 			<div class="logo">
 				<span>toast.house</span>
@@ -25,17 +34,16 @@
 				<ul>
 					<li>Who We Are</li>
 					<li>What we do</li>
-					<li>Why we do it</li>
-					<li>Where we are</li>
+					<li>Contact Us</li>
 				</ul>
 			</div>
 		</nav>
 		<div class="wrapper">
-			<div class="cta"></div>
+			<div class="cta gradient"></div>
 			<span class="tag">Creative Design Studio</span>
 			<div class="content chunk1">
 				<div class="split left">
-					<div class="splitImg1"></div>
+					<div class="splitImg1 gradient"></div>
 					<img src="/images/bony.jpg" alt="" class="picture" />
 					<div class="text">
 						<p class="subtitle">Anthony Rogers</p>
@@ -50,7 +58,7 @@
 					</div>
 				</div>
 				<div class="split right">
-					<div class="splitImg2"></div>
+					<div class="splitImg2 gradient"></div>
 					<img src="images/onid.jpg" alt="" class="picture" />
 					<div class="text">
 						<p class="subtitle">Dean Mathieson</p>
@@ -66,7 +74,7 @@
 				</div>
 			</div>
 			<div class="content chunk2">
-				<div class="cta2"></div>
+				<div class="cta2 gradient"></div>
 				<h1 class="title">What we do</h1>
 				<div class="chunk2content">
 					<div class="block">
@@ -99,6 +107,21 @@
 							type and scrambled it to make a type specimen book.
 						</div>
 					</div>
+				</div>
+			</div>
+			<div class="content chunk3">
+				<div class="cta3 gradient"></div>
+				<h1 class="title">Contact Us</h1>
+				<div class="form">
+					<form id="javascript_form">
+						<span class="contactText">Name: </span>
+						<input type="text" name="name" placeholder="Name" />
+						<span class="contactText">Subject: </span>
+						<input type="text" name="subject" placeholder="Subject" />
+						<span class="contactText">Message: </span>
+						<input type="text" name="text" placeholder="Message" />
+						<input class="button" type="submit" id="js_send" value="Send" />
+					</form>
 				</div>
 			</div>
 		</div>
