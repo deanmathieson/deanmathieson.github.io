@@ -1,6 +1,7 @@
 const content = document.querySelector(".content");
 const left = document.querySelector(".left");
 const right = document.querySelector(".right");
+var controller = new ScrollMagic.Controller();
 
 left.addEventListener("mouseenter", () => {
 	content.classList.add("hover-left");
@@ -70,6 +71,64 @@ TweenMax.from(".tag", 1, {
 	y: -100,
 	ease: Power3.easeInOut
 });
+
+var scene = new ScrollMagic.Scene({
+	triggerElement: ".chunk1"
+})
+	.setTween(".chunk1 .title", 1, {
+		delay: 1.5,
+		opacity: 1,
+		ease: Expo.easeInOut
+	}) // trigger a TweenMax.to tween
+	.addTo(controller);
+
+var scene = new ScrollMagic.Scene({
+	triggerElement: ".chunk1"
+})
+	.setTween(".picture", 1, {
+		delay: 2,
+		opacity: 1,
+		ease: Expo.easeInOut
+	}) // trigger a TweenMax.to tween
+	.addTo(controller);
+
+var scene = new ScrollMagic.Scene({
+	triggerElement: ".chunk1"
+})
+	.setTween(".subtitle", 1, {
+		delay: 2.2,
+		color: "#fff",
+		ease: Expo.easeInOut
+	}) // trigger a TweenMax.to tween
+	.addTo(controller);
+
+var scene = new ScrollMagic.Scene({
+	triggerElement: ".chunk1"
+})
+	.setTween(".title", 1, {
+		delay: 2.4,
+		color: "#fff",
+		ease: Expo.easeInOut
+	}) // trigger a TweenMax.to tween
+	.addTo(controller);
+var scene = new ScrollMagic.Scene({
+	triggerElement: ".chunk1"
+})
+	.setTween(".desc", 1, {
+		delay: 2.6,
+		color: "#fff",
+		ease: Expo.easeInOut
+	}) // trigger a TweenMax.to tween
+	.addTo(controller);
+var scene = new ScrollMagic.Scene({
+	triggerElement: ".chunk1"
+})
+	.setTween(".text .button", 1, {
+		delay: 2.8,
+		opacity: 1,
+		ease: Expo.easeInOut
+	}) // trigger a TweenMax.to tween
+	.addTo(controller);
 /* FORM */
 
 //update this with your js_form selector
