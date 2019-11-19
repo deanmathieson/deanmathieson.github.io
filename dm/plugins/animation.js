@@ -218,7 +218,7 @@ var scene3 = new ScrollMagic.Scene({
 	.addTo(controller);
 
 var scene3 = new ScrollMagic.Scene({
-	triggerElement: ".chunk2"
+	triggerElement: ".chunk3"
 })
 	.setTween(
 		TweenMax.staggerFrom(
@@ -235,7 +235,7 @@ var scene3 = new ScrollMagic.Scene({
 	.addTo(controller);
 
 var scene3 = new ScrollMagic.Scene({
-	triggerElement: ".chunk2"
+	triggerElement: ".chunk3"
 })
 	.setTween(
 		TweenMax.staggerFrom(
