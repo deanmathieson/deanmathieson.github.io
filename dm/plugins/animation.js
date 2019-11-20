@@ -91,7 +91,7 @@ $(document).ready(function() {
 	right.addEventListener("mouseleave", () => {
 		content.classList.remove("hover-right");
 	});
-	var scene = new ScrollMagic.Scene({
+	var scene1 = new ScrollMagic.Scene({
 		triggerElement: ".who"
 	})
 		.setTween(
@@ -100,7 +100,7 @@ $(document).ready(function() {
 				1,
 				{ opacity: 0 },
 				{
-					delay: 1,
+					delay: 1.5,
 					opacity: 1,
 					ease: Expo.easeInOut
 				}
@@ -108,7 +108,7 @@ $(document).ready(function() {
 		) // trigger a TweenMax.to tween
 		.addTo(controller);
 
-	var scene = new ScrollMagic.Scene({
+	var scene1 = new ScrollMagic.Scene({
 		triggerElement: ".who"
 	})
 		.setTween(
@@ -124,24 +124,8 @@ $(document).ready(function() {
 			)
 		) // trigger a TweenMax.to tween
 		.addTo(controller);
-	var scene = new ScrollMagic.Scene({
-		triggerElement: ".who"
-	})
-		.setTween(
-			TweenMax.staggerFrom(
-				".picture",
-				1,
-				{ opacity: 0 },
-				{
-					delay: 2,
-					opacity: 0,
-					ease: Power3.easeInOut
-				},
-				0.2
-			)
-		) // trigger a TweenMax.to tween
-		.addTo(controller);
-	var scene2 = new ScrollMagic.Scene({
+
+	var scene1 = new ScrollMagic.Scene({
 		triggerElement: ".who"
 	})
 		.setTween(
@@ -157,7 +141,7 @@ $(document).ready(function() {
 			)
 		) // trigger a TweenMax.to tween
 		.addTo(controller);
-	var scene2 = new ScrollMagic.Scene({
+	var scene1 = new ScrollMagic.Scene({
 		triggerElement: ".who"
 	})
 		.setTween(
@@ -173,7 +157,7 @@ $(document).ready(function() {
 			)
 		) // trigger a TweenMax.to tween
 		.addTo(controller);
-	var scene2 = new ScrollMagic.Scene({
+	var scene1 = new ScrollMagic.Scene({
 		triggerElement: ".who"
 	})
 		.setTween(
@@ -189,7 +173,7 @@ $(document).ready(function() {
 			)
 		) // trigger a TweenMax.to tween
 		.addTo(controller);
-	var scene2 = new ScrollMagic.Scene({
+	var scene1 = new ScrollMagic.Scene({
 		triggerElement: ".who"
 	})
 		.setTween(
@@ -205,7 +189,8 @@ $(document).ready(function() {
 			)
 		) // trigger a TweenMax.to tween
 		.addTo(controller);
-	/* WHAT WE DO */
+	/* WHAT WE DO 
+	==========================*/
 	var scene2 = new ScrollMagic.Scene({
 		triggerElement: ".what"
 	})
@@ -215,7 +200,7 @@ $(document).ready(function() {
 				1,
 				{ opacity: 0 },
 				{
-					delay: 1,
+					delay: 1.5,
 					opacity: 1,
 					ease: Expo.easeInOut
 				}
@@ -284,7 +269,7 @@ $(document).ready(function() {
 				1,
 				{ opacity: 0 },
 				{
-					delay: 1,
+					delay: 1.5,
 					opacity: 1,
 					ease: Expo.easeInOut
 				}
@@ -300,7 +285,7 @@ $(document).ready(function() {
 				"#javascript_form span",
 				1,
 				{
-					delay: 1.5,
+					delay: 1.7,
 					opacity: 0,
 					ease: Power3.easeInOut
 				},
