@@ -32,10 +32,12 @@ function js_send() {
 		}
 	};
 
+	var name = document.querySelector("#" + form_id_js + " [name='name']").value;
 	var subject = document.querySelector("#" + form_id_js + " [name='subject']")
 		.value;
 	var message = document.querySelector("#" + form_id_js + " [name='text']")
 		.value;
+	data_js["name"] = name;
 	data_js["subject"] = subject;
 	data_js["text"] = message;
 	var params = toParams(data_js);

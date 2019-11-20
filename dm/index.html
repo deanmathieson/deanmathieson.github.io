@@ -14,10 +14,15 @@
 			rel="stylesheet"
 			href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 		/>
+		<script
+			src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			crossorigin="anonymous"
+		></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.js"></script>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/plugins/TextPlugin.min.js"></script>
 		<!--GSAP animation plugin should be placed after ScrollMagic! -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.6/plugins/animation.gsap.js"></script>
 		<link rel="stylesheet" href="style.css" />
@@ -26,13 +31,13 @@
 		<!-- overlay-->
 		<div class="overlay first"></div>
 		<div class="overlay second">
-			<span class="overlayTitle">Toast.House</span>
+			<span class="overlayTitle">To<span class="rotate">V</span>st.House</span>
 		</div>
 		<div class="overlay third"></div>
 
 		<nav class="nav">
 			<div class="logo">
-				<span>toast.house</span>
+				<span class="header">to<span class="rotate">V</span>st.house</span>
 			</div>
 			<div class="menu-links">
 				<ul>
@@ -43,12 +48,17 @@
 			</div>
 		</nav>
 		<div class="wrapper">
-			<div class="cta gradient"></div>
-			<span class="tag">Creative Design Studio</span>
-			<div class="content chunk1">
+			<div class="spacer s0"></div>
+			<div id="parallax1" class="parallaxParent">
+				<div id="para1" class="parallax gradient"></div>
+			</div>
+			<span class="tag"></span>
+			<div class="content who">
 				<h1 class="title">Who we are</h1>
 				<div class="split left">
-					<div class="splitImg1 gradient"></div>
+					<div id="parallax2" class="parallaxParent">
+						<div id="para2" class="parallax gradient"></div>
+					</div>
 					<img src="images/bony.jpg" alt="" class="picture" />
 					<div class="text">
 						<p class="subtitle">Anthony Rogers</p>
@@ -63,7 +73,9 @@
 					</div>
 				</div>
 				<div class="split right">
-					<div class="splitImg2 gradient"></div>
+					<div id="parallax3" class="parallaxParent">
+						<div id="para3" class="parallax gradient"></div>
+					</div>
 					<img src="images/onid.jpg" alt="" class="picture" />
 					<div class="text">
 						<p class="subtitle">Dean Mathieson</p>
@@ -78,10 +90,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="content chunk2">
-				<div class="cta2 gradient"></div>
+			<div class="content what">
+				<div id="parallax4" class="parallaxParent">
+					<div id="para4" class="parallax gradient"></div>
+				</div>
 				<h1 class="title">What we do</h1>
-				<div class="chunk2content">
+				<div class="whatcontent">
 					<div class="block">
 						<h2 class="subtitle">Web Development</h2>
 						<i class="fas fa-comment"></i>
@@ -114,8 +128,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="content chunk3">
-				<div class="cta3 gradient"></div>
+			<div class="content contact">
+				<div id="contactPicture" class="gradient"></div>
 				<h1 class="title">Contact Us</h1>
 				<div class="form">
 					<form id="javascript_form">

@@ -2,13 +2,53 @@
 ========================*/
 * {
 	margin: 0;
-    padding: 0;
+	padding: 0;
 }
 body {
 	font-family: "Montserrat";
 	width: 100%;
-    font-size: 12px;
-    overflow-x: none;
+	font-size: 12px;
+	overflow-x: hidden;
+}
+/* PARALLAX 
+=========== */
+.parallaxParent {
+	height: 100vh;
+	overflow: hidden;
+}
+.parallaxParent > * {
+	height: 200%;
+	position: relative;
+	top: -100%;
+	background-size: contain;
+}
+#para1 {
+	background-image: url("images/cover.jpg");
+}
+#para2 {
+	background-image: url("images/cut1.jpg");
+}
+#para3 {
+	background-image: url("images/cut2.jpg");
+}
+#para4 {
+	background-image: url("images/computers.jpg");
+}
+#contactPicture {
+	background-image: url("images/mail.jpg");
+	height: 100%;
+	background-size: contain;
+}
+.gradient:after {
+	content: "";
+	width: 100%;
+	height: 100%;
+	background-image: linear-gradient(0deg, rgb(0, 254, 132) 0%, rgb(33, 1, 66));
+	mix-blend-mode: multiply;
+	position: absolute;
+	left: 0;
+	top: 0;
+	transition: all 1s ease-in-out;
 }
 /* NAV 
 ========================*/
@@ -35,17 +75,32 @@ ul {
 	padding-right: 20px;
 	color: #00fe84;
 }
+.rotate {
+	display: inline-block;
+	transform: rotate(-180deg);
+
+	/* Legacy vendor prefixes that you probably don't need... */
+
+	/* Safari */
+	-webkit-transform: rotate(-180deg);
+
+	/* Firefox */
+	-moz-transform: rotate(-180deg);
+
+	/* IE */
+	-ms-transform: rotate(-180deg);
+
+	/* Opera */
+	-o-transform: rotate(-180deg);
+
+	/* Internet Explorer */
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
 /* CTA 
 ========================*/
-.cta {
-	background-image: url("images/cover2.png");
-	height: 100vh;
-	position: relative;
-	top: 0;
-	left: 0;
-	width: 100%;
-	background-size: cover;
-	z-index: -1;
+
+.header {
+	text-transform: uppercase;
 }
 .tag {
 	font-size: 40px;
@@ -53,7 +108,8 @@ ul {
 	letter-spacing: 2px;
 	top: 60%;
 	left: 34%;
-    color: #fff;
+	text-transform: uppercase;
+	color: #fff;
 }
 /* WHO 
 ========================*/
@@ -77,30 +133,6 @@ ul {
 .split.right {
 	right: 0;
 }
-.splitImg1,
-.splitImg2 {
-	mix-blend-mode: multiply;
-	height: 100%;
-	opacity: 1;
-	background-size: cover;
-}
-.splitImg1 {
-	background-image: url("images/cut1.jpg");
-}
-.splitImg2 {
-	background-image: url("images/cut2.jpg");
-}
-.gradient:after {
-	content: "";
-	width: 100%;
-	height: 100%;
-	background-image: linear-gradient(0deg, rgb(0, 254, 132) 0%, rgb(33, 1, 66));
-	mix-blend-mode: multiply;
-	position: absolute;
-	left: 0;
-	top: 0;
-	transition: all 1s ease-in-out;
-}
 .hover-left .split.left {
 	width: 60%;
 }
@@ -115,7 +147,6 @@ ul {
 }
 .picture {
 	width: 30%;
-	opacity: 0;
 	position: absolute;
 	top: 30%;
 	border-radius: 50%;
@@ -168,7 +199,6 @@ ul {
 	border-radius: 100px;
 	border: #fff solid 2px;
 	color: #fff;
-	opacity: 0;
 }
 .button:hover {
 	color: #210142;
@@ -187,11 +217,10 @@ ul {
 .hover-right .split.right .text {
 	transform: translate(-45%, -50%);
 }
-.chunk1 .title {
+.who .title {
 	font-size: 40px;
 	text-align: center;
 	top: 30px;
-	opacity: 0;
 	z-index: 999;
 	position: absolute;
 	margin: 0 auto;
@@ -199,27 +228,19 @@ ul {
 }
 /* WHAT
 ========== */
-.cta2 {
-	background-image: url("images/computers.jpg");
-	height: 100vh;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	background-size: cover;
-	z-index: -1;
-}
-.chunk2content {
+.whatcontent {
 	display: flex;
 	align-items: center;
 	flex-direction: row;
+	position: absolute;
+	top: 0;
 }
 .block {
 	width: 33%;
 	text-align: center;
 	margin-top: 20%;
 }
-.chunk2 .title {
+.what .title {
 	font-size: 40px;
 	text-align: center;
 	top: 100px;
@@ -237,23 +258,13 @@ ul {
 /* CONTACT 
 ================ */
 
-.chunk3 .title {
+.contact .title {
 	font-size: 40px;
 	text-align: center;
 	top: 100px;
 	position: absolute;
 	margin: 0 auto;
 	width: 100%;
-}
-.cta3 {
-	background-image: url("images/mail.jpg");
-	height: 100vh;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	background-size: cover;
-	z-index: -1;
 }
 .form {
 	position: absolute;
@@ -280,7 +291,7 @@ select {
 
 /* Style the submit button */
 input[type="submit"] {
-    margin-top: 30px;
+	margin-top: 30px;
 	width: 50%;
 	left: 50%;
 	margin-left: 25%;
@@ -294,7 +305,7 @@ input[type="submit"] {
 	height: 100%;
 	top: 0;
 	z-index: 999999999999999999999;
-    overflow-x: hidden;
+	overflow-x: hidden;
 }
 .first {
 	background: #00fe84;
@@ -308,9 +319,10 @@ input[type="submit"] {
 	left: 66.6%;
 }
 .overlayTitle {
-    font-size: 70px;
-    color: #fff;
-    position: absolute;
-    top: 50%;
-    left: 50px;
+	font-size: 70px;
+	color: #fff;
+	position: absolute;
+	top: 50%;
+	left: 50px;
+	text-transform: uppercase;
 }
