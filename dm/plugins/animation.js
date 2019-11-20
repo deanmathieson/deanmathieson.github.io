@@ -153,7 +153,7 @@ $(document).ready(function() {
 					opacity: 0,
 					ease: Power3.easeInOut
 				},
-				0.5
+				0.2
 			)
 		) // trigger a TweenMax.to tween
 		.addTo(controller);
@@ -169,7 +169,7 @@ $(document).ready(function() {
 					opacity: 0,
 					ease: Power3.easeInOut
 				},
-				0.5
+				0.2
 			)
 		) // trigger a TweenMax.to tween
 		.addTo(controller);
@@ -185,7 +185,7 @@ $(document).ready(function() {
 					opacity: 0,
 					ease: Power3.easeInOut
 				},
-				0.5
+				0.2
 			)
 		) // trigger a TweenMax.to tween
 		.addTo(controller);
@@ -201,7 +201,7 @@ $(document).ready(function() {
 					opacity: 0,
 					ease: Power3.easeInOut
 				},
-				0.5
+				0.2
 			)
 		) // trigger a TweenMax.to tween
 		.addTo(controller);
