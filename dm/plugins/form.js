@@ -8,8 +8,9 @@ var data_js = {
 
 function js_onSuccess() {
 	// remove this to avoid redirect
-	window.location =
-		window.location.pathname + "?message=Email+Successfully+Sent%21&isError=0";
+	// window.location =
+	// 	window.location.pathname + "?message=Email+Successfully+Sent%21&isError=0";
+	sendButton.value = "Sent!";
 }
 
 function js_onError(error) {
@@ -37,9 +38,8 @@ function js_send() {
 		.value;
 	var message = document.querySelector("#" + form_id_js + " [name='text']")
 		.value;
-	data_js["name"] = name;
 	data_js["subject"] = subject;
-	data_js["text"] = message;
+	data_js["text"] = 'name = ' + name + ', message = ' + message;
 	var params = toParams(data_js);
 
 	request.open("POST", "https://postmail.invotes.com/send", true);
