@@ -25,7 +25,19 @@
 		<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/plugins/TextPlugin.min.js"></script>
 		<!--GSAP animation plugin should be placed after ScrollMagic! -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.6/plugins/animation.gsap.js"></script>
-		<link rel="stylesheet" href="style.css" />
+		<link
+			rel="preload"
+			href="style.css"
+			as="style"
+			media="all"
+			onload="this.onload=null;this.rel='stylesheet'"
+		/>
+		<link
+			rel="stylesheet"
+			href="mobile.css"
+			as="style"
+			media="screen and (max-width:768px)"
+		/>
 	</head>
 	<body>
 		<!-- overlay-->
@@ -38,7 +50,7 @@
 		<nav class="nav">
 			<div class="logo">
 				<a href="#" class="header">
-					<span >to<span class="rotate">V</span>st.house</span>
+					<span>to<span class="rotate">V</span>st.house</span>
 				</a>
 			</div>
 			<div class="menu-links">
