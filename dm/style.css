@@ -50,7 +50,7 @@ a:hover {
 #contactPicture {
 	background-image: url("images/mail.jpg");
 	height: 100%;
-	background-size: contain;
+	background-size: cover;
 }
 .gradient:after {
 	content: "";
