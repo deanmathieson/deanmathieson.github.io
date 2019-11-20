@@ -154,7 +154,7 @@ ul {
 	transform: translate(-50%, -50%);
 }
 
-.text {
+.whocontent {
 	width: 600px;
 	position: absolute;
 	top: 70%;
@@ -164,24 +164,23 @@ ul {
 	transition: all 1s cubic-bezier(0.87, 0.76, 0.33, 0.98);
 }
 
-.text .subtitle {
+.whocontent .subtitle {
 	font-size: 16px;
 	text-transform: uppercase;
 	letter-spacing: 2px;
 }
-.text .title {
+.whocontent .jobtitle {
 	font-size: 80px;
 	text-transform: uppercase;
 	font-weight: 700;
-	font-family: "sansserif";
 	line-height: 1;
 	letter-spacing: 5px;
 	margin-top: 10px;
 }
-.text {
-	color: transparent;
+.whocontent {
+	color: #fff;
 }
-.text .desc {
+.whocontent .desc {
 	font-size: 14px;
 	font-weight: 300;
 	line-height: 2;
@@ -205,16 +204,16 @@ ul {
 	background: #fff;
 }
 
-.hover-left .split.left .text {
+.hover-left .split.left .whocontent {
 	transform: translate(-50%, -50%);
 }
-.hover-left .split.right .text {
+.hover-left .split.right .whocontent {
 	transform: translate(-45%, -50%);
 }
-.hover-right .split.left .text {
+.hover-right .split.left .whocontent {
 	transform: translate(-60%, -50%);
 }
-.hover-right .split.right .text {
+.hover-right .split.right .whocontent {
 	transform: translate(-45%, -50%);
 }
 .who .title {

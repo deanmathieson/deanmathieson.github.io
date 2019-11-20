@@ -7,8 +7,13 @@ $(document).ready(function() {
 		globalSceneOptions: { triggerHook: "onEnter", duration: "200%" }
 	});
 
-	var tl = new TimelineMax({repeat: -1, repeatDelay: 1, yoyo: true, delay: 1.5 });
-	tl.to(".tag", 3.5, { text: "Creative Design Studio" })
+	var tl = new TimelineMax({
+		repeat: -1,
+		repeatDelay: 1,
+		yoyo: true,
+		delay: 1.5
+	});
+	tl.to(".tag", 3.5, { text: "Creative Design Studio" });
 
 	// parallax
 	new ScrollMagic.Scene({ triggerElement: "#parallax1" })
@@ -26,20 +31,6 @@ $(document).ready(function() {
 	new ScrollMagic.Scene({ triggerElement: "#parallax4" })
 		.setTween("#parallax4 > div", { y: "80%", ease: Linear.easeNone })
 		.addTo(controller2);
-
-	// WHO ARE WE
-	left.addEventListener("mouseenter", () => {
-		content.classList.add("hover-left");
-	});
-	left.addEventListener("mouseleave", () => {
-		content.classList.remove("hover-left");
-	});
-	right.addEventListener("mouseenter", () => {
-		content.classList.add("hover-right");
-	});
-	right.addEventListener("mouseleave", () => {
-		content.classList.remove("hover-right");
-	});
 
 	//overlay
 	TweenMax.to(".overlayTitle", 1.5, {
@@ -88,65 +79,133 @@ $(document).ready(function() {
 	});
 	/* WHO WE ARE 
 	================*/
+	left.addEventListener("mouseenter", () => {
+		content.classList.add("hover-left");
+	});
+	left.addEventListener("mouseleave", () => {
+		content.classList.remove("hover-left");
+	});
+	right.addEventListener("mouseenter", () => {
+		content.classList.add("hover-right");
+	});
+	right.addEventListener("mouseleave", () => {
+		content.classList.remove("hover-right");
+	});
 	var scene = new ScrollMagic.Scene({
 		triggerElement: ".who"
 	})
-		.setTween(".who .title", 1, {
-			delay: 1,
-			opacity: 1,
-			ease: Expo.easeInOut
-		}) // trigger a TweenMax.to tween
+		.setTween(
+			TweenMax.fromTo(
+				".who .title",
+				1,
+				{ opacity: 0 },
+				{
+					delay: 1,
+					opacity: 1,
+					ease: Expo.easeInOut
+				}
+			)
+		) // trigger a TweenMax.to tween
 		.addTo(controller);
 
 	var scene = new ScrollMagic.Scene({
 		triggerElement: ".who"
 	})
-		.setTween(".picture", 1, {
-			delay: 2,
-			opacity: 1,
-			ease: Expo.easeInOut
-		}) // trigger a TweenMax.to tween
-		.addTo(controller);
-
-	var scene = new ScrollMagic.Scene({
-		triggerElement: ".who"
-	})
-		.setTween(".text .subtitle", 1, {
-			delay: 2.2,
-			color: "#fff",
-			ease: Expo.easeInOut
-		}) // trigger a TweenMax.to tween
-		.addTo(controller);
-
-	var scene = new ScrollMagic.Scene({
-		triggerElement: ".who"
-	})
-		.setTween(".who .title", 1, {
-			delay: 2.4,
-			color: "#fff",
-			ease: Expo.easeInOut
-		}) // trigger a TweenMax.to tween
+		.setTween(
+			TweenMax.staggerFrom(
+				".picture",
+				1,
+				{
+					delay: 2,
+					opacity: 0,
+					ease: Power3.easeInOut
+				},
+				0.2
+			)
+		) // trigger a TweenMax.to tween
 		.addTo(controller);
 	var scene = new ScrollMagic.Scene({
 		triggerElement: ".who"
 	})
-		.setTween(".text .desc", 1, {
-			delay: 2.6,
-			color: "#fff",
-			ease: Expo.easeInOut
-		}) // trigger a TweenMax.to tween
+		.setTween(
+			TweenMax.staggerFrom(
+				".picture",
+				1,
+				{ opacity: 0 },
+				{
+					delay: 2,
+					opacity: 0,
+					ease: Power3.easeInOut
+				},
+				0.2
+			)
+		) // trigger a TweenMax.to tween
 		.addTo(controller);
-	var scene = new ScrollMagic.Scene({
+	var scene2 = new ScrollMagic.Scene({
 		triggerElement: ".who"
 	})
-		.setTween(".text .button", 1, {
-			delay: 2.8,
-			opacity: 1,
-			ease: Expo.easeInOut
-		}) // trigger a TweenMax.to tween
+		.setTween(
+			TweenMax.staggerFrom(
+				".whocontent .subtitle",
+				1,
+				{
+					delay: 2.2,
+					opacity: 0,
+					ease: Power3.easeInOut
+				},
+				0.5
+			)
+		) // trigger a TweenMax.to tween
 		.addTo(controller);
-
-	/* CHUNK 2 */
+	var scene2 = new ScrollMagic.Scene({
+		triggerElement: ".who"
+	})
+		.setTween(
+			TweenMax.staggerFrom(
+				".whocontent .jobtitle",
+				1,
+				{
+					delay: 2.4,
+					opacity: 0,
+					ease: Power3.easeInOut
+				},
+				0.5
+			)
+		) // trigger a TweenMax.to tween
+		.addTo(controller);
+	var scene2 = new ScrollMagic.Scene({
+		triggerElement: ".who"
+	})
+		.setTween(
+			TweenMax.staggerFrom(
+				".whocontent .desc",
+				1,
+				{
+					delay: 2.6,
+					opacity: 0,
+					ease: Power3.easeInOut
+				},
+				0.5
+			)
+		) // trigger a TweenMax.to tween
+		.addTo(controller);
+	var scene2 = new ScrollMagic.Scene({
+		triggerElement: ".who"
+	})
+		.setTween(
+			TweenMax.staggerFrom(
+				".whocontent .button",
+				1,
+				{
+					delay: 2.8,
+					opacity: 0,
+					ease: Power3.easeInOut
+				},
+				0.5
+			)
+		) // trigger a TweenMax.to tween
+		.addTo(controller);
+	/* WHAT WE DO */
 	var scene2 = new ScrollMagic.Scene({
 		triggerElement: ".what"
 	})
