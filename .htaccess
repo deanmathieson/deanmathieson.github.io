@@ -1,2 +1,10 @@
 RewriteEngine On RewriteCond %{HTTP_HOST} ^www\.toast\.house
 RewriteRule (.*) http://toast.house/$1 [R=301,L]
+
+
+RewriteEngine On
+
+ #If the host is "sub.domain.com"
+ RewriteCond %{HTTP_HOST} ^burnt.toast.house$ [NC]
+ #Then rewrite any request to /folder
+ RewriteRule ^((?!folder).*)$ /burnt/$1 [NC,L]

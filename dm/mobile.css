@@ -1,0 +1,17 @@
+.menu-links {
+    display:none;
+}
+.logo {
+    font-size: 28px;
+}
+.block {
+    width: 100%;
+}
+.whatcontent {
+    flex-direction: column;
+}
+.parallaxParent > * {
+	background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
