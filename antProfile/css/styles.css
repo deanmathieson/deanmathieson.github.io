@@ -1,0 +1,266 @@
+/* tell browser to account for any border and padding in values specified for an elements width and height. stops scroll bar.*/
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -ms-overflow-style: none; /* hides the scrollbar but keeps functionaility(IE & Edge)*/
+}
+
+body {
+  margin: 0;
+  background-color: black;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+}
+
+.subTitle {
+  font-size: 40px;
+  position: absolute;
+  letter-spacing: 2px;
+  top: 60%;
+  left: 34%;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+/* hides the scrollbar but keeps functionaility(chrome, safari & opera)*/
+::-webkit-scrollbar {
+  display: none;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background: #ffeb00;
+  top: 0%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.overlay h1 {
+  font-size: 100px;
+  letter-spacing: 20px;
+}
+.overlay span {
+  font-size: 30px;
+  letter-spacing: 3px;
+}
+
+.wordChange::before {
+  content: "";
+  animation-name: word-changer;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes word-changer {
+  0% {
+    opacity: 1;
+    content: "passion";
+  }
+  25% {
+    opacity: 0;
+    content: "";
+  }
+  50% {
+    opacity: 1;
+    content: "poon";
+  }
+  75% {
+    opacity: 0;
+    content: "";
+  }
+  100% {
+    opacity: 1;
+    content: "passion";
+  }
+}
+
+header h1 {
+  font-weight: bold;
+  font-size: 1.5em;
+  padding-left: 2em;
+}
+
+.navLink {
+  animation-name: navFade;
+  animation-duration: 2s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+#nav1 {
+  animation-delay: 1s;
+}
+
+#nav2 {
+  animation-delay: 2s;
+}
+#nav3 {
+  animation-delay: 3s;
+}
+
+@keyframes navFade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+header ul {
+  display: flex;
+  list-style: none;
+}
+
+li a {
+  padding: 0.8em;
+  font-size: 1.5em;
+  padding-right: 2em;
+}
+
+.wrapper {
+  padding: 1.5em;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.top-content {
+  margin: 4em 0 2em;
+}
+
+.navbar-sticky {
+  position: sticky;
+  top: 0;
+  background-color: black;
+  border-bottom: blanchedalmond;
+  z-index: 1;
+  opacity: 0.8;
+}
+
+.downArrow {
+  font-size: 40px;
+  font-weight: 900;
+  opacity: 0.6;
+  position: absolute;
+  left: 50%;
+  top: 80%;
+}
+
+.downArrow2 {
+  font-size: 40px;
+  font-weight: 900;
+  opacity: 0.6;
+  position: absolute;
+  left: 50%;
+  top: 180%;
+}
+
+.arrowAnimation {
+  animation-name: arrowFade;
+  animation-direction: forwards;
+  animation-duration: 3s;
+}
+
+@keyframes arrowFade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.top-container {
+  background-image: url("../images/keyboard.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+}
+.middle-container {
+  background-color: #3b6978;
+}
+.bottom-container {
+  background-color: #84a9ac;
+}
+.footer-container {
+  background-color: #cae8d5;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.main-container {
+  display: flex;
+  margin-top: 20px;
+}
+
+.container {
+  padding: 20px;
+  margin: 0;
+}
+
+.leftContainer {
+  animation-name: boxesSlideLeft;
+  animation-duration: 3s;
+}
+
+@keyframes boxesSlideLeft {
+  from {
+    margin-left: 100%;
+  }
+  to {
+    margin-left: 0%;
+  }
+}
+
+/*
+blockquote {
+  margin: 0;
+  font-size: 0.8em;
+  line-height: 1em;
+  margin-top: 1em;
+}
+cite {
+  color: #204051;
+  font-weight: bold;
+  font-style: normal;
+  padding-left: 25px;
+  position: relative;
+}
+*/
+/*cite::before {
+  /* creates the line in citation. relative property above used to allow absolute positioning against parent(cite)
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  height: 1px;
+  width: 15px;
+  border-bottom: 1px solid white;
+}
+*/
+.who-section h1 {
+  text-align: center;
+  position: relative;
+}
+
+.who-section h1::before {
+  content: " ";
+  position: absolute;
+  height: 5px;
+  width: 30px;
+  top: -0.3em;
+  background: red;
+}
