@@ -1,57 +1,58 @@
 <html>
   <head>
+    <link rel="stylesheet" href="/deanmathieson.github.io\ant\css\styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script>
-      window.jQuery ||
-        document.write(
-          '<script src="js/vendor/jquery-1.11.0.min.js"><\/script>'
-        );
-    </script>
-
-    <!-- Include ScrollMagic and GSAP plugin -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.0/TweenMax.min.js"></script>
-    <script src="assets/js/scrollmagic/scrollmagic/uncompressed/ScrollMagic.js"></script>
-    <script src="assets/js/scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators.js"></script>
-    <script src="assets/js/scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap.js"></script>
-    <script src="assets/js/main.js"></script>
-    <style type="text/css">
-      #pinContainer {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
-      .panel {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-      }
-      .slide1 {
-        background-color: #512da8;
-      }
-      .slide2 {
-        background-color: #009688;
-      }
-      .slide3 {
-        background-color: #757575;
-      }
-      .slide4 {
-        background-color: #212121;
-      }
-    </style>
+    
   </head>
   <body>
     <div id="pinContainer">
       <section class="panel slide1">
-        <b>ONE</b>
+        <h1 class="header">Not your average software engineer</h1>
       </section>
-      <section class="panel slide2">
-        <b>TWO</b>
+      <nav class="navBar">
+        <div class="icon">
+          <a href="#" class="navHeader">
+            <span class="rotate">V</span><span>nthony Rogers</span>
+          </a>
+        </div>
+        <div class="menu-links">
+          <ul>
+            <li><a href="#who">Who i am</a></li>
+            <li><a href="#what">What i do</a></li>
+            <li><a href="#contact">Contact me</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <section id="who" class="panel slide2">
+        <h1 class="header">Who I am</h1>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae nam
+          quisquam vel nihil? Beatae ipsum voluptate dignissimos, dolorem magni
+          consequuntur.
+        </p>
       </section>
-      <section class="panel slide3">
-        <b>THREE</b>
+
+      <section id="what" class="panel slide3">
+        <h1 class="header">What i do</h1>
+        <h3>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit,
+          velit.
+        </h3>
+        
       </section>
-      <section class="panel slide4">
-        <b>FOUR</b>
+
+      <section id="contact" class="panel slide4">
+        <h1 class="header">Contact me</h1>
+        <form action="mailto:" method="POST" enctype="text/plain">
+          <label for="">Your Name: </label>
+          <input type="text" name="yourName" /><br />
+          <label>Your Email: </label>
+          <input type="text" name="yourEmail" /><br />
+          <label>Your Query: </label>
+          <textarea name="yourQuery" id="" cols="30" rows="10"></textarea>
+          <input type="submit" />
+        </form>
       </section>
     </div>
   </body>

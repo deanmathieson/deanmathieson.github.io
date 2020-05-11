@@ -55,67 +55,12 @@ a {
   letter-spacing: 3px;
 }
 
-.wordChange::before {
-  content: "";
-  animation-name: word-changer;
-  animation-duration: 6s;
-  animation-iteration-count: infinite;
-}
-
-@keyframes word-changer {
-  0% {
-    opacity: 1;
-    content: "passion";
-  }
-  25% {
-    opacity: 0;
-    content: "";
-  }
-  50% {
-    opacity: 1;
-    content: "poon";
-  }
-  75% {
-    opacity: 0;
-    content: "";
-  }
-  100% {
-    opacity: 1;
-    content: "passion";
-  }
-}
-
 header h1 {
   font-weight: bold;
   font-size: 1.5em;
   padding-left: 2em;
 }
 
-.navLink {
-  animation-name: navFade;
-  animation-duration: 2s;
-  opacity: 0;
-  animation-fill-mode: forwards;
-}
-#nav1 {
-  animation-delay: 1s;
-}
-
-#nav2 {
-  animation-delay: 2s;
-}
-#nav3 {
-  animation-delay: 3s;
-}
-
-@keyframes navFade {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 
 header ul {
   display: flex;
@@ -166,20 +111,6 @@ li a {
   top: 180%;
 }
 
-.arrowAnimation {
-  animation-name: arrowFade;
-  animation-direction: forwards;
-  animation-duration: 3s;
-}
-
-@keyframes arrowFade {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 
 .top-container {
   background-image: url("../images/keyboard.jpg");

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+    </style>
+    <script src="scripts.js"></script>
+  </head>
+  <body>
+    <div id="background">
+      <div id="text"></div>
+
+      <div id="mainRing">
+        <svg class="ring">
+          <circle id="outerBlackRing" />
+          <circle id="blueRing" />
+          <circle id="whiteRing" />
+          <circle id="purpleRing" />
+          <circle id="outerTransparentRing" />
+          <circle id="innerBlackRing" />
+          <circle id="innerTransparentRing" />
+
+          <defs>
+            <linearGradient id="linear" x1="0" y1="0%" x2="1" y2="3">
+              <stop offset="0%" stop-color="#3a80e3" />
+              <stop offset="20%" stop-color="#944def" />
+            </linearGradient>
+            <linearGradient id="linear2" x1="0" y1="0%" x2="1" y2="3">
+                <stop offset="0%" stop-color="#ffff" />
+                <stop offset="30%" stop-color="#e87d14" />
+              </linearGradient>
+            <linearGradient id="linear3" x1="0" y1="0%" x2="1" y2="3">
+                <stop offset="0%" stop-color="#dd14cd" />
+                <stop offset="30%" stop-color="#e87d14" />
+              </linearGradient>
+          </defs>
+        </svg>
+        <img id="logo" src="images/logo.png" alt="logo image" />
+      </div>
+    </div>
+  </body>
+</html>

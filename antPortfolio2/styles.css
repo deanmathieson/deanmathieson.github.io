@@ -1,0 +1,94 @@
+/* GENERAL 
+========================*/
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-family: "Montserrat";
+	width: 100%;
+	font-size: 12px;
+    overflow-x: hidden;
+    background-color: black;
+}
+
+a {
+	text-decoration: none;
+	color: #fff;
+}
+
+/* NAV 
+========================*/
+ul {
+	list-style: none;
+}
+.nav {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	text-transform: uppercase;
+	font-weight: 600;
+	position: fixed;
+	width: 100%;
+	z-index: 1;
+	border-bottom: 1px solid #00fe84;
+}
+.logo {
+	font-size: 40px;
+	color: #00fe84;
+}
+.menu-links ul li {
+	display: inline-block;
+	padding-right: 20px;
+	color: #00fe84;
+}
+.rotate {
+	display: inline-block;
+	transform: rotate(-180deg);
+
+	/* Legacy vendor prefixes that you probably don't need... */
+
+	/* Safari */
+	-webkit-transform: rotate(-180deg);
+
+	/* Firefox */
+	-moz-transform: rotate(-180deg);
+
+	/* IE */
+	-ms-transform: rotate(-180deg);
+
+	/* Opera */
+	-o-transform: rotate(-180deg);
+
+	/* Internet Explorer */
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+/* PARALLAX 
+=========== */
+.parallaxParent {
+	height: 100vh;
+	overflow: hidden;
+}
+.parallaxParent > * {
+	height: 200%;
+    position: relative;
+    background-size: cover;
+    background-attachment: fixed;
+}
+#para1 {
+    background-image: url("images/keyboard.jpg");
+    
+}
+
+.gradient:after {
+	content: "";
+	width: 100%;
+	height: 100%;
+	background-image: linear-gradient(0deg, rgb(0, 254, 254) 0%, rgb(1, 18, 66));
+	mix-blend-mode: multiply;
+	position: absolute;
+	left: 0;
+	top: 0;
+	transition: all 1s ease-in-out;
+}

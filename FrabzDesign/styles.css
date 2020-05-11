@@ -1,0 +1,105 @@
+body {
+  max-height: 100vh;
+  max-width: 100vw;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: "Montserrat";
+  margin: 0;
+}
+
+#background {
+  width: 100vw;
+  height: 100vh;
+}
+
+#text {
+  background-color: black;
+  z-index: -1;
+  position: fixed;
+  font-size: 16pt;
+  color: white;
+  background-image: linear-gradient(
+    rgba(169, 169, 169, 0.103),
+    rgba(88, 86, 86, 0.486),
+    rgb(136, 135, 135),
+    rgb(180, 179, 179)
+  );
+  text-align: justify;
+  margin-left: 6px;
+  margin-right: 6px;
+  font-size: 30px;
+}
+
+.ring {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+}
+
+.ring circle {
+  position: absolute;
+  cx: 50vw;
+  cy: 50vh;
+}
+
+#blueRing {
+  z-index: 3;
+  stroke-width: 20px;
+  fill: transparent;
+  r: calc(43vw - 40px);
+  stroke: url(#linear);
+}
+
+#whiteRing {
+  z-index: 3;
+  stroke: url(#linear2);
+  stroke-width: 6px;
+  fill: transparent;
+  r: calc(40.5vw - 12px);
+}
+
+#purpleRing {
+  z-index: 3;
+  stroke-width: 20px;
+  fill: transparent;
+  r: calc(40vw - 40px);
+  stroke: url(#linear3);
+}
+
+#outerBlackRing {
+  z-index: 0;
+  stroke: black;
+  stroke-width: 600px;
+  fill: transparent;
+  r: calc(100vw - 1200px);
+}
+
+#outerTransparentRing {
+  stroke: transparent;
+  stroke-width: 110px;
+  fill: transparent;
+  r: calc(41vw - 220px);
+}
+
+#innerBlackRing {
+  stroke: black;
+  stroke-width: 130px;
+  fill: transparent;
+  r: calc(32vw - 260px);
+}
+
+#innerTransparentRing {
+  stroke: transparent;
+  stroke-width: 110px;
+  fill: transparent;
+  r: calc(26vw - 220px);
+}
+
+#logo {
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  background-color: black;
+  border-radius: 50%;
+}

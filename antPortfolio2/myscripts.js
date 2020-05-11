@@ -27,17 +27,6 @@ $(document).ready(function() {
 		opacity: 0,
 		x: -100,
 		ease: Power3.easeInOut
-	});
-    TweenMax.staggerFrom(
-		".navLink",
-		1,
-		{
-			delay: 2.6,
-			opacity: 0,
-			x: -20,
-			ease: Power3.easeInOut
-		},
-		0.08
-	);
+    });
+    
 })
-
