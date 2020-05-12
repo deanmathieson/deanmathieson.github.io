@@ -38,7 +38,7 @@ $(document).ready(function () {
   });
 
 /*rotation of circles*/
-TweenMax.to( "#purpleRing" , 3, { rotation: 360, ease: Linear.easeNone, repeat: -1 } );
-
-
+TweenMax.to("#gradientRing1", 10, { rotation: -360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } );
+TweenMax.to("#gradientRing2", 6, { rotation: 360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } );
+TweenMax.to("#gradientRing3", 4.5, { rotation: 360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } );
 });

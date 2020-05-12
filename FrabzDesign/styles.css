@@ -46,7 +46,7 @@ body {
   cy: 50vh;
 }
 
-#blueRing {
+#gradientRing1 {
   z-index: 3;
   stroke-width: 20px;
   fill: transparent;
@@ -54,7 +54,7 @@ body {
   stroke: url(#linear);
 }
 
-#whiteRing {
+#gradientRing2 {
   z-index: 3;
   stroke: url(#linear2);
   stroke-width: 6px;
@@ -62,7 +62,7 @@ body {
   r: calc(40.5vw - 12px);
 }
 
-#purpleRing {
+#gradientRing3 {
   z-index: 3;
   stroke-width: 20px;
   fill: transparent;
@@ -106,3 +106,5 @@ body {
   background-color: black;
   border-radius: 50%;
 }
+
+
