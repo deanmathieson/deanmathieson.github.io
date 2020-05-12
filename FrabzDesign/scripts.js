@@ -12,15 +12,15 @@ $(document).ready(function () {
     opacity: 0,
     ease: Expo.easeIn,
   });
-  TweenMax.from("#blueRing", 1.6, {
+  TweenMax.from("#gradientRing1", 1.6, {
     opacity: 0,
     ease: Expo.easeIn,
   });
-  TweenMax.from("#whiteRing", 3, {
+  TweenMax.from("#gradientRing2", 3, {
     opacity: 0,
     ease: Expo.easeIn,
   });
-  TweenMax.from("#purpleRing", 3.4, {
+  TweenMax.from("#gradientRing3", 3.4, {
     opacity: 0,
     ease: Expo.easeIn,
   });
@@ -38,7 +38,7 @@ $(document).ready(function () {
   });
 
 /*rotation of circles*/
-TweenMax.to("#gradientRing1", 10, { rotation: -360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } );
+/* TweenMax.to("#gradientRing1", 10, { rotation: -360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } );
 TweenMax.to("#gradientRing2", 6, { rotation: 360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } );
-TweenMax.to("#gradientRing3", 4.5, { rotation: 360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } );
+TweenMax.to("#gradientRing3", 4.5, { rotation: 360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } ); */
 });

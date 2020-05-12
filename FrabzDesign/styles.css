@@ -1,4 +1,3 @@
-
 body {
   max-height: 100vh;
   max-width: 100vw;
@@ -7,13 +6,12 @@ body {
   overflow: hidden;
   font-family: "Montserrat";
   margin: 0;
-   background-color: black;
+  background-color: black;
 }
 
 #background {
   width: 100vw;
   height: 100vh;
- 
 }
 
 #text {
@@ -42,8 +40,8 @@ body {
 
 .ring circle {
   position: absolute;
-  cx: 50vw;
-  cy: 50vh;
+  cx: 50%;
+   cy: 50%;
 }
 
 #gradientRing1 {
@@ -73,9 +71,9 @@ body {
 #outerBlackRing {
   z-index: 0;
   stroke: black;
-  stroke-width: 600px;
+  stroke-width: 100vw;
   fill: transparent;
-  r: calc(100vw - 1200px);
+  r: 20vw;
 }
 
 #outerTransparentRing {
@@ -101,10 +99,10 @@ body {
 
 #logo {
   position: absolute;
-  top: 30%;
-  left: 40%;
   background-color: black;
   border-radius: 50%;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
 }
-
 
