@@ -37,8 +37,8 @@ $(document).ready(function () {
     ease: Expo.easeIn,
   });
 
-/*rotation of circles*/
-/* TweenMax.to("#gradientRing1", 10, { rotation: -360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } );
+ /*rotation of circles*/
+ TweenMax.to("#gradientRing1", 10, { rotation: -360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } );
 TweenMax.to("#gradientRing2", 6, { rotation: 360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } );
-TweenMax.to("#gradientRing3", 4.5, { rotation: 360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } ); */
+TweenMax.to("#gradientRing3", 4.5, { rotation: 360, ease: Linear.easeNone, repeat: -1, transformOrigin: "50% 50%" } ); 
 });
