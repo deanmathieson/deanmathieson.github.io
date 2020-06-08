@@ -1,0 +1,54 @@
+* {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#mainContainer {
+  width: 0;
+  height: 0;
+  position: absolute;
+  border-radius: 50%;
+  background-color: hotpink;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.block {
+  background-color: brown;
+  width: 100px;
+  height: 100px;
+}
+
+.spinning {
+  position: absolute;
+  top: calc(50% - 250px);
+  left: calc(50% - 250px);
+  border-radius: 50%;
+}
+
+.info {
+  position: absolute;
+  right: 0;
+  width: 200px;
+}
+
+.table {
+  width: 100%;
+  border: ;
+}
+
+li {
+  opacity: 0;
+}
+
+#john {
+  transform: scaleX(-1);
+}
