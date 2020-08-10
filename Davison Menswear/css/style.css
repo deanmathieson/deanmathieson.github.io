@@ -1,0 +1,270 @@
+/* FONTS
+====================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+
+/* GENERAL
+====================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Montserrat", sans-serif;
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+}
+
+.wrapper {
+  background-image: url(../images/home.png);
+  background-size: 100% 50%;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+
+ul {
+  list-style: none;
+}
+
+.logo {
+  font-size: 60px;
+}
+/* NAVBAR
+====================== */
+.navbar {
+  display: flex;
+  position: relative;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  padding: 0 30px;
+}
+
+.navbar .media li {
+  display: inline-block;
+  padding-left: 30px;
+}
+.navbar .media li a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.navbar .menu i {
+  padding-right: 20px;
+}
+
+.menu {
+  cursor: pointer;
+}
+
+.offCanvas {
+  position: fixed;
+  width: 0px;
+  height: 100vh;
+  background-color: black;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.closeButton {
+  color: white;
+  float: right;
+  font-size: 38px;
+  margin: 10px;
+  cursor: pointer;
+}
+.times {
+  color: white;
+}
+
+/* SLIDER
+====================== */
+.swiper-container {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 50px 0;
+}
+
+.swiper-slide {
+  width: 1300px;
+  height: 700px;
+  transform: scale(0.5, 0.5);
+}
+
+#img1 {
+  background-image: url("../images/Capture_1.png");
+}
+#img2 {
+  background-image: url("../images/Capture_2.png");
+}
+#img3 {
+  background-image: url("../images/Capture_3.png");
+}
+#img4 {
+  background-image: url("../images/Capture_4.png");
+}
+#img5 {
+  background-image: url("../images/Capture_6.png");
+}
+
+.slide-img {
+  background-position: 50%;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  scale: 0.5;
+}
+/* .slide-img::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+    0deg,
+    rgb(126, 125, 125) 0%,
+    rgb(126, 125, 125)
+  );
+  mix-blend-mode: multiply;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: all 1s ease-in-out;
+} */
+/* .slide-img:hover::after {
+  opacity: 0.5;
+} */
+
+.slide-text {
+  position: absolute;
+
+  bottom: -70px;
+  left: 50px;
+  z-index: 1;
+  width: -webkit-fill-available;
+  height: 100px;
+  overflow: hidden;
+}
+.slide-text h4 {
+  color: rgb(0, 0, 0);
+  font-size: 60px;
+  position: relative;
+}
+
+.slide-text h4 span {
+  position: absolute;
+}
+
+/* FOOTER
+====================== */
+.footer {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  width: 100%;
+  padding: 30px;
+}
+.footer-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.footer-wrapper a {
+  text-decoration: none;
+  font-size: 30px;
+  color: black;
+}
+
+.footer-wrapper a:visited {
+  text-decoration: none;
+  color: black;
+}
+
+.footer .scroll p::after {
+  content: "";
+  display: inline-block;
+  border: 1px solid rgb(0, 0, 0);
+  width: 60px;
+  margin: 0 0 0 10px;
+  transform: translateY(-4px);
+}
+
+.scroll {
+  position: absolute;
+  right: 5px;
+}
+
+.maps {
+  height: 100vh;
+  background-color: black;
+  width: 100vw;
+  z-index: 1;
+  position: relative;
+}
+
+.contact-container {
+  width: 100%;
+  max-width: 350px;
+  z-index: 2;
+  left: 65%;
+  top: 130%;
+  position: absolute;
+  background-color: #b1c4bb;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+#contact-form {
+  display: flex;
+}
+
+#input-fields {
+  display: flex;
+  flex-direction: column;
+  margin-right: 4%;
+}
+
+.msg {
+  width: 100%;
+}
+textarea {
+  resize: none;
+}
+#input-fields,
+.msg {
+  width: 100%;
+}
+#input-fields .input,
+.msg textarea {
+  margin: 10px 0;
+  background: transparent;
+  border: 0px;
+  border-bottom: 2px solid #c5ecfd;
+  padding: 10px;
+  color: #c5ecfd;
+  width: 100%;
+}
+textarea {
+  height: 212px;
+  width: 100%;
+}
+.btn {
+  background: rgba(119, 153, 137, 0.37);
+  text-align: center;
+  padding: 15px;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  text-transform: uppercase;
+}
