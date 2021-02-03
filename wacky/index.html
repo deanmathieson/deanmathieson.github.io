@@ -1,0 +1,129 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+  
+<link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+<link rel="mask-icon" type="" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+
+
+  <title>CodePen - nicked from deano</title>
+  
+  
+  
+  
+<style>
+body {
+  background: teal;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.box {
+  background: indigo;
+  width: 50px;
+  height: 50px;
+  margin: 100px 30px;
+}
+.cabbage {
+  background: indigo;
+  width: 50px;
+  height: 50px;
+  margin: 100px 30px;
+}
+.newbox {
+  background: red;
+  width: 50px;
+  height: 50px;
+  margin: 100px 30px;
+  display: flex;
+  color: white;
+  justify-content: center;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no" >
+  <div class="newbox" onclick="reset()">reset</div>
+<div class="box"></div>
+<div class="box"></div>
+<div class="box"></div>
+<div class="box"></div>
+
+<div class="cabbage"></div>
+<div class="cabbage"></div>
+<div class="cabbage"></div>
+<div class="cabbage"></div>
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js'></script>
+      <script id="rendered-js" >
+var tl = new TimelineMax(),box = document.querySelectorAll('.box');
+
+var nl = new TimelineMax(),cabbages = document.querySelectorAll(".cabbage");
+
+function reset() {
+  tl.seek(0);
+  nl.seek(0);
+}
+tl.staggerFrom(box, 1, {
+  y: -300,
+  ease: Bounce.easeOut },
+0.05);
+
+tl.add('rotate');
+tl.staggerFrom(box, 2, {
+  rotation: 90,
+  ease: Bounce.easeIn },
+0.05, 'rotate');
+tl.staggerFrom(box, 1, {
+  rotation: 180,
+  ease: Bounce.easeOut },
+0.05, 'rotate+=1.75');
+
+nl.staggerFrom(cabbages, 1, {
+  y: 300,
+  ease: Bounce.easeOut },
+0.05);
+nl.add('rotate');
+nl.staggerFrom(cabbages, 2, {
+  rotation: -90,
+  ease: Bounce.easeIn },
+0.05, 'rotate');
+nl.staggerFrom(cabbages, 1, {
+  rotation: -180,
+  ease: Bounce.easeOut },
+0.05, 'rotate+=1.75');
+//# sourceURL=pen.js
+    </script>
+
+  
+
+</body>
+
+</html>
+ 
