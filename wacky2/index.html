@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+  
+<link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+<link rel="mask-icon" type="" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+
+
+  <title>CodePen - nicked from deano</title>
+  
+  
+  
+  
+<style>
+body {
+  background: teal;
+  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.container{
+  display: flex;
+  flex-wrap: wrap;  
+  justify-content: center;
+}
+
+.row{  
+  flex-basis: 100%;
+}
+
+.box {
+  background: #4B0082;
+  width: 50px;
+  height: 50px;
+  margin: 2px 2px;
+  position: absolute;
+}
+
+.newbox {
+  background: red;
+  width: 50px;
+  height: 50px;
+  margin: 2px 30px;
+  display: flex;
+  color: white;
+  justify-content: center;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no" >
+  <div class="newbox" onclick="ResetClicked()">reset</div>
+<!--<div class="newbox" onclick="IntroSequence()">Test</div>-->
+
+<div class="container" id="addhere">  
+  <div class="header"> Hang on... </div>  
+</div>
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js'></script>
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+      <script id="rendered-js" >
+//
+// Find the white box. Gripping stuff.
+// greensock still firing onComplete immediately after clearing/restarting. Bug?
+//
+
+// consts
+const COLS = 8;
+const ROWS = 5;
+const NUMBOXES = COLS * ROWS;
+
+const STATE_INTRO = 0;
+const STATE_CLICKABLE = 1;
+const STATE_OUTRO = 2;
+
+// state vars
+var state = STATE_INTRO;
+var seq = 0;
+var targetBox = 1;
+var originalPositions = [];
+
+// fucking closures, lol
+function AddLambda(obj, param) {
+  obj.click(() => {BoxClicked(param);});
+}
+
+// Add the boxes to the DOM
+var numAdded = 0;
+var lambdas = [];
+var addHere = $("#addhere");
+for (y = 0; y < ROWS; y++) {if (window.CP.shouldStopExecution(0)) break;
+  for (x = 0; x < COLS; x++) {if (window.CP.shouldStopExecution(1)) break;
+    var boxyBox = $("<div>", { class: "box", id: "box" + numAdded }, "<div/>");
+    boxyBox.appendTo(addHere);
+    AddLambda(boxyBox, numAdded); // c# fixed this recently. it's nice.
+    var xPos = 60 * x - 60 * (COLS / 2);
+    var yPos = 60 * (y + 1);
+    gsap.set(boxyBox, { x: xPos, y: yPos });
+    originalPositions.push({ x: xPos, y: yPos });
+    numAdded++;
+  }window.CP.exitedLoop(1);
+  var row = $("<div>", { class: "row" }, "</div>");
+  row.appendTo(addHere);
+}window.CP.exitedLoop(0);
+
+var tl = new TimelineMax();
+var boxes = document.querySelectorAll('.box'); //lazy way to get the non JQueried version :p
+
+function OnPlayerDidFailToLose() {
+
+  state = STATE_OUTRO;
+  $(".header")[0].innerHTML = "Congrats?";
+
+  tl.to(boxes[targetBox], 1, { background: "#CCCCCC", scale: 0.4, ease: Elastic.easeOut });
+  tl.to(boxes[targetBox], 0.4, { alpha: 0, repeat: -1, yoyo: true, scale: 1 });
+
+}
+
+function BoxClicked(whichBox) {
+
+  if (state != STATE_CLICKABLE) return;
+  console.log("clicked  box " + boxes[parseInt(whichBox)]);
+
+  if (whichBox == targetBox) {
+    OnPlayerDidFailToLose();
+    return;
+  }
+
+  $(".header")[0].innerHTML = "Score: Like 12 or something?";
+
+  // could check if it's already been clicked.. 
+  new TimelineMax().to(boxes[whichBox], 3, { alpha: 0, scale: 2 });
+
+  col = whichBox % COLS;
+  new TimelineMax().to(boxes[whichBox], 0.5, { x: col > COLS / 2 ? "+=40" : "-=40", y: 40 }).
+  to(boxes[whichBox], 4, { y: "+=1200", ease: Elastic.easeOut }, "+0.5");
+  //new TweenMax().to( boxes, {alpha: 0} );
+
+}
+
+function OnSwapComplete() {
+
+  $(".header")[0].innerHTML = "Where does it be?";
+  state = STATE_CLICKABLE;
+
+}
+
+
+function SwapElements(inA, inB, callbackNumber) {
+
+  // note: stick to getGouncingClientRect() or getProp(x)
+  // (but not both) or it overcomplicates position swaps
+
+  Ax = gsap.getProperty(inA, "x");
+  Ay = gsap.getProperty(inA, "y");
+
+  Bx = gsap.getProperty(inB, "x");
+  By = gsap.getProperty(inB, "y");
+
+  //console.log( "A " + Ax + " <--> B " + Bx );
+
+  new TimelineMax().to(inA, 1, { x: Bx, y: By });
+  return new TimelineMax().to(
+  inB, 1,
+  { x: Ax, y: Ay, onComplete: () => {if (callbackNumber != -1) Shuffle(callbackNumber);} });
+  //
+
+}
+
+// -1 to ignore
+function Shuffle(shuffleIteration) {
+
+  console.log("Shuffle iteration: " + shuffleIteration);
+
+  if (shuffleIteration == -1) return;
+  if (shuffleIteration == 8) return OnSwapComplete(); // lol feels dirty
+
+  const shufflesPerRound = 3; // swap this many pairs per anim cycle
+  var unShuffled = []; // The indices, not the actual objs
+  var totalShuffles = 0;
+
+  // run this on another timeline
+  new TimelineMax().to(boxes[targetBox], 4, { background: "#4B0082" });
+
+  for (i = 0; i < boxes.length; i++) {if (window.CP.shouldStopExecution(2)) break;
+    // just need a list of the used indices, not the actual objs
+    unShuffled.push(i);
+  }
+
+  // swap e.g. 3 pairs at a time
+  // and callback to this function e.g. 5 times.
+  window.CP.exitedLoop(2);for (i = 0; i < shufflesPerRound; i++) {if (window.CP.shouldStopExecution(3)) break;
+
+    // pick a block
+    var r1 = totalShuffles == 0 ? targetBox : Math.floor(Math.random() * unShuffled.length);
+    var id1 = unShuffled[r1]; // grab the unique id, not the index
+    unShuffled.splice(r1, 1); // remove this from the 'available' list
+
+    // then pick one to swap it with
+    var r2 = Math.floor(Math.random() * unShuffled.length);
+    var id2 = unShuffled[r2];
+    unShuffled.splice(r2, 1);
+
+    console.log("swapping " + id1 + " and " + id2);
+    //console.log( " free:" + unShuffled.length + " iter:" + shuffleIteration );
+
+    // only the final tween per round needs a callback
+    // -1 for no callback
+    var callbackId = i == shufflesPerRound - 1 ? shuffleIteration + 1 : -1;
+    SwapElements(boxes[id1], boxes[id2], callbackId);
+
+    totalShuffles++;
+    //
+  }window.CP.exitedLoop(3);
+
+
+}
+
+function FlashTargetBox() {
+
+  $(".header")[0].innerHTML = "Follow the white square...";
+
+  targetBox = Math.floor(Math.random() * NUMBOXES);
+
+  tl.to(boxes[targetBox], 1, { background: "#CCCCCC", scale: 0.4, ease: Elastic.easeOut });
+  tl.to(boxes[targetBox], 0.4, { alpha: 0, repeat: 3, yoyo: true, scale: 1 });
+  tl.to(boxes[targetBox], 1, { scale: 1, ease: Elastic.easeOut, onComplete: () => {Shuffle(0);} });
+
+}
+
+function Cleanup() {
+
+  // saves a frame doing this before the main timeline's paused
+  for (i = 0; i < NUMBOXES; i++) {if (window.CP.shouldStopExecution(4)) break;
+    gsap.set(boxes[i], {
+      x: originalPositions[i].x, y: originalPositions[i].y,
+      alpha: 0.0, scale: 0.5, rotation: -90, background: "#4B0082" });
+
+  }
+
+  // kills errant anonymous TimelineMax instances
+  window.CP.exitedLoop(4);gsap.globalTimeline.clear();
+  gsap.globalTimeline.paused(true);
+
+  tl.clear();
+  tl.paused(true);
+
+  seq = 0;
+  targetBox = -1;
+
+  state = STATE_INTRO;
+
+}
+
+
+function IntroSequence() {
+
+  Cleanup();
+
+  //tl.to( boxes, 0.2, {alpha: 0, scale: 0.5, rotation:-90 } );
+
+  tl.to(boxes, 1, {
+    rotation: 0,
+    ease: Elastic.easeOut,
+    delay: 0.5,
+    alpha: 1,
+    scale: 1,
+    onComplete: FlashTargetBox,
+    stagger: {
+      amount: 1.05,
+      axis: null,
+      from: 'center',
+      grid: [ROWS, COLS] } });
+
+
+
+
+  tl.play();
+  gsap.globalTimeline.play();
+
+}
+
+IntroSequence();
+
+function ResetClicked() {
+  Cleanup();
+  // try as I might, it needs a delay
+  setTimeout(IntroSequence, 1000);
+}
+
+function TestFunc() {
+  // blip bloop
+}
+//# sourceURL=pen.js
+    </script>
+
+  
+
+</body>
+
+</html>
+ 
