@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moon Knight Background</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@headlessui/react@latest"></script>
-    <script src="https://unpkg.com/@headlessui/vue@latest"></script>
     <style>
         .font-oswald {
             font-family: 'Oswald', sans-serif;
         }
-
         .hover-inverse {
             transition: filter 0.3s ease-in-out;
         }
-
         .hover-inverse:hover {
             filter: invert(1);
         }
-
         .bg-moonlight {
-            background-color: #2C2C2E;
-            /* Dark Grey */
+            background-color: #2C2C2E; /* Dark Grey */
         }
-
         .text-moonlight {
-            color: #E5E5E7;
-            /* Light Grey */
+            color: #E5E5E7; /* Light Grey */
         }
-
         .splash-screen {
             position: fixed;
             top: 0;
@@ -45,20 +35,16 @@
             z-index: 1000;
             transition: filter 1.5s ease-in-out;
         }
-
         .splash-screen img {
             max-width: 100%;
             max-height: 100%;
         }
-
         .splash-screen.fade-out {
             animation: fadeOut 1s forwards;
         }
-
         .splash-screen.inverse {
             filter: invert(1);
         }
-
         @keyframes fadeOut {
             to {
                 opacity: 0;
@@ -67,17 +53,25 @@
         }
     </style>
 </head>
-
 <body class="bg-moonlight text-moonlight font-oswald text-lg">
+
     <!-- Splash Screen -->
-    <div class="splash-screen" id="splashScreen">
+    <div class="splash-screen hidden md:flex" id="splashScreen">
         <img src="pictures/pictureMain2.webp" alt="Moon Knight">
     </div>
+
     <!-- Navbar -->
     <nav class="bg-gray-800 p-6 sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-4xl font-bold text-white">Moon Knight Fan Page</h1>
-            <ul class="flex space-x-6">
+            <h1 class="text-2xl md:text-4xl font-bold text-white">Moon Knight Fan Page</h1>
+            <div class="block md:hidden">
+                <button id="menu-button" class="text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            <ul class="hidden md:flex space-x-6">
                 <li><a href="#introduction" class="hover:underline text-white">Introduction</a></li>
                 <li><a href="#background" class="hover:underline text-white">Background</a></li>
                 <li><a href="#history" class="hover:underline text-white">History</a></li>
@@ -86,6 +80,14 @@
                 <li><a href="#gallery" class="hover:underline text-white">Gallery</a></li>
             </ul>
         </div>
+        <ul id="menu" class="md:hidden mt-4 space-y-2 hidden">
+            <li><a href="#introduction" class="block text-white hover:underline">Introduction</a></li>
+            <li><a href="#background" class="block text-white hover:underline">Background</a></li>
+            <li><a href="#history" class="block text-white hover:underline">History</a></li>
+            <li><a href="#story-arcs" class="block text-white hover:underline">Story Arcs</a></li>
+            <li><a href="#allies-enemies" class="block text-white hover:underline">Allies & Enemies</a></li>
+            <li><a href="#gallery" class="block text-white hover:underline">Gallery</a></li>
+        </ul>
     </nav>
 
     <!-- Header -->
@@ -212,17 +214,22 @@
         </section>
 
     </main>
-
     <!-- Footer -->
     <footer class="bg-gray-800 p-6 text-center">
         <p class="text-xl">&copy; 2024 Moon Knight Fan Page. All rights reserved.</p>
     </footer>
+
     <!-- Alpine.js for Collapsible Section -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.2.3/dist/cdn.min.js"></script>
     <!-- JavaScript for Splash Screen -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const splashScreen = document.getElementById('splashScreen');
+            const menuButton = document.getElementById('menu-button');
+            const menu = document.getElementById('menu');
+            menuButton.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
             setTimeout(() => {
                 splashScreen.classList.add('inverse');
             }, 3000); // Start invert after 3 seconds
@@ -232,5 +239,4 @@
         });
     </script>
 </body>
-
 </html>
