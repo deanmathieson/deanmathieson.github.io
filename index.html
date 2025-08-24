@@ -151,10 +151,18 @@
         text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
       }
 
-      /* Bird sprites */
-      .bird-sprite {
-        font-size: 24px;
-      }
+             /* Bird sprites */
+       .bird-sprite {
+         font-size: 24px;
+       }
+
+       /* Bird images */
+       .bird-image {
+         width: 32px;
+         height: 32px;
+         object-fit: contain;
+         border-radius: 50%;
+       }
     </style>
   </head>
 
@@ -162,27 +170,30 @@
     <div class="game-container">
       <h1 class="title">Toast House Flappy Bird</h1>
       
-      <div class="bird-selector">
-        <label>Choose your bird:</label>
-        <div class="bird-option selected" data-bird="🐦">
-          <span class="bird-sprite">🐦</span>
-        </div>
-        <div class="bird-option" data-bird="🦅">
-          <span class="bird-sprite">🦅</span>
-        </div>
-        <div class="bird-option" data-bird="🦆">
-          <span class="bird-sprite">🦆</span>
-        </div>
-        <div class="bird-option" data-bird="🦉">
-          <span class="bird-sprite">🦉</span>
-        </div>
-        <div class="bird-option" data-bird="🦜">
-          <span class="bird-sprite">🦜</span>
-        </div>
-        <div class="bird-option" data-bird="🦢">
-          <span class="bird-sprite">🦢</span>
-        </div>
-      </div>
+             <div class="bird-selector">
+         <label>Choose your bird:</label>
+         <div class="bird-option selected" data-bird="🐦">
+           <span class="bird-sprite">🐦</span>
+         </div>
+         <div class="bird-option" data-bird="🦅">
+           <span class="bird-sprite">🦅</span>
+         </div>
+         <div class="bird-option" data-bird="🦆">
+           <span class="bird-sprite">🦆</span>
+         </div>
+         <div class="bird-option" data-bird="🦉">
+           <span class="bird-sprite">🦉</span>
+         </div>
+         <div class="bird-option" data-bird="🦜">
+           <span class="bird-sprite">🦜</span>
+         </div>
+         <div class="bird-option" data-bird="🦢">
+           <span class="bird-sprite">🦢</span>
+         </div>
+                   <div class="bird-option" data-bird="biplane">
+            <img src="images/bigGuy.webp" alt="Biplane" class="bird-image">
+          </div>
+       </div>
 
       <canvas id="gameCanvas" width="800" height="600"></canvas>
       
@@ -201,13 +212,21 @@
     </div>
 
     <script>
-      // Game variables
-      const canvas = document.getElementById('gameCanvas');
-      const ctx = canvas.getContext('2d');
-      let selectedBird = '🐦';
-      let gameRunning = false;
-      let score = 0;
-      let highScore = localStorage.getItem('flappyHighScore') || 0;
+             // Game variables
+       const canvas = document.getElementById('gameCanvas');
+       const ctx = canvas.getContext('2d');
+       let selectedBird = '🐦';
+       let gameRunning = false;
+       let score = 0;
+       let highScore = localStorage.getItem('flappyHighScore') || 0;
+       
+               // Bird images
+        const birdImages = {};
+        const biplaneImg = new Image();
+        biplaneImg.src = 'images/bigGuy.webp';
+        biplaneImg.onload = function() {
+          birdImages.biplane = biplaneImg;
+        };
 
       // Bird object
       const bird = {
@@ -296,29 +315,101 @@
         });
       }
 
-      function drawBird() {
-        ctx.save();
-        ctx.font = `${bird.size}px Arial`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(selectedBird, bird.x + bird.size/2, bird.y + bird.size/2);
-        ctx.restore();
-      }
+                     function drawBird() {
+          ctx.save();
+          
+          if (selectedBird === 'biplane' && birdImages.biplane) {
+            // Draw biplane image facing the right direction
+            const imgSize = bird.size * 1.5; // Make biplane slightly larger
+            
+            // Flip the biplane horizontally so it faces right
+            ctx.scale(-1, 1);
+            ctx.drawImage(
+              birdImages.biplane, 
+              -bird.x - imgSize, // Adjust x position for flipped image
+              bird.y, 
+              imgSize, 
+              imgSize
+            );
+          } else {
+            // Draw emoji bird
+            ctx.font = `${bird.size}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(selectedBird, bird.x + bird.size/2, bird.y + bird.size/2);
+          }
+          
+          ctx.restore();
+        }
 
       function drawPipes() {
-        ctx.fillStyle = '#2d5a27';
         pipes.forEach(pipe => {
-          // Top pipe
-          ctx.fillRect(pipe.x, 0, pipeWidth, pipe.gapY);
-          // Bottom pipe
-          ctx.fillRect(pipe.x, pipe.gapY + pipeGap, pipeWidth, canvas.height - pipe.gapY - pipeGap);
-          
-          // Pipe caps
-          ctx.fillStyle = '#1a3d1a';
-          ctx.fillRect(pipe.x - 5, pipe.gapY - 20, pipeWidth + 10, 20);
-          ctx.fillRect(pipe.x - 5, pipe.gapY + pipeGap, pipeWidth + 10, 20);
-          ctx.fillStyle = '#2d5a27';
+          // Draw skyscraper buildings
+          drawSkyscraper(pipe.x, 0, pipeWidth, pipe.gapY, true); // Top building
+          drawSkyscraper(pipe.x, pipe.gapY + pipeGap, pipeWidth, canvas.height - pipe.gapY - pipeGap, false); // Bottom building
         });
+      }
+
+      function drawSkyscraper(x, y, width, height, isTop) {
+        // Building base color (dark gray/blue)
+        ctx.fillStyle = '#2c3e50';
+        ctx.fillRect(x, y, width, height);
+        
+        // Building outline
+        ctx.strokeStyle = '#34495e';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, width, height);
+        
+        // Windows grid
+        const windowSize = 8;
+        const windowSpacing = 12;
+        const margin = 6;
+        
+        ctx.fillStyle = '#f39c12'; // Orange/yellow window lights
+        
+        for (let wx = x + margin; wx < x + width - margin; wx += windowSpacing) {
+          for (let wy = y + margin; wy < y + height - margin; wy += windowSpacing) {
+            // Random window lighting (some windows are dark)
+            if (Math.random() > 0.3) {
+              ctx.fillRect(wx, wy, windowSize, windowSize);
+            }
+          }
+        }
+        
+        // Building top details
+        if (isTop) {
+          // Rooftop
+          ctx.fillStyle = '#95a5a6';
+          ctx.fillRect(x - 3, y - 15, width + 6, 15);
+          
+          // Antenna/spire
+          ctx.fillStyle = '#7f8c8d';
+          ctx.fillRect(x + width/2 - 2, y - 25, 4, 10);
+          
+          // Rooftop equipment
+          ctx.fillStyle = '#34495e';
+          ctx.fillRect(x + 5, y - 12, 8, 8);
+          ctx.fillRect(x + width - 13, y - 12, 8, 8);
+        } else {
+          // Ground floor entrance
+          ctx.fillStyle = '#e74c3c';
+          ctx.fillRect(x + width/2 - 10, y + height - 20, 20, 20);
+          
+          // Door
+          ctx.fillStyle = '#2c3e50';
+          ctx.fillRect(x + width/2 - 5, y + height - 15, 10, 15);
+        }
+        
+        // Vertical accent lines (building structure)
+        ctx.strokeStyle = '#34495e';
+        ctx.lineWidth = 1;
+        for (let i = 1; i < 4; i++) {
+          const lineX = x + (width / 4) * i;
+          ctx.beginPath();
+          ctx.moveTo(lineX, y);
+          ctx.lineTo(lineX, y + height);
+          ctx.stroke();
+        }
       }
 
       function drawGround() {
