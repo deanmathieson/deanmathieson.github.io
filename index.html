@@ -28,128 +28,242 @@
         justify-content: center;
       }
 
-      /* Title */
-      .title {
-        position: absolute;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: white;
-        font-size: 2.5em;
-        font-weight: 800;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        z-index: 100;
-      }
+             /* Title */
+       .title {
+         position: absolute;
+         top: 30px;
+         left: 50%;
+         transform: translateX(-50%);
+         color: white;
+         font-size: 2.8em;
+         font-weight: 800;
+         text-shadow: 3px 3px 6px rgba(0,0,0,0.6);
+         z-index: 100;
+         letter-spacing: 2px;
+       }
 
-      /* Bird selection */
-      .bird-selector {
-        position: absolute;
-        top: 80px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(255,255,255,0.9);
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        z-index: 100;
-        display: flex;
-        gap: 10px;
-        align-items: center;
-      }
+               /* Bird selection */
+        .bird-selector {
+          position: absolute;
+          top: 30px;
+          right: 30px;
+          background: rgba(255,255,255,0.95);
+          padding: 15px 20px;
+          border-radius: 15px;
+          box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+          z-index: 100;
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.2);
+        }
 
-      .bird-selector label {
-        font-weight: bold;
-        color: #333;
-        margin-right: 10px;
-      }
+       .bird-selector label {
+         font-weight: bold;
+         color: #2c3e50;
+         margin-right: 15px;
+         font-size: 1.1em;
+         letter-spacing: 0.5px;
+       }
 
-      .bird-option {
-        width: 40px;
-        height: 40px;
-        border: 3px solid transparent;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-      }
+       .bird-option {
+         width: 45px;
+         height: 45px;
+         border: 3px solid transparent;
+         border-radius: 50%;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         font-size: 22px;
+         background: rgba(255,255,255,0.8);
+         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+       }
 
-      .bird-option:hover {
-        transform: scale(1.1);
-      }
+       .bird-option:hover {
+         transform: scale(1.15);
+         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+       }
 
-      .bird-option.selected {
-        border-color: #f2385a;
-        transform: scale(1.1);
-      }
+       .bird-option.selected {
+         border-color: #f2385a;
+         transform: scale(1.15);
+         box-shadow: 0 4px 15px rgba(242, 56, 90, 0.4);
+       }
 
-      /* Game canvas */
-      #gameCanvas {
-        border: 3px solid white;
-        border-radius: 10px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 100%);
-      }
+               /* Game canvas */
+        #gameCanvas {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          border: none;
+          background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 100%);
+        }
 
-      /* Game UI */
-      .game-ui {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: white;
-        z-index: 50;
-      }
+       /* Game UI */
+       .game-ui {
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         text-align: center;
+         color: white;
+         z-index: 50;
+         pointer-events: none;
+       }
 
-      .score {
-        font-size: 3em;
-        font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-        margin-bottom: 20px;
-      }
+       .score {
+         font-size: 4em;
+         font-weight: 900;
+         text-shadow: 3px 3px 8px rgba(0,0,0,0.8);
+         margin-bottom: 20px;
+         letter-spacing: 2px;
+       }
 
-      .game-over {
-        background: rgba(0,0,0,0.8);
-        padding: 30px;
-        border-radius: 15px;
-        display: none;
-      }
+       .game-over {
+         background: rgba(0,0,0,0.9);
+         padding: 40px;
+         border-radius: 20px;
+         display: none;
+         backdrop-filter: blur(15px);
+         border: 1px solid rgba(255,255,255,0.1);
+         box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+         pointer-events: auto;
+       }
 
-      .game-over h2 {
-        margin: 0 0 20px 0;
-        color: #f2385a;
-      }
+       .game-over h2 {
+         margin: 0 0 25px 0;
+         color: #f2385a;
+         font-size: 2.5em;
+         text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+       }
 
-      .restart-btn {
-        background: #f2385a;
-        color: white;
-        border: none;
-        padding: 15px 30px;
-        font-size: 1.2em;
-        border-radius: 25px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: bold;
-      }
+       .game-over p {
+         font-size: 1.3em;
+         margin-bottom: 25px;
+         color: #ecf0f1;
+       }
 
-      .restart-btn:hover {
-        background: #d63031;
-        transform: scale(1.05);
-      }
+       .restart-btn {
+         background: linear-gradient(135deg, #f2385a 0%, #e74c3c 100%);
+         color: white;
+         border: none;
+         padding: 18px 35px;
+         font-size: 1.3em;
+         border-radius: 30px;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         font-weight: bold;
+         box-shadow: 0 6px 20px rgba(242, 56, 90, 0.4);
+         letter-spacing: 1px;
+       }
 
-      .instructions {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: white;
-        text-align: center;
-        font-size: 1.1em;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-      }
+       .restart-btn:hover {
+         background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+         transform: scale(1.05);
+         box-shadow: 0 8px 25px rgba(242, 56, 90, 0.6);
+       }
+
+               .instructions {
+          position: absolute;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          color: white;
+          text-align: center;
+          font-size: 1.2em;
+          text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+          background: rgba(0,0,0,0.6);
+          padding: 15px 25px;
+          border-radius: 25px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Scoreboard */
+        .scoreboard {
+          position: absolute;
+          top: 30px;
+          left: 30px;
+          background: rgba(255,255,255,0.95);
+          padding: 20px;
+          border-radius: 15px;
+          box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+          z-index: 100;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.2);
+          min-width: 200px;
+        }
+
+        .scoreboard h3 {
+          margin: 0 0 15px 0;
+          color: #2c3e50;
+          font-size: 1.2em;
+          text-align: center;
+          border-bottom: 2px solid #f2385a;
+          padding-bottom: 8px;
+        }
+
+        .scoreboard-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 8px;
+          padding: 5px 0;
+          border-bottom: 1px solid rgba(44, 62, 80, 0.1);
+        }
+
+        .scoreboard-item:last-child {
+          border-bottom: none;
+        }
+
+        .scoreboard-rank {
+          font-weight: bold;
+          color: #f2385a;
+          min-width: 25px;
+        }
+
+        .scoreboard-name {
+          flex: 1;
+          margin: 0 10px;
+          color: #2c3e50;
+          font-weight: 500;
+        }
+
+        .scoreboard-score {
+          font-weight: bold;
+          color: #27ae60;
+        }
+
+        .scoreboard-toggle {
+          position: absolute;
+          top: 30px;
+          left: 30px;
+          background: rgba(255,255,255,0.95);
+          padding: 10px 15px;
+          border-radius: 10px;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+          z-index: 101;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.2);
+          cursor: pointer;
+          font-weight: bold;
+          color: #2c3e50;
+          transition: all 0.3s ease;
+        }
+
+        .scoreboard-toggle:hover {
+          background: rgba(255,255,255,1);
+          transform: scale(1.05);
+        }
+
+        .scoreboard.hidden {
+          display: none;
+        }
 
              /* Bird sprites */
        .bird-sprite {
@@ -172,9 +286,9 @@
       
              <div class="bird-selector">
          <label>Choose your bird:</label>
-         <div class="bird-option selected" data-bird="🐦">
-           <span class="bird-sprite">🐦</span>
-         </div>
+                   <div class="bird-option" data-bird="🐦">
+            <span class="bird-sprite">🐦</span>
+          </div>
          <div class="bird-option" data-bird="🦅">
            <span class="bird-sprite">🦅</span>
          </div>
@@ -190,12 +304,12 @@
          <div class="bird-option" data-bird="🦢">
            <span class="bird-sprite">🦢</span>
          </div>
-                   <div class="bird-option" data-bird="biplane">
-            <img src="images/bigGuy.webp" alt="Biplane" class="bird-image">
+                   <div class="bird-option selected" data-bird="biplane">
+            <img src="images/biplane2.png" alt="Biplane" class="bird-image">
           </div>
        </div>
 
-      <canvas id="gameCanvas" width="800" height="600"></canvas>
+             <canvas id="gameCanvas"></canvas>
       
       <div class="game-ui">
         <div class="score" id="score">0</div>
@@ -206,52 +320,101 @@
         </div>
       </div>
 
-      <div class="instructions">
-        Click or press SPACE to flap! Avoid the pipes and don't hit the ground.
-      </div>
+             <div class="scoreboard-toggle" onclick="toggleScoreboard()">🏆 Leaderboard</div>
+       
+       <div class="scoreboard hidden" id="scoreboard">
+         <h3>🏆 Global Leaderboard</h3>
+         <div id="scoreboardList">
+           <!-- Scoreboard items will be populated by JavaScript -->
+         </div>
+       </div>
+
+       <div class="instructions">
+         Click or press SPACE to tan yer bucky! Avoid the towers and don't hit the ground.
+       </div>
     </div>
 
     <script>
              // Game variables
        const canvas = document.getElementById('gameCanvas');
        const ctx = canvas.getContext('2d');
-       let selectedBird = '🐦';
-       let gameRunning = false;
-       let score = 0;
-       let highScore = localStorage.getItem('flappyHighScore') || 0;
+                       let selectedBird = 'biplane';
+        let gameRunning = false;
+        let score = 0;
+        let highScore = localStorage.getItem('flappyHighScore') || 0;
+        let playerName = localStorage.getItem('playerName') || 'Anonymous';
+        
+        // Global scoreboard data (simulated - in a real app this would be server-side)
+        let globalScores = JSON.parse(localStorage.getItem('globalScores')) || [
+          { name: 'Toast Master', score: 42 },
+          { name: 'Sky Pilot', score: 38 },
+          { name: 'Biplane Boss', score: 35 },
+          { name: 'Flappy Pro', score: 31 },
+          { name: 'City Flyer', score: 28 }
+        ];
+       
+       // Set canvas to full screen
+       function resizeCanvas() {
+         canvas.width = window.innerWidth;
+         canvas.height = window.innerHeight;
+       }
+       
+       // Initialize canvas size
+       resizeCanvas();
+       
+       // Handle window resize
+       window.addEventListener('resize', resizeCanvas);
        
                // Bird images
         const birdImages = {};
         const biplaneImg = new Image();
-        biplaneImg.src = 'images/bigGuy.webp';
         biplaneImg.onload = function() {
           birdImages.biplane = biplaneImg;
+          console.log('Biplane image loaded successfully');
         };
+        biplaneImg.onerror = function() {
+          console.error('Failed to load biplane image');
+        };
+        biplaneImg.src = 'images/biplane2.png';
 
-      // Bird object
-      const bird = {
-        x: 150,
-        y: 300,
-        velocity: 0,
-        gravity: 0.15,
-        jumpPower: -5,
-        size: 30
-      };
+             // Bird object
+       const bird = {
+         x: canvas.width * 0.2, // 20% from left edge
+         y: canvas.height * 0.5, // Center vertically
+         velocity: 0,
+         gravity: 0.15,
+         jumpPower: -5,
+         size: Math.min(canvas.width, canvas.height) * 0.04 // Responsive size
+       };
 
-      // Pipes array
-      let pipes = [];
-      const pipeWidth = 80;
-      const pipeGap = 150;
-      let pipeTimer = 0;
+                     // Pipes array
+        let pipes = [];
+        const pipeWidth = canvas.width * 0.08; // 8% of screen width
+        const pipeGap = canvas.height * 0.3; // Increased from 25% to 30% for easier navigation
+        let pipeTimer = 0;
 
-      // Bird selection
-      document.querySelectorAll('.bird-option').forEach(option => {
-        option.addEventListener('click', () => {
-          document.querySelectorAll('.bird-option').forEach(opt => opt.classList.remove('selected'));
-          option.classList.add('selected');
-          selectedBird = option.dataset.bird;
-        });
-      });
+             // Bird selection
+       document.querySelectorAll('.bird-option').forEach(option => {
+         option.addEventListener('click', () => {
+           document.querySelectorAll('.bird-option').forEach(opt => opt.classList.remove('selected'));
+           option.classList.add('selected');
+           selectedBird = option.dataset.bird;
+           
+           // Update bird size based on selection
+           if (selectedBird === 'biplane') {
+             bird.size = Math.min(canvas.width, canvas.height) * 0.04;
+           } else {
+             bird.size = Math.min(canvas.width, canvas.height) * 0.04;
+           }
+           
+           // Redraw the bird immediately to show the change
+           if (!gameRunning) {
+             drawBackground();
+             drawGround();
+             drawBird();
+           }
+         });
+       });
 
       // Game functions
       function jump() {
@@ -274,12 +437,12 @@
         });
       }
 
-      function updatePipes() {
-        pipeTimer++;
-        if (pipeTimer > 120) {
-          createPipe();
-          pipeTimer = 0;
-        }
+                     function updatePipes() {
+          pipeTimer++;
+          if (pipeTimer > 300) { // Increased from 200 to 300 for even more spacing
+            createPipe();
+            pipeTimer = 0;
+          }
 
         pipes.forEach(pipe => {
           pipe.x -= 2;
@@ -296,41 +459,53 @@
         pipes = pipes.filter(pipe => pipe.x > -pipeWidth);
       }
 
-      function checkCollision() {
-        // Ground collision
-        if (bird.y + bird.size > canvas.height - 50) {
-          return true;
-        }
+             function checkCollision() {
+         const groundHeight = canvas.height * 0.08;
+         
+         // Ground collision
+         if (bird.y + bird.size > canvas.height - groundHeight) {
+           return true;
+         }
 
-        // Ceiling collision
-        if (bird.y < 0) {
-          return true;
-        }
+         // Ceiling collision
+         if (bird.y < 0) {
+           return true;
+         }
 
-        // Pipe collision
-        return pipes.some(pipe => {
-          return bird.x + bird.size > pipe.x && 
-                 bird.x < pipe.x + pipeWidth && 
-                 (bird.y < pipe.gapY || bird.y + bird.size > pipe.gapY + pipeGap);
-        });
-      }
+         // Pipe collision
+         return pipes.some(pipe => {
+           return bird.x + bird.size > pipe.x && 
+                  bird.x < pipe.x + pipeWidth && 
+                  (bird.y < pipe.gapY || bird.y + bird.size > pipe.gapY + pipeGap);
+         });
+       }
 
                      function drawBird() {
           ctx.save();
           
-          if (selectedBird === 'biplane' && birdImages.biplane) {
-            // Draw biplane image facing the right direction
-            const imgSize = bird.size * 1.5; // Make biplane slightly larger
-            
-            // Flip the biplane horizontally so it faces right
-            ctx.scale(-1, 1);
-            ctx.drawImage(
-              birdImages.biplane, 
-              -bird.x - imgSize, // Adjust x position for flipped image
-              bird.y, 
-              imgSize, 
-              imgSize
-            );
+          if (selectedBird === 'biplane') {
+            if (birdImages.biplane) {
+              // Draw biplane image facing the right direction
+              const imgWidth = bird.size * 2.5; // Make biplane larger for detail
+              const imgHeight = bird.size * 1.8; // Adjust height for aspect ratio
+              
+              // Flip the biplane horizontally so it faces right
+              ctx.scale(-1, 1);
+              ctx.drawImage(
+                birdImages.biplane, 
+                -bird.x - imgWidth, // Adjust x position for flipped image
+                bird.y - imgHeight/4, // Center the biplane vertically
+                imgWidth, 
+                imgHeight
+              );
+            } else {
+              // Fallback: draw text while image is loading
+              ctx.font = `${bird.size}px Arial`;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillStyle = '#FFD700'; // Gold color for biplane text
+              ctx.fillText('✈️', bird.x + bird.size/2, bird.y + bird.size/2);
+            }
           } else {
             // Draw emoji bird
             ctx.font = `${bird.size}px Arial`;
@@ -360,21 +535,21 @@
         ctx.lineWidth = 2;
         ctx.strokeRect(x, y, width, height);
         
-        // Windows grid
-        const windowSize = 8;
-        const windowSpacing = 12;
-        const margin = 6;
-        
-        ctx.fillStyle = '#f39c12'; // Orange/yellow window lights
-        
-        for (let wx = x + margin; wx < x + width - margin; wx += windowSpacing) {
-          for (let wy = y + margin; wy < y + height - margin; wy += windowSpacing) {
-            // Random window lighting (some windows are dark)
-            if (Math.random() > 0.3) {
-              ctx.fillRect(wx, wy, windowSize, windowSize);
-            }
-          }
-        }
+                 // Windows grid
+         const windowSize = 6;
+         const windowSpacing = 10;
+         const margin = 8;
+         
+         ctx.fillStyle = '#f39c12'; // Orange/yellow window lights
+         
+         for (let wx = x + margin; wx < x + width - margin - windowSize; wx += windowSpacing) {
+           for (let wy = y + margin; wy < y + height - margin - windowSize; wy += windowSpacing) {
+             // Random window lighting (some windows are dark)
+             if (Math.random() > 0.3) {
+               ctx.fillRect(wx, wy, windowSize, windowSize);
+             }
+           }
+         }
         
         // Building top details
         if (isTop) {
@@ -412,14 +587,15 @@
         }
       }
 
-      function drawGround() {
-        ctx.fillStyle = '#8B4513';
-        ctx.fillRect(0, canvas.height - 50, canvas.width, 50);
-        
-        // Grass on top
-        ctx.fillStyle = '#228B22';
-        ctx.fillRect(0, canvas.height - 50, canvas.width, 10);
-      }
+             function drawGround() {
+         const groundHeight = canvas.height * 0.08; // 8% of screen height
+         ctx.fillStyle = '#8B4513';
+         ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
+         
+         // Grass on top
+         ctx.fillStyle = '#228B22';
+         ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight * 0.2);
+       }
 
       function drawBackground() {
         // Sky gradient
@@ -467,33 +643,97 @@
         requestAnimationFrame(gameLoop);
       }
 
-      function startGame() {
-        gameRunning = true;
-        score = 0;
-        bird.y = 300;
-        bird.velocity = 0;
-        pipes = [];
-        pipeTimer = 0;
-        document.getElementById('score').textContent = '0';
-        document.getElementById('gameOver').style.display = 'none';
-        gameLoop();
-      }
+             function startGame() {
+         gameRunning = true;
+         score = 0;
+         bird.x = canvas.width * 0.2;
+         bird.y = canvas.height * 0.5;
+         bird.velocity = 0;
+         bird.size = Math.min(canvas.width, canvas.height) * 0.04;
+         pipes = [];
+         pipeTimer = 0;
+         document.getElementById('score').textContent = '0';
+         document.getElementById('gameOver').style.display = 'none';
+         gameLoop();
+       }
 
-      function gameOver() {
-        gameRunning = false;
-        
-        if (score > highScore) {
-          highScore = score;
-          localStorage.setItem('flappyHighScore', highScore);
-        }
-        
-        document.getElementById('finalScore').textContent = score;
-        document.getElementById('gameOver').style.display = 'block';
-      }
+             function gameOver() {
+         gameRunning = false;
+         
+         if (score > highScore) {
+           highScore = score;
+           localStorage.setItem('flappyHighScore', highScore);
+         }
+         
+         // Check if score qualifies for leaderboard (top 50)
+         const minLeaderboardScore = globalScores.length < 50 ? 0 : 
+           Math.min(...globalScores.map(s => s.score));
+         
+         if (score >= minLeaderboardScore) {
+           setTimeout(() => {
+             addScoreToLeaderboard(score);
+           }, 1000);
+         }
+         
+         document.getElementById('finalScore').textContent = score;
+         document.getElementById('gameOver').style.display = 'block';
+       }
 
-      function restartGame() {
-        startGame();
-      }
+             function restartGame() {
+         startGame();
+       }
+
+       // Scoreboard functions
+       function toggleScoreboard() {
+         const scoreboard = document.getElementById('scoreboard');
+         scoreboard.classList.toggle('hidden');
+         if (!scoreboard.classList.contains('hidden')) {
+           updateScoreboard();
+         }
+       }
+
+       function updateScoreboard() {
+         const scoreboardList = document.getElementById('scoreboardList');
+         scoreboardList.innerHTML = '';
+         
+         // Sort scores by highest first
+         const sortedScores = [...globalScores].sort((a, b) => b.score - a.score);
+         
+         // Show top 10 scores
+         sortedScores.slice(0, 10).forEach((scoreData, index) => {
+           const scoreItem = document.createElement('div');
+           scoreItem.className = 'scoreboard-item';
+           scoreItem.innerHTML = `
+             <span class="scoreboard-rank">${index + 1}</span>
+             <span class="scoreboard-name">${scoreData.name}</span>
+             <span class="scoreboard-score">${scoreData.score}</span>
+           `;
+           scoreboardList.appendChild(scoreItem);
+         });
+       }
+
+       function addScoreToLeaderboard(score) {
+         // Get player name (in a real app, this would be a prompt or user profile)
+         const name = prompt('Enter your name for the leaderboard:') || 'Anonymous';
+         playerName = name;
+         localStorage.setItem('playerName', name);
+         
+         // Add new score
+         globalScores.push({ name: name, score: score });
+         
+         // Sort and keep only top 50 scores
+         globalScores.sort((a, b) => b.score - a.score);
+         globalScores = globalScores.slice(0, 50);
+         
+         // Save to localStorage
+         localStorage.setItem('globalScores', JSON.stringify(globalScores));
+         
+         // Update display
+         updateScoreboard();
+         
+         // Show scoreboard
+         document.getElementById('scoreboard').classList.remove('hidden');
+       }
 
       // Event listeners
       canvas.addEventListener('click', jump);
@@ -513,10 +753,15 @@
         }
       });
 
-      // Initial draw
-      drawBackground();
-      drawGround();
-      drawBird();
+             // Initial draw
+       drawBackground();
+       drawGround();
+       drawBird();
+       
+       // Update bird position for initial display
+       bird.x = canvas.width * 0.2;
+       bird.y = canvas.height * 0.5;
+       bird.size = Math.min(canvas.width, canvas.height) * 0.04;
     </script>
   </body>
 </html>
