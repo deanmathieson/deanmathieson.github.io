@@ -10,4 +10,5 @@ Format: `YYYY-MM-DD HH:MM | instance | area / functions | status`
 
 ## Log
 - 2026-06-08 | instance-A | set up stable filenames (`game.js`/`game.css`) + concurrency protocol; reworked CHAR_BODY (character models) | done
+- 2026-06-08 | instance-B | weapons/sprites/turrets expansion: per-shape projectile renderer (`qp`), new patterns + fire methods (`jp`), `ol`/`Up`/`Np` content, turret passives (`ll`), mobile drones (`makeTurretMesh`), config `J.level`, `Op()` | done
 - (next instance: add your line here before editing)

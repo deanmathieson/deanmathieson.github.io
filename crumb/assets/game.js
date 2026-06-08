@@ -90,7 +90,7 @@ const J = {
     curveAdd: 2,
     choices: 3,
     maxItemLevel: 8,
-    maxWeapons: 4,
+    maxWeapons: 5,
     maxPassives: 5,
     mergeLevel: 4,
   },
@@ -22738,6 +22738,7 @@ const ol = [
       icon: "🔪",
       pattern: "nearest",
       color: 14213352,
+      shape: "blade",
       desc: "Flings a butterknife at the nearest pest.",
       stats: (i) => ({
         cooldown: Math.max(0.28, 0.9 - (i - 1) * 0.07),
@@ -22756,6 +22757,7 @@ const ol = [
       icon: "🥐",
       pattern: "orbit",
       color: 15249514,
+      shape: "orb",
       desc: "Toasted croutons orbit you, bashing pests on every side.",
       stats: (i) => ({
         cooldown: 0,
@@ -22791,6 +22793,7 @@ const ol = [
       icon: "✺",
       pattern: "nova",
       color: 15253600,
+      shape: "star",
       desc: "Scatters sharp crumbs in every direction.",
       stats: (i) => ({
         cooldown: Math.max(0.6, 1.6 - (i - 1) * 0.1),
@@ -22808,6 +22811,7 @@ const ol = [
       icon: "⚡",
       pattern: "chain",
       color: 10148095,
+      shape: "spark",
       desc: "Static leaps between nearby pests.",
       stats: (i) => ({
         cooldown: Math.max(0.5, 1.3 - (i - 1) * 0.08),
@@ -22825,6 +22829,7 @@ const ol = [
       icon: "🛢",
       pattern: "mine",
       color: 16742954,
+      shape: "puddle",
       desc: "Leaves burning grease puddles at your feet — pests chasing you run right through them.",
       stats: (i) => ({
         cooldown: Math.max(0.5, 1.4 - (i - 1) * 0.1),
@@ -22843,6 +22848,7 @@ const ol = [
       icon: "🍿",
       pattern: "homing",
       color: 16764730,
+      shape: "kernel",
       desc: "Pops kernels that curve toward the nearest pests, wherever they are.",
       stats: (i) => ({
         cooldown: Math.max(0.35, 0.9 - (i - 1) * 0.06),
@@ -22861,6 +22867,7 @@ const ol = [
       icon: "🍳",
       pattern: "nearest",
       color: 4473924,
+      shape: "blade",
       desc: "Hurls a heavy skillet that smashes through the nearest pests.",
       stats: (i) => ({
         cooldown: Math.max(0.5, 1.3 - (i - 1) * 0.08),
@@ -22879,6 +22886,7 @@ const ol = [
       icon: "✨",
       pattern: "nova",
       color: 16743121,
+      shape: "star",
       desc: "Showers a wide ring of sugary sprinkles in every direction.",
       stats: (i) => ({
         cooldown: Math.max(0.45, 1.2 - (i - 1) * 0.08),
@@ -22896,6 +22904,7 @@ const ol = [
       icon: "🔫",
       pattern: "turret",
       color: 11184810,
+      shape: "orb",
       desc: "Deploys a stationary sentry that auto-fires at the nearest pest. Builds up more sentries as it levels.",
       stats: (i) => ({
         cooldown: Math.max(0.3, 0.95 - (i - 1) * 0.07),
@@ -22908,6 +22917,229 @@ const ol = [
       levelDesc: (i) =>
         i % 2 === 0 ? "+1 sentry, +damage" : "+damage, faster fire",
     },
+    {
+      id: "forkfan",
+      name: "Fork Flurry",
+      icon: "🍴",
+      pattern: "nova",
+      color: 14342874,
+      shape: "blade",
+      desc: "Flings a fan of forks outward in every direction.",
+      stats: (i) => ({
+        cooldown: Math.max(0.5, 1.3 - (i - 1) * 0.08),
+        damage: 9 + (i - 1) * 5,
+        count: 6 + (i - 1) * 2,
+        pierce: 2 + Math.floor(i / 3),
+        speed: 48,
+        area: 1 + (i - 1) * 0.05,
+      }),
+      levelDesc: () => "+forks, +pierce, +damage",
+    },
+    {
+      id: "saltshot",
+      name: "Salt Blaster",
+      icon: "🧂",
+      pattern: "shotgun",
+      color: 16382457,
+      shape: "star",
+      desc: "Blasts a tight cone of stinging salt at the nearest pest. Short range, big punch.",
+      stats: (i) => ({
+        cooldown: Math.max(0.45, 1.1 - (i - 1) * 0.07),
+        damage: 6 + (i - 1) * 3,
+        count: 5 + Math.floor(i / 1.5),
+        pierce: 1 + Math.floor(i / 4),
+        speed: 64,
+        area: 1 + (i - 1) * 0.05,
+      }),
+      levelDesc: () => "+pellets, +damage",
+    },
+    {
+      id: "pepperlash",
+      name: "Pepper Lash",
+      icon: "🌶",
+      pattern: "whip",
+      color: 16734780,
+      shape: "spark",
+      desc: "Cracks a fiery whip in the direction you're facing, scorching everything in the arc.",
+      stats: (i) => ({
+        cooldown: Math.max(0.35, 0.8 - (i - 1) * 0.05),
+        damage: 12 + (i - 1) * 6,
+        count: 5 + Math.floor(i / 2),
+        pierce: 0,
+        speed: 30,
+        area: 8 + (i - 1) * 0.7,
+      }),
+      levelDesc: () => "+reach, +damage",
+    },
+    {
+      id: "pizzacutter",
+      name: "Pizza Cutter",
+      icon: "🍕",
+      pattern: "boomerang",
+      color: 15310410,
+      shape: "blade",
+      desc: "Hurls a spinning cutter that carves out, then curves all the way back to you.",
+      stats: (i) => ({
+        cooldown: Math.max(0.5, 1.3 - (i - 1) * 0.08),
+        damage: 12 + (i - 1) * 6,
+        count: 1 + Math.floor(i / 3),
+        pierce: 999,
+        speed: 40,
+        area: 1.4 + (i - 1) * 0.08,
+      }),
+      levelDesc: (i) =>
+        i % 3 === 0 ? "+1 cutter, +damage" : "+damage, bigger blade",
+    },
+    {
+      id: "bubblewand",
+      name: "Bubble Wand",
+      icon: "🫧",
+      pattern: "spiral",
+      color: 9425919,
+      shape: "bubble",
+      desc: "Spins out a hypnotic spiral of drifting soap bubbles that pop pests on contact.",
+      stats: (i) => ({
+        cooldown: Math.max(0.18, 0.4 - (i - 1) * 0.025),
+        damage: 5 + (i - 1) * 3,
+        count: 2 + Math.floor(i / 3),
+        pierce: 1 + Math.floor(i / 4),
+        speed: 22,
+        area: 1.1 + (i - 1) * 0.06,
+      }),
+      levelDesc: () => "+bubbles, +damage",
+    },
+    {
+      id: "eggcannon",
+      name: "Egg Cannon",
+      icon: "🥚",
+      pattern: "homing",
+      color: 16775880,
+      shape: "kernel",
+      desc: "Lobs seeking eggs that splat onto the nearest pests.",
+      stats: (i) => ({
+        cooldown: Math.max(0.4, 1 - (i - 1) * 0.06),
+        damage: 10 + (i - 1) * 5,
+        count: 1 + Math.floor(i / 3),
+        pierce: 1 + Math.floor(i / 5),
+        speed: 36,
+        area: 1.2 + (i - 1) * 0.07,
+      }),
+      levelDesc: (i) => (i % 3 === 0 ? "+1 egg, +damage" : "+damage, +pierce"),
+    },
+    {
+      id: "garlic",
+      name: "Garlic Breath",
+      icon: "🧄",
+      pattern: "aura",
+      color: 15923405,
+      desc: "A pungent cloud that gnaws at every pest huddled close to you.",
+      stats: (i) => ({
+        cooldown: Math.max(0.3, 0.6 - (i - 1) * 0.035),
+        damage: 4 + (i - 1) * 3,
+        count: 0,
+        pierce: 0,
+        speed: 0,
+        area: 7 + (i - 1) * 0.8,
+      }),
+      levelDesc: () => "+radius, +stink damage",
+    },
+    {
+      id: "icechucker",
+      name: "Ice Chucker",
+      icon: "🧊",
+      pattern: "nearest",
+      color: 10485759,
+      shape: "shard",
+      desc: "Chucks heavy ice cubes that shatter through the nearest pests.",
+      stats: (i) => ({
+        cooldown: Math.max(0.45, 1.15 - (i - 1) * 0.07),
+        damage: 15 + (i - 1) * 8,
+        count: 1 + Math.floor(i / 4),
+        pierce: 2 + Math.floor(i / 3),
+        speed: 52,
+        area: 1.4 + (i - 1) * 0.1,
+      }),
+      levelDesc: (i) =>
+        i % 4 === 0 ? "+1 cube, +damage" : "+damage, +pierce",
+    },
+    {
+      id: "honeytrap",
+      name: "Honey Trap",
+      icon: "🍯",
+      pattern: "mine",
+      color: 16762903,
+      shape: "puddle",
+      desc: "Drips sticky honey pools that bog down and burn pests that wander in.",
+      stats: (i) => ({
+        cooldown: Math.max(0.5, 1.5 - (i - 1) * 0.1),
+        damage: 7 + (i - 1) * 4,
+        count: 1 + Math.floor(i / 3),
+        pierce: 8 + i * 2,
+        speed: 0,
+        area: 1.5 + (i - 1) * 0.09,
+      }),
+      levelDesc: (i) =>
+        i % 3 === 0 ? "+1 pool, +damage" : "+pool size, +damage",
+    },
+    {
+      id: "drone",
+      name: "Crumb Drone",
+      icon: "🛸",
+      pattern: "turret",
+      color: 6975168,
+      shape: "orb",
+      mobile: !0,
+      fireMode: "spread",
+      fireCount: 1,
+      fireHoming: !0,
+      desc: "Deploys hovering drones that orbit you and fire seeking bolts at nearby pests.",
+      stats: (i) => ({
+        cooldown: Math.max(0.25, 0.65 - (i - 1) * 0.04),
+        damage: 8 + (i - 1) * 4,
+        count: 1 + Math.floor(i / 2),
+        pierce: 1 + Math.floor(i / 4),
+        speed: 60,
+        area: 1 + (i - 1) * 0.05,
+      }),
+      levelDesc: (i) =>
+        i % 2 === 0 ? "+1 drone, +damage" : "+damage, faster fire",
+    },
+    {
+      id: "toaster",
+      name: "Toaster Cannon",
+      icon: "🍞",
+      pattern: "shotgun",
+      color: 13139013,
+      shape: "shard",
+      desc: "Ejects a blast of red-hot toast shrapnel at the nearest pest.",
+      stats: (i) => ({
+        cooldown: Math.max(0.6, 1.5 - (i - 1) * 0.09),
+        damage: 11 + (i - 1) * 6,
+        count: 4 + Math.floor(i / 2),
+        pierce: 2 + Math.floor(i / 3),
+        speed: 58,
+        area: 1.2 + (i - 1) * 0.07,
+      }),
+      levelDesc: () => "+shrapnel, +damage",
+    },
+    {
+      id: "cornspin",
+      name: "Kernel Spinner",
+      icon: "🌽",
+      pattern: "spiral",
+      color: 16767834,
+      shape: "kernel",
+      desc: "Whirls a tightening spiral of popcorn kernels around you.",
+      stats: (i) => ({
+        cooldown: Math.max(0.16, 0.36 - (i - 1) * 0.022),
+        damage: 6 + (i - 1) * 3,
+        count: 2 + Math.floor(i / 3),
+        pierce: 1 + Math.floor(i / 5),
+        speed: 30,
+        area: 1 + (i - 1) * 0.05,
+      }),
+      levelDesc: () => "+kernels, +damage",
+    },
   ],
   Up = {
     bolt_storm: {
@@ -22916,6 +23148,7 @@ const ol = [
       icon: "⚔",
       pattern: "homing",
       color: 15660280,
+      shape: "blade",
       desc: "A relentless storm of seeking, piercing cleavers.",
       stats: (i) => ({
         cooldown: Math.max(0.12, 0.3 - (i - 1) * 0.02),
@@ -22933,6 +23166,7 @@ const ol = [
       icon: "🥖",
       pattern: "orbit",
       color: 16769162,
+      shape: "blade",
       desc: "A halo of mighty, swift baguettes that also scorches all it passes.",
       stats: (i) => ({
         cooldown: 0,
@@ -22950,6 +23184,7 @@ const ol = [
       icon: "🌀",
       pattern: "chain",
       color: 9099519,
+      shape: "spark",
       desc: "A whisking storm that arcs endlessly between pests in a wide ring.",
       stats: (i) => ({
         cooldown: Math.max(0.3, 0.7 - (i - 1) * 0.04),
@@ -22967,6 +23202,7 @@ const ol = [
       icon: "✷",
       pattern: "aura",
       color: 16742970,
+      shape: "flame",
       desc: "A roaring broiler that never relents, with grease feeding the flames.",
       stats: (i) => ({
         cooldown: Math.max(0.2, 0.45 - (i - 1) * 0.03),
@@ -22984,6 +23220,7 @@ const ol = [
       icon: "🔥",
       pattern: "turret",
       color: 16742970,
+      shape: "flame",
       fireMode: "flame",
       fireCount: 9,
       desc: "Sentries belch a ring of scorching flame at point-blank.",
@@ -23003,6 +23240,7 @@ const ol = [
       icon: "💥",
       pattern: "turret",
       color: 16747066,
+      shape: "star",
       fireMode: "nova",
       fireCount: 10,
       desc: "Sentries lob scattering bursts in every direction.",
@@ -23022,6 +23260,7 @@ const ol = [
       icon: "⚡",
       pattern: "turret",
       color: 10148095,
+      shape: "spark",
       fireMode: "spread",
       fireCount: 5,
       fireHoming: !0,
@@ -23042,6 +23281,7 @@ const ol = [
       icon: "⚔",
       pattern: "turret",
       color: 15660280,
+      shape: "blade",
       fireMode: "spread",
       fireCount: 3,
       desc: "Sentries hurl piercing cleavers that carve through ranks.",
@@ -23055,6 +23295,230 @@ const ol = [
       }),
       levelDesc: () => "+sentries, +pierce",
     },
+    cutlery_cyclone: {
+      id: "cutlery_cyclone",
+      name: "Cutlery Cyclone",
+      icon: "🍴",
+      pattern: "nova",
+      color: 15724527,
+      shape: "blade",
+      desc: "An unending cyclone of heavy, piercing cutlery flung in all directions.",
+      stats: (i) => ({
+        cooldown: Math.max(0.28, 0.6 - (i - 1) * 0.04),
+        damage: 18 + (i - 1) * 8,
+        count: 12 + (i - 1) * 2,
+        pierce: 5 + i,
+        speed: 56,
+        area: 1.3 + (i - 1) * 0.06,
+      }),
+      levelDesc: () => "+blades, +pierce, +damage",
+    },
+    seasoning_storm: {
+      id: "seasoning_storm",
+      name: "Seasoning Storm",
+      icon: "🧂",
+      pattern: "shotgun",
+      color: 16774348,
+      shape: "star",
+      desc: "A rapid-fire blast of scorching salt and pepper that shreds the front rank.",
+      stats: (i) => ({
+        cooldown: Math.max(0.22, 0.5 - (i - 1) * 0.03),
+        damage: 12 + (i - 1) * 6,
+        count: 9 + Math.floor(i / 1.5),
+        pierce: 2 + Math.floor(i / 3),
+        speed: 70,
+        area: 1.2 + (i - 1) * 0.06,
+      }),
+      levelDesc: () => "+pellets, +damage",
+    },
+    buzzsaw: {
+      id: "buzzsaw",
+      name: "Buzzsaw Halo",
+      icon: "🍕",
+      pattern: "boomerang",
+      color: 16751145,
+      shape: "blade",
+      desc: "A whirling fan of saw blades that loop out and come screaming back.",
+      stats: (i) => ({
+        cooldown: Math.max(0.3, 0.7 - (i - 1) * 0.04),
+        damage: 18 + (i - 1) * 8,
+        count: 3 + Math.floor(i / 2),
+        pierce: 999,
+        speed: 48,
+        area: 1.6 + (i - 1) * 0.08,
+      }),
+      levelDesc: () => "+blades, +damage",
+    },
+    soap_opera: {
+      id: "soap_opera",
+      name: "Soap Opera",
+      icon: "🫧",
+      pattern: "spiral",
+      color: 7864575,
+      shape: "bubble",
+      desc: "A dizzying spiral of charged bubbles that arc static between pests.",
+      stats: (i) => ({
+        cooldown: Math.max(0.12, 0.3 - (i - 1) * 0.02),
+        damage: 11 + (i - 1) * 5,
+        count: 4 + Math.floor(i / 2),
+        pierce: 3 + Math.floor(i / 3),
+        speed: 26,
+        area: 1.3 + (i - 1) * 0.07,
+      }),
+      levelDesc: () => "+bubbles, +pierce, +damage",
+    },
+    omelette: {
+      id: "omelette",
+      name: "Omelette Barrage",
+      icon: "🍳",
+      pattern: "homing",
+      color: 16769226,
+      shape: "kernel",
+      desc: "A relentless barrage of seeking eggs that splatter through whole crowds.",
+      stats: (i) => ({
+        cooldown: Math.max(0.2, 0.5 - (i - 1) * 0.03),
+        damage: 16 + (i - 1) * 7,
+        count: 4 + Math.floor(i / 2),
+        pierce: 3 + i,
+        speed: 44,
+        area: 1.4 + (i - 1) * 0.07,
+      }),
+      levelDesc: () => "+eggs, +pierce, +damage",
+    },
+    dragon_breath: {
+      id: "dragon_breath",
+      name: "Dragon Breath",
+      icon: "🐉",
+      pattern: "aura",
+      color: 16730112,
+      desc: "A withering aura of garlic fire that melts everything that dares come near.",
+      stats: (i) => ({
+        cooldown: Math.max(0.18, 0.4 - (i - 1) * 0.025),
+        damage: 13 + (i - 1) * 6,
+        count: 0,
+        pierce: 0,
+        speed: 0,
+        area: 10 + (i - 1) * 0.9,
+      }),
+      levelDesc: () => "+radius, +burn",
+    },
+    glacier: {
+      id: "glacier",
+      name: "Glacier Maul",
+      icon: "🧊",
+      pattern: "nearest",
+      color: 11529983,
+      shape: "shard",
+      desc: "Launches a massive glacial boulder that plows through everything in its path.",
+      stats: (i) => ({
+        cooldown: Math.max(0.35, 0.85 - (i - 1) * 0.05),
+        damage: 30 + (i - 1) * 12,
+        count: 1 + Math.floor(i / 3),
+        pierce: 6 + i,
+        speed: 50,
+        area: 2 + (i - 1) * 0.12,
+      }),
+      levelDesc: () => "+damage, +pierce, bigger",
+    },
+    sticky_end: {
+      id: "sticky_end",
+      name: "Sticky Situation",
+      icon: "🍯",
+      pattern: "mine",
+      color: 16758600,
+      shape: "puddle",
+      desc: "Coats the floor in a vast, burning lake of honey and grease.",
+      stats: (i) => ({
+        cooldown: Math.max(0.3, 0.9 - (i - 1) * 0.06),
+        damage: 14 + (i - 1) * 6,
+        count: 2 + Math.floor(i / 3),
+        pierce: 14 + i * 3,
+        speed: 0,
+        area: 2.1 + (i - 1) * 0.12,
+      }),
+      levelDesc: () => "+pools, +size, +damage",
+    },
+    turret_drone: {
+      id: "turret_drone",
+      name: "Drone Swarm",
+      icon: "🛸",
+      pattern: "turret",
+      color: 5832914,
+      shape: "spark",
+      mobile: !0,
+      fireMode: "spread",
+      fireCount: 2,
+      fireHoming: !0,
+      desc: "A whole squadron of orbiting drones, each spitting twin seeking bolts.",
+      stats: (i) => ({
+        cooldown: Math.max(0.18, 0.45 - (i - 1) * 0.03),
+        damage: 11 + (i - 1) * 5,
+        count: 3 + Math.floor(i / 2),
+        pierce: 2 + Math.floor(i / 3),
+        speed: 66,
+        area: 1.1 + (i - 1) * 0.05,
+      }),
+      levelDesc: () => "+drones, +bolts",
+    },
+    turret_mine: {
+      id: "turret_mine",
+      name: "Landmine Sentry",
+      icon: "🧨",
+      pattern: "turret",
+      color: 16742450,
+      fireMode: "drop",
+      fireCount: 1,
+      desc: "Sentries pepper the floor around them with sizzling landmines.",
+      stats: (i) => ({
+        cooldown: Math.max(0.5, 1.1 - (i - 1) * 0.06),
+        damage: 16 + (i - 1) * 8,
+        count: 2 + Math.floor(i / 2),
+        pierce: 8,
+        speed: 0,
+        area: 1.3 + (i - 1) * 0.08,
+      }),
+      levelDesc: () => "+sentries, +mines",
+    },
+    turret_cannon: {
+      id: "turret_cannon",
+      name: "Cannon Sentry",
+      icon: "💣",
+      pattern: "turret",
+      color: 7237230,
+      shape: "shard",
+      fireMode: "spread",
+      fireCount: 1,
+      desc: "Sentries fire slow, devastating cannon rounds that crush through ranks.",
+      stats: (i) => ({
+        cooldown: Math.max(0.6, 1.3 - (i - 1) * 0.07),
+        damage: 36 + (i - 1) * 16,
+        count: 2 + Math.floor(i / 2),
+        pierce: 8,
+        speed: 50,
+        area: 1.6 + (i - 1) * 0.1,
+      }),
+      levelDesc: () => "+sentries, +damage",
+    },
+    turret_gatling: {
+      id: "turret_gatling",
+      name: "Gatling Sentry",
+      icon: "🔩",
+      pattern: "turret",
+      color: 16751001,
+      shape: "star",
+      fireMode: "spread",
+      fireCount: 2,
+      desc: "Sentries unleash a blistering stream of shots — practically a hose of crumbs.",
+      stats: (i) => ({
+        cooldown: Math.max(0.1, 0.3 - (i - 1) * 0.02),
+        damage: 7 + (i - 1) * 4,
+        count: 2 + Math.floor(i / 2),
+        pierce: 2,
+        speed: 72,
+        area: 1 + (i - 1) * 0.05,
+      }),
+      levelDesc: () => "+sentries, faster fire",
+    },
   },
   Np = [
     { a: "bolt", b: "homing", into: "bolt_storm" },
@@ -23065,6 +23529,18 @@ const ol = [
     { a: "turret", b: "nova", into: "turret_mortar" },
     { a: "turret", b: "chain", into: "turret_tesla" },
     { a: "turret", b: "bolt", into: "turret_cleaver" },
+    { a: "forkfan", b: "skillet", into: "cutlery_cyclone" },
+    { a: "saltshot", b: "pepperlash", into: "seasoning_storm" },
+    { a: "pizzacutter", b: "orbit", into: "buzzsaw" },
+    { a: "bubblewand", b: "chain", into: "soap_opera" },
+    { a: "eggcannon", b: "nova", into: "omelette" },
+    { a: "garlic", b: "aura", into: "dragon_breath" },
+    { a: "icechucker", b: "bolt", into: "glacier" },
+    { a: "honeytrap", b: "mine", into: "sticky_end" },
+    { a: "drone", b: "turret", into: "turret_drone" },
+    { a: "turret", b: "mine", into: "turret_mine" },
+    { a: "turret", b: "skillet", into: "turret_cannon" },
+    { a: "turret", b: "sprinkles", into: "turret_gatling" },
   ],
   Fp = Object.fromEntries(ol.map((i) => [i.id, i]));
 function Op() {
@@ -23083,6 +23559,8 @@ function Op() {
     lifesteal: 0,
     luck: 0,
     vacuum: 0,
+    turretBonus: 0,
+    turretHaste: 0,
   };
 }
 const CRUMB_CHARS = [
@@ -23129,6 +23607,17 @@ const CRUMB_CHARS = [
     weapon: "nova",
     mods: (s) => {
       ((s.damageMul *= 1.35), (s.moveMul *= 1.08), (s.maxHpBonus -= 40));
+    },
+  },
+  {
+    id: "tinkerer",
+    name: "The Tinkerer",
+    icon: "🔧",
+    desc: "A sentry savant — starts with a pop-up sentry, an extra one for free, and overclocked fire. Slower on foot, lets the machines do the work.",
+    diff: 3,
+    weapon: "turret",
+    mods: (s) => {
+      ((s.turretBonus += 1), (s.turretHaste += 0.12), (s.moveMul *= 0.95));
     },
   },
 ];
@@ -23928,17 +24417,61 @@ function Xp() {
     orbitSpeed: 0,
     orbitRadius: 0,
     weaponId: "",
+    shape: "orb",
+    seed: 0,
+    boomerang: !1,
+    boomPull: 0,
+    boomMax: 0,
+    age: 0,
   };
 }
+const PROJ_SHADE = () => {
+  const m = new ra({ emissiveIntensity: 0.9, roughness: 0.3, metalness: 0 });
+  return ((m.emissive = new Ae(16777215)), m);
+};
+const PROJ_GLOW = (op) =>
+  new yi({ transparent: !0, opacity: op ?? 0.95, blending: er, depthWrite: !1 });
 class qp {
   constructor(e) {
-    this.pool = new aa(J.projectiles.maxAlive, Xp);
-    const t = new ia(1, 0),
-      n = new ra({ emissiveIntensity: 0.9, roughness: 0.3, metalness: 0 });
-    ((n.emissive = new Ae(16777215)),
-      (this.instances = new oa(t, n, J.projectiles.maxAlive)),
-      e.add(this.instances.mesh),
-      (this._homingScratch = []));
+    ((this.pool = new aa(J.projectiles.maxAlive, Xp)),
+      (this.scene = e),
+      (this._t = 0),
+      (this._homingScratch = []),
+      (this._shapes = {}),
+      (this._order = []));
+    const cap = J.projectiles.maxAlive,
+      mk = (name, geo, mat, opt) => {
+        const inst = new oa(geo, mat, cap);
+        (e.add(inst.mesh),
+          (this._shapes[name] = {
+            inst: inst,
+            count: 0,
+            y: opt.y ?? 1.2,
+            spin: opt.spin ?? 0,
+            orient: !!opt.orient,
+          }),
+          this._order.push(name));
+      };
+    // generic rounded gem
+    mk("orb", new ia(0.9, 1), PROJ_SHADE(), { spin: 1.4 });
+    // thrown blade / knife / cleaver — twirls end over end
+    mk("blade", new oi(0.42, 0.16, 2.0), PROJ_SHADE(0.5), { spin: 15 });
+    // sprinkle / crumb — glowy spinning star
+    mk("star", new ms(1.05, 0), PROJ_GLOW(), { spin: 8 });
+    // electric spark — tiny bright bit
+    mk("spark", new ia(0.7, 0), PROJ_GLOW(), { spin: 0 });
+    // flame — fast-tumbling additive blob
+    mk("flame", new ms(1, 0), PROJ_GLOW(), { spin: 12 });
+    // ice / glass shard — tumbling cube
+    mk("shard", new oi(0.95, 0.95, 0.95), PROJ_SHADE(0.4), { spin: 10 });
+    // popcorn / egg — small soft sphere
+    mk("kernel", new ms(0.85, 1), PROJ_SHADE(0.6), { spin: 5 });
+    // soap bubble — slow floaty additive sphere
+    mk("bubble", new ia(1, 1), PROJ_GLOW(0.6), { spin: 2.4 });
+    // ground puddle — flat disc that lies on the floor
+    const pg = new fs(1, 24);
+    (pg.rotateX(-Math.PI / 2), mk("puddle", pg, PROJ_GLOW(0.8), { y: 0.16, spin: 0.5 }));
+    this.instances = this._shapes.orb.inst;
   }
   get count() {
     return this.pool.count;
@@ -23963,6 +24496,12 @@ class qp {
         (a.homing = r.homing ?? !1),
         (a.turnRate = r.turnRate ?? 0),
         (a.weaponId = r.weaponId ?? ""),
+        (a.shape = r.shape ?? "orb"),
+        (a.seed = Math.random() * 6.283),
+        (a.boomerang = r.boomerang ?? !1),
+        (a.boomPull = r.boomPull ?? 0),
+        (a.boomMax = r.boomMax ?? 0),
+        (a.age = 0),
         a)
       : null;
   }
@@ -23984,6 +24523,9 @@ class qp {
         (s.cosmetic = !1),
         (s.homing = !1),
         (s.hitIds.length = 0),
+        (s.shape = n.shape ?? "orb"),
+        (s.seed = Math.random() * 6.283),
+        (s.boomerang = !1),
         s)
       : null;
   }
@@ -24007,6 +24549,7 @@ class qp {
     }
   }
   update(e, t, n) {
+    this._t += e;
     const s = this.pool.items,
       r = yo * yo;
     let a = 0;
@@ -24017,6 +24560,25 @@ class qp {
           (o.x = t.x + Math.cos(o.orbitAngle) * o.orbitRadius),
           (o.y = t.y + Math.sin(o.orbitAngle) * o.orbitRadius),
           a++);
+        continue;
+      }
+      if (o.boomerang) {
+        ((o.age += e), (o.life -= e));
+        const bx = t.x - o.x,
+          by = t.y - o.y,
+          bd = Math.hypot(bx, by) || 1,
+          pull = o.boomPull * e;
+        ((o.vx += (bx / bd) * pull), (o.vy += (by / bd) * pull));
+        const sp = Math.hypot(o.vx, o.vy);
+        (sp > o.boomMax &&
+          ((o.vx = (o.vx / sp) * o.boomMax), (o.vy = (o.vy / sp) * o.boomMax)),
+          (o.x += o.vx * e),
+          (o.y += o.vy * e));
+        if ((o.age > 0.4 && bd < 2.4) || o.life <= 0) {
+          this.pool.freeAt(a);
+          continue;
+        }
+        a++;
         continue;
       }
       (o.homing && n && this._steerHoming(o, n, e),
@@ -24069,16 +24631,30 @@ class qp {
   }
   render() {
     const e = this.pool.items,
-      t = this.pool.count;
+      t = this.pool.count,
+      S = this._shapes,
+      tm = this._t;
+    for (let i = 0; i < this._order.length; i++) S[this._order[i]].count = 0;
     for (let n = 0; n < t; n++) {
-      const s = e[n];
-      (this.instances.write(n, s.x, 1.2, s.y, s.scale),
-        this.instances.setColor(n, s.color));
+      const s = e[n],
+        sh = S[s.shape] || S.orb,
+        idx = sh.count++;
+      let rot = 0;
+      sh.orient
+        ? (rot = Math.atan2(s.vx, s.vy))
+        : sh.spin && (rot = tm * sh.spin + s.seed);
+      (sh.inst.write(idx, s.x, sh.y, s.y, s.scale, rot),
+        sh.inst.setColor(idx, s.color));
     }
-    this.instances.finalize(t);
+    for (let i = 0; i < this._order.length; i++) {
+      const k = this._order[i];
+      S[k].inst.finalize(S[k].count);
+    }
   }
   clear() {
-    (this.pool.clear(), this.instances.finalize(0));
+    this.pool.clear();
+    for (let i = 0; i < this._order.length; i++)
+      this._shapes[this._order[i]].inst.finalize(0);
   }
 }
 class CrumbExplosions {
@@ -24284,6 +24860,18 @@ class jp {
         case "homing":
           this._tickCooldown(o, l, e, () => this._fireHoming(o, l, n, s, r));
           break;
+        case "spiral":
+          this._tickCooldown(o, l, e, () => this._fireSpiral(o, l, n, r));
+          break;
+        case "shotgun":
+          this._tickCooldown(o, l, e, () => this._fireShotgun(o, l, n, s, r));
+          break;
+        case "boomerang":
+          this._tickCooldown(o, l, e, () => this._fireBoomerang(o, l, n, s, r));
+          break;
+        case "whip":
+          this._tickCooldown(o, l, e, () => this._fireWhip(o, l, n, s, r));
+          break;
         case "turret":
           this._updateTurrets(o, l, e, n, s, r, t);
           break;
@@ -24301,17 +24889,22 @@ class jp {
   }
   _updateTurrets(weapon, stats, dt, player, enemies, projectiles, runState) {
     const id = weapon.def.id,
-      owned = this._turrets.filter((t) => t.weaponId === id);
-    if (owned.length < stats.count) {
-      this._turretDeploy -= dt;
-      if (this._turretDeploy <= 0) {
-        this._turretDeploy = 1.6;
+      mobile = !!weapon.def.mobile,
+      owned = this._turrets.filter((t) => t.weaponId === id),
+      bonus = Math.floor(runState.stats.turretBonus || 0),
+      target = stats.count + bonus,
+      haste = Math.min(0.7, runState.stats.turretHaste || 0),
+      fireCd = Math.max(0.07, stats.cooldown * (1 - haste));
+    if (owned.length < target) {
+      weapon._deployT = (weapon._deployT || 0) - dt;
+      if (weapon._deployT <= 0) {
+        weapon._deployT = mobile ? 0.7 : 1.6;
         const ang = owned.length * 2.4,
-          rad = 3.4 + owned.length * 0.5,
+          rad = (mobile ? 4.5 : 3.4) + owned.length * (mobile ? 1.3 : 0.5),
           tx = player.x + Math.cos(ang) * rad,
           ty = player.y + Math.sin(ang) * rad,
-          m = makeTurretMesh(weapon.def.color);
-        (m.position.set(tx, 0, ty), this.scene.add(m));
+          m = makeTurretMesh(weapon.def.color, mobile);
+        (m.position.set(tx, mobile ? 2 : 0, ty), this.scene.add(m));
         const tr = {
           weaponId: id,
           x: tx,
@@ -24319,6 +24912,8 @@ class jp {
           fireT: Math.random() * 0.4,
           mirrorT: 1 + Math.random(),
           mesh: m,
+          mobile: mobile,
+          orbA: ang,
         };
         (this._turrets.push(tr), owned.push(tr));
       }
@@ -24327,9 +24922,18 @@ class jp {
       fc = weapon.def.fireMode ? weapon.def.fireCount || 3 : 1,
       homing = !!weapon.def.fireHoming,
       canMirror = runState.weapons.some((w) => w.def.pattern !== "turret");
-    for (const tr of owned) {
+    for (let i = 0; i < owned.length; i++) {
+      const tr = owned[i];
+      if (tr.mobile) {
+        tr.orbA += dt * 1.15;
+        const rr = 4.5 + i * 1.3;
+        ((tr.x = player.x + Math.cos(tr.orbA) * rr),
+          (tr.y = player.y + Math.sin(tr.orbA) * rr),
+          tr.mesh.position.set(tr.x, 2, tr.y),
+          (tr.mesh.rotation.z = Math.sin(this.scene ? tr.orbA * 2 : 0) * 0.2));
+      }
       if (((tr.fireT -= dt), tr.fireT <= 0))
-        ((tr.fireT = stats.cooldown),
+        ((tr.fireT = fireCd),
           this._turretShoot(
             tr,
             {
@@ -24341,6 +24945,7 @@ class jp {
               speed: stats.speed,
               area: stats.area,
               color: weapon.def.color,
+              shape: weapon.def.shape,
               life: 2.4,
             },
             enemies,
@@ -24354,6 +24959,19 @@ class jp {
     }
   }
   _turretShoot(tr, p, enemies, projectiles) {
+    const shape = p.shape || "orb";
+    if (p.mode === "drop") {
+      projectiles.spawn(tr.x, tr.y, 0, 0, {
+        damage: p.damage,
+        radius: 1.4 * p.area,
+        color: p.color,
+        pierce: 8,
+        life: 3.2,
+        weaponId: "turret",
+        shape: "puddle",
+      });
+      return;
+    }
     if (p.mode === "nova") {
       for (let c = 0; c < p.count; c++) {
         const a = (c / p.count) * Math.PI * 2;
@@ -24364,6 +24982,7 @@ class jp {
           pierce: p.pierce,
           life: p.life,
           weaponId: "turret",
+          shape: shape,
         });
       }
       return;
@@ -24383,6 +25002,7 @@ class jp {
             pierce: 99,
             life: 0.45,
             weaponId: "turret",
+            shape: "flame",
           },
         );
       }
@@ -24413,6 +25033,7 @@ class jp {
         pierce: p.pierce,
         life: p.life,
         weaponId: "turret",
+        shape: shape,
         homing: !!p.homing,
         turnRate: p.homing ? 6 : 0,
       });
@@ -24432,25 +25053,32 @@ class jp {
         pierce: 6,
         life: 3,
         weaponId: "turret",
+        shape: w.def.shape || "puddle",
       });
       return;
     }
     this._turretShoot(
       tr,
       {
-        mode: pat === "nova" ? "nova" : pat === "aura" ? "flame" : "spread",
+        mode:
+          pat === "nova" || pat === "spiral" || pat === "shotgun"
+            ? "nova"
+            : pat === "aura" || pat === "whip"
+              ? "flame"
+              : "spread",
         count:
-          pat === "nova"
+          pat === "nova" || pat === "spiral"
             ? Math.min(10, st.count)
-            : pat === "aura"
+            : pat === "aura" || pat === "whip"
               ? 6
               : Math.min(4, Math.max(1, st.count || 1)),
-        homing: pat === "homing",
+        homing: pat === "homing" || pat === "boomerang",
         damage: st.damage * 0.6,
         pierce: st.pierce || 1,
         speed: Math.max(40, st.speed || 0),
         area: st.area,
         color: w.def.color,
+        shape: w.def.shape || "orb",
         life: 2.2,
       },
       enemies,
@@ -24482,6 +25110,7 @@ class jp {
         pierce: t.pierce,
         life: 2.2,
         weaponId: e.def.id,
+        shape: e.def.shape,
       });
     }
   }
@@ -24496,6 +25125,93 @@ class jp {
         pierce: t.pierce,
         life: 3.5,
         weaponId: e.def.id,
+        shape: e.def.shape || "puddle",
+      });
+    }
+  }
+  _fireSpiral(e, t, n, r) {
+    e._spiralAng = (e._spiralAng || 0) + 0.55;
+    const k = Math.max(1, t.count);
+    for (let c = 0; c < k; c++) {
+      const a = e._spiralAng + (c / k) * Math.PI * 2;
+      r.spawn(n.x, n.y, Math.cos(a) * t.speed, Math.sin(a) * t.speed, {
+        damage: t.damage,
+        radius: 0.42 * t.area,
+        color: e.def.color,
+        pierce: t.pierce,
+        life: 2.4,
+        weaponId: e.def.id,
+        shape: e.def.shape,
+      });
+    }
+  }
+  _fireShotgun(e, t, n, s, r) {
+    const a = this._nearestEnemy(s, n.x, n.y),
+      o = a ? Math.atan2(a.y - n.y, a.x - n.x) : Math.atan2(n.aimY, n.aimX),
+      k = Math.max(1, t.count);
+    for (let c = 0; c < k; c++) {
+      const u = o + (Math.random() - 0.5) * 0.62,
+        sp = t.speed * (0.8 + Math.random() * 0.4);
+      r.spawn(n.x, n.y, Math.cos(u) * sp, Math.sin(u) * sp, {
+        damage: t.damage,
+        radius: 0.4 * t.area,
+        color: e.def.color,
+        pierce: t.pierce,
+        life: 0.72,
+        weaponId: e.def.id,
+        shape: e.def.shape,
+      });
+    }
+  }
+  _fireBoomerang(e, t, n, s, r) {
+    const a = this._nearestEnemy(s, n.x, n.y),
+      o = a ? Math.atan2(a.y - n.y, a.x - n.x) : Math.atan2(n.aimY, n.aimX),
+      k = Math.max(1, t.count);
+    for (let c = 0; c < k; c++) {
+      const u = o + (c - (k - 1) / 2) * 0.4;
+      r.spawn(n.x, n.y, Math.cos(u) * t.speed, Math.sin(u) * t.speed, {
+        damage: t.damage,
+        radius: 0.55 * t.area,
+        color: e.def.color,
+        pierce: 999,
+        life: 2.8,
+        weaponId: e.def.id,
+        shape: e.def.shape,
+        boomerang: !0,
+        boomPull: t.speed * 2.6,
+        boomMax: t.speed * 1.35,
+      });
+    }
+  }
+  _fireWhip(e, t, n, s, r) {
+    const ang = Math.atan2(n.aimY, n.aimX),
+      reach = t.area,
+      cx = n.x + Math.cos(ang) * reach * 0.5,
+      cy = n.y + Math.sin(ang) * reach * 0.5,
+      hits = s.grid.queryCircle(cx, cy, reach, this._nearScratch),
+      r2 = reach * reach * 1.25;
+    for (let i = 0; i < hits.length; i++) {
+      const o = hits[i];
+      if (o.hp <= 0) continue;
+      const dx = o.x - n.x,
+        dy = o.y - n.y;
+      if (dx * dx + dy * dy > r2) continue;
+      let da = Math.atan2(dy, dx) - ang;
+      for (; da > Math.PI; ) da -= Math.PI * 2;
+      for (; da < -Math.PI; ) da += Math.PI * 2;
+      Math.abs(da) < 0.95 && kr(o, e.damage);
+    }
+    const k = Math.max(4, t.count);
+    for (let c = 0; c < k; c++) {
+      const u = ang + (c - (k - 1) / 2) * 0.3;
+      r.spawn(n.x, n.y, Math.cos(u) * t.speed, Math.sin(u) * t.speed, {
+        damage: 0,
+        radius: 0.4 * t.area,
+        color: e.def.color,
+        pierce: 1,
+        life: 0.2,
+        cosmetic: !0,
+        shape: e.def.shape,
       });
     }
   }
@@ -24513,6 +25229,7 @@ class jp {
         pierce: t.pierce,
         life: 2.8,
         weaponId: e.def.id,
+        shape: e.def.shape,
         homing: !0,
         turnRate: 4.5,
       });
@@ -24531,6 +25248,7 @@ class jp {
           color: e.def.color,
           orbitRadius: t.area,
           orbitSpeed: t.speed,
+          shape: e.def.shape,
         });
     }
   }
@@ -24560,6 +25278,7 @@ class jp {
         pierce: t.pierce,
         life: 1.5,
         weaponId: e.def.id,
+        shape: e.def.shape,
       });
     }
   }
@@ -24578,6 +25297,7 @@ class jp {
           pierce: 1,
           life: 0.14,
           cosmetic: !0,
+          shape: "spark",
         }),
         (a = this._nearestFiltered(s, a.x, a.y, t.area, o)));
   }
@@ -25056,6 +25776,22 @@ const ll = [
     stat: "vacuum",
     perLevel: 1,
     desc: "Rings out and sweeps up every crumb on the floor every few seconds — faster with each level.",
+  },
+  {
+    id: "sentrysurge",
+    name: "Spare Parts",
+    icon: "🔧",
+    stat: "turretBonus",
+    perLevel: 0.5,
+    desc: "Build an extra sentry/drone for every 2 levels.",
+  },
+  {
+    id: "overclock",
+    name: "Overclock Chip",
+    icon: "⏱",
+    stat: "turretHaste",
+    perLevel: 0.06,
+    desc: "Sentries & drones fire +6% faster per level.",
   },
 ];
 Object.fromEntries(ll.map((i) => [i.id, i]));
@@ -25694,17 +26430,39 @@ function makeChestMesh() {
   );
   return ((band.position.y = 1.25), g.add(base), g.add(lid), g.add(band), g);
 }
-function makeTurretMesh(color) {
-  const g = new Kn(),
-    base = new ft(
-      new oi(1.4, 0.7, 1.4),
+function makeTurretMesh(color, mobile) {
+  const g = new Kn();
+  if (mobile) {
+    const core = new ft(
+      new ms(0.6, 1),
       new ra({
-        color: 4868682,
-        emissive: 1052688,
-        emissiveIntensity: 0.2,
-        roughness: 0.7,
+        color: color,
+        emissive: color,
+        emissiveIntensity: 0.6,
+        roughness: 0.4,
       }),
     );
+    const ring = new ft(
+      new sa(0.62, 0.82, 18),
+      new yi({ color: color, transparent: !0, opacity: 0.55, side: Pt }),
+    );
+    ring.rotation.x = -Math.PI / 2;
+    const barrel = new ft(
+      new oi(0.22, 0.22, 0.9),
+      new ra({ color: 2697513, emissive: color, emissiveIntensity: 0.3 }),
+    );
+    barrel.position.set(0, 0, 0.55);
+    return (g.add(core), g.add(ring), g.add(barrel), g);
+  }
+  const base = new ft(
+    new oi(1.4, 0.7, 1.4),
+    new ra({
+      color: 4868682,
+      emissive: 1052688,
+      emissiveIntensity: 0.2,
+      roughness: 0.7,
+    }),
+  );
   base.position.y = 0.45;
   const head = new ft(
     new ms(0.72, 1),
