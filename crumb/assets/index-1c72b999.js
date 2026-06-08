@@ -82,7 +82,7 @@ const J = {
     endIntervalMul: 0.32,
     endBatchMul: 5,
     endHpMul: 14,
-    bossInterval: 90,
+    bossInterval: 75,
   },
   level: {
     baseXp: 5,
@@ -23480,6 +23480,8 @@ class Wp {
         (a.color = e.color),
         (a.scale = e.scale),
         (a.height = e.height),
+        (a.name = e.name || ""),
+        (a.minion = e.minion || null),
         (a.flash = 0),
         (a.dotCooldown = 0),
         (a.contactCooldown = 0),
@@ -24195,20 +24197,54 @@ const To = [
       weight: 2,
     },
   ],
-  Qp = {
-    id: "boss",
-    name: "The Mould King",
-    hp: 900,
-    speed: 8,
-    damage: 30,
-    radius: 4,
-    scale: 4.4,
-    height: 3.4,
-    xp: 80,
-    color: 10170286,
-    tier: 0,
-    weight: 0,
-  },
+  CRUMB_BOSSES = [
+    {
+      id: "boss_mould",
+      name: "The Mould King",
+      hp: 900,
+      speed: 8,
+      damage: 30,
+      radius: 4,
+      scale: 4.4,
+      height: 3.4,
+      xp: 80,
+      color: 10170286,
+      tier: 0,
+      weight: 0,
+      minion: "shade",
+    },
+    {
+      id: "boss_brick",
+      name: "The Freezer-Burnt Brick",
+      hp: 1350,
+      speed: 6,
+      damage: 36,
+      radius: 4.6,
+      scale: 5,
+      height: 3.6,
+      xp: 110,
+      color: 6983600,
+      tier: 0,
+      weight: 0,
+      minion: "runner",
+    },
+    {
+      id: "boss_loaf",
+      name: "The Burnt Sourdough",
+      hp: 1750,
+      speed: 11,
+      damage: 42,
+      radius: 4.2,
+      scale: 4.6,
+      height: 3.6,
+      xp: 145,
+      color: 3811356,
+      tier: 0,
+      weight: 0,
+      minion: "swarm",
+    },
+  ],
+  Qp = CRUMB_BOSSES[0],
   Qs = (i, e, t) => i + (e - i) * t;
 class em {
   constructor(e, t) {
@@ -24216,11 +24252,14 @@ class em {
       (this.rng = t),
       (this._timer = 0),
       (this._nextBossAt = J.spawn.bossInterval),
+      (this._bossCount = 0),
       (this.diff = { interval: 1, batch: 1, hp: 1, tier: 0 }),
       (this._eligible = []));
   }
   reset() {
-    ((this._timer = 0), (this._nextBossAt = J.spawn.bossInterval));
+    ((this._timer = 0),
+      (this._nextBossAt = J.spawn.bossInterval),
+      (this._bossCount = 0));
   }
   update(e, t, n, s, r) {
     const d = this.diff,
@@ -24253,8 +24292,13 @@ class em {
     }
   }
   _spawnBoss(e, t, n) {
-    const { x: s, y: r } = this._ringPoint(t, n);
-    return this.enemies.spawn(Qp, s, r, Math.max(1, e * 0.6), !0);
+    const { x: s, y: r } = this._ringPoint(t, n),
+      a = CRUMB_BOSSES[this._bossCount % CRUMB_BOSSES.length],
+      o = 1 + Math.floor(this._bossCount / CRUMB_BOSSES.length) * 0.7;
+    return (
+      this._bossCount++,
+      this.enemies.spawn(a, s, r, Math.max(1, e * 0.6) * o, !0)
+    );
   }
   _refreshEligible(e) {
     this._eligible.length = 0;
@@ -24603,6 +24647,75 @@ function sm(i, e) {
   for (; r.length < J.level.choices; ) (r.push(a[o % a.length]), o++);
   return r;
 }
+function rollChestRewards(run, rng, count) {
+  const out = [];
+  for (let k = 0; k < count; k++) {
+    const raw = [];
+    for (const l of run.weapons)
+      l.level < J.level.maxItemLevel &&
+        raw.push({
+          type: "weapon",
+          def: l.def,
+          kind: "Weapon",
+          desc: l.def.levelDesc(l.level + 1),
+          level: l.level + 1,
+          isNew: !1,
+        });
+    for (const l of run.passives)
+      l.level < J.level.maxItemLevel &&
+        raw.push({
+          type: "passive",
+          def: l.def,
+          kind: "Passive",
+          desc: l.def.desc,
+          level: l.level + 1,
+          isNew: !1,
+        });
+    if (run.weapons.length < J.level.maxWeapons)
+      for (const l of ol)
+        run.weaponLevel(l.id) ||
+          raw.push({
+            type: "weapon",
+            def: l,
+            kind: "New Weapon",
+            desc: l.desc,
+            level: 1,
+            isNew: !0,
+          });
+    if (run.passives.length < J.level.maxPassives)
+      for (const l of ll)
+        run.passiveLevel(l.id) ||
+          raw.push({
+            type: "passive",
+            def: l,
+            kind: "New Passive",
+            desc: l.desc,
+            level: 1,
+            isNew: !0,
+          });
+    let card;
+    raw.length
+      ? (card = rarityCard(
+          run,
+          raw[Math.floor(rng.next() * raw.length)],
+          rng,
+          (run.stats.luck || 0) + 3.5,
+        ))
+      : (card = {
+          type: "gold",
+          name: "Coin Pouch",
+          icon: "💰",
+          kind: "Bonus",
+          desc: "+40 gold",
+          rarity: null,
+          apply: (o) => {
+            o.goldRaw += 40;
+          },
+        });
+    (card.apply(run), out.push(card));
+  }
+  return out;
+}
 function rm(i) {
   const e = Math.floor(i / 60),
     t = Math.floor(i % 60);
@@ -24715,6 +24828,7 @@ class am {
             (this.refs.toastLabel.className = "toast-meter-label")),
       s
         ? ((this.refs.bossBar.style.display = "flex"),
+          (this.refs.bossLabel.textContent = (s.name || "BOSS").toUpperCase()),
           (this.refs.bossFill.style.width = `${Math.max(0, (s.hp / s.maxHp) * 100)}%`))
         : (this.refs.bossBar.style.display = "none"));
     const a =
@@ -24978,6 +25092,80 @@ class fm {
     this.el.style.display = "none";
   }
 }
+function makeChestMesh() {
+  const g = new Kn(),
+    base = new ft(
+      new oi(2.4, 1.5, 1.7),
+      new ra({
+        color: 6702626,
+        emissive: 2237448,
+        emissiveIntensity: 0.35,
+        roughness: 0.6,
+      }),
+    );
+  base.position.y = 1;
+  const lid = new ft(
+    new oi(2.5, 0.8, 1.8),
+    new ra({
+      color: 5384218,
+      emissive: 2237448,
+      emissiveIntensity: 0.35,
+      roughness: 0.6,
+    }),
+  );
+  lid.position.y = 1.95;
+  const band = new ft(
+    new oi(0.5, 1.85, 1.85),
+    new ra({
+      color: 16766042,
+      emissive: 16766042,
+      emissiveIntensity: 0.85,
+      roughness: 0.3,
+      metalness: 0.4,
+    }),
+  );
+  return ((band.position.y = 1.25), g.add(base), g.add(lid), g.add(band), g);
+}
+class CrumbPrize {
+  constructor(e) {
+    ((this.el = document.createElement("div")),
+      (this.el.className = "overlay prize-screen"),
+      (this.el.style.display = "none"),
+      (this.el.innerHTML = `
+      <div class="prize-burst">🎁</div>
+      <div class="overlay-title prize-title">TREASURE!</div>
+      <div class="hint">The boss coughed up a haul.</div>
+      <div class="cards prize-cards" data-cards></div>
+      <button class="btn ui-interactive" data-continue>Take the Loot</button>
+    `),
+      e.appendChild(this.el),
+      (this.cardsEl = this.el.querySelector("[data-cards]")),
+      (this.contBtn = this.el.querySelector("[data-continue]")));
+  }
+  show(e, t) {
+    ((this.cardsEl.innerHTML = ""),
+      e.forEach((s, r) => {
+        const a = document.createElement("div");
+        ((a.className = "card prize-card"),
+          (a.style.animationDelay = r * 0.14 + "s"),
+          s.rarityColor &&
+            ((a.style.borderColor = s.rarityColor),
+            (a.style.boxShadow = `0 0 0 1px ${s.rarityColor}, 0 0 26px ${s.rarityColor}66`)),
+          (a.innerHTML = `
+        <div class="icon">${s.icon}</div>
+        ${s.rarityName ? `<span class="kind" style="color:${s.rarityColor};font-weight:700;letter-spacing:1px">${s.rarityName}</span>` : ""}
+        <div class="name">${s.name}</div>
+        <div class="desc">${s.desc}</div>
+      `),
+          this.cardsEl.appendChild(a));
+      }),
+      (this.contBtn.onclick = t),
+      (this.el.style.display = "flex"));
+  }
+  hide() {
+    this.el.style.display = "none";
+  }
+}
 class CrumbSelect {
   constructor(e) {
     ((this.el = document.createElement("div")),
@@ -25064,11 +25252,14 @@ class pm {
       (this.levelUpScreen = new lm(t)),
       (this.mainMenu = new cm(t)),
       (this.selectScreen = new CrumbSelect(t)),
+      (this.prizeScreen = new CrumbPrize(t)),
       (this.gameOverScreen = new um(t)),
       (this.metaScreen = new dm(t)),
       (this.pauseScreen = new fm(t)),
       (this.selChar = CRUMB_CHARS[0]),
       (this.selStage = CRUMB_STAGES[0]),
+      (this._chests = []),
+      (this._bossMinionT = 0),
       (this.state = "menu"),
       (this.runState = null),
       (this.boss = null),
@@ -25087,7 +25278,8 @@ class pm {
         e &&
           ((this.boss = e),
           (this.bossId = e.id),
-          this.hud.toast("⚠ BOSS INCOMING"));
+          (this._bossMinionT = 0),
+          this.hud.toast(`⚠ ${(e.name || "BOSS").toUpperCase()} INCOMING`));
       }),
       (this._onDeath = (e) => {
         ((this.runState.kills += 1),
@@ -25095,6 +25287,7 @@ class pm {
           this.runState.stats.lifesteal > 0 &&
             this.runState.heal(this.runState.stats.lifesteal),
           this.explosions.spawn(e.x, e.y, e.color, (e.scale || 1) * 0.7),
+          e.isBoss && this._dropChest(e.x, e.y),
           this.pickups.spawn(e.x, e.y, e.xp),
           this.events.emit("enemyKilled", e));
       }));
@@ -25112,6 +25305,8 @@ class pm {
       this.metaScreen.hide(),
       this.pauseScreen.hide(),
       this.selectScreen.hide(),
+      this.prizeScreen.hide(),
+      this._clearChests(),
       this.enemies.clear(),
       this.projectiles.clear(),
       this.explosions.clear(),
@@ -25166,6 +25361,8 @@ class pm {
       this.projectiles.clear(),
       this.explosions.clear(),
       this.pickups.clear(),
+      this._clearChests(),
+      this.prizeScreen.hide(),
       this.player.reset(),
       this.weapons.reset(),
       this.spawner.reset(),
@@ -25196,6 +25393,61 @@ class pm {
   _checkReady() {
     Math.hypot(this.input.moveX, this.input.moveY) > 0.2 &&
       (this.state = "playing");
+  }
+  _dropChest(e, t) {
+    const n = makeChestMesh();
+    (n.position.set(e, 0.4, t),
+      this.renderer.scene.add(n),
+      this._chests.push({ x: e, y: t, mesh: n, spin: 0 }),
+      this.hud.toast("✦ A CHEST DROPPED!"));
+  }
+  _clearChests() {
+    for (const e of this._chests) this.renderer.scene.remove(e.mesh);
+    this._chests.length = 0;
+  }
+  _updateChests(e) {
+    const t = this.player,
+      n = 324,
+      s = (t.radius + 2.4) * (t.radius + 2.4);
+    for (let r = this._chests.length - 1; r >= 0; r--) {
+      const a = this._chests[r],
+        o = t.x - a.x,
+        l = t.y - a.y,
+        c = o * o + l * l;
+      if (c <= s) {
+        (this.renderer.scene.remove(a.mesh),
+          this._chests.splice(r, 1),
+          this._openChest());
+        break;
+      }
+      (c <= n &&
+        ((a.x += (o / (Math.sqrt(c) || 1)) * 24 * e),
+        (a.y += (l / (Math.sqrt(c) || 1)) * 24 * e)),
+        (a.spin += e * 1.6),
+        a.mesh.position.set(a.x, 0.4 + Math.sin(a.spin * 1.3) * 0.2, a.y),
+        (a.mesh.rotation.y = a.spin));
+    }
+  }
+  _openChest() {
+    if (this.state !== "playing") return;
+    ((this.state = "prize"), this.input.resetTouch());
+    const e = rollChestRewards(this.runState, this.rng, 4);
+    this.prizeScreen.show(e, () => {
+      (this.prizeScreen.hide(), this._enterReady());
+    });
+  }
+  _bossMinions(e) {
+    if (((this._bossMinionT += e), this._bossMinionT < 4.5)) return;
+    this._bossMinionT = 0;
+    const t = To.find((n) => n.id === this.boss.minion);
+    if (t)
+      for (let n = 0; n < 3; n++)
+        this.enemies.spawn(
+          t,
+          this.boss.x + (this.rng.next() - 0.5) * 10,
+          this.boss.y + (this.rng.next() - 0.5) * 10,
+          1,
+        );
   }
   gameOver() {
     if (this.state !== "playing") return;
@@ -25278,6 +25530,12 @@ class pm {
       this.enemies.compact(this._onDeath, this.player),
       this.spawner.update(e, t, this.player, this.cameraRig, this.events),
       this.pickups.update(e, this.player, t, this.events),
+      this._updateChests(e),
+      this.boss &&
+        this.boss.id === this.bossId &&
+        this.boss.hp > 0 &&
+        this.boss.minion &&
+        this._bossMinions(e),
       this.player.update(e),
       this.enemies.render(),
       this.projectiles.render(),
@@ -25297,5 +25555,5 @@ class pm {
 const mm = document.getElementById("game-canvas"),
   gm = document.getElementById("ui-root"),
   _m = new pm(mm, gm);
-_m.start();
+((window.CRUMB = _m), _m.start());
 //# sourceMappingURL=index-CbpTq9da.js.map
