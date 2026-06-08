@@ -25016,8 +25016,15 @@ class pm {
         (this.runState.pendingLevelUps -= 1),
         this.runState.pendingLevelUps > 0
           ? this.triggerLevelUp()
-          : (this.state = "playing"));
+          : this._enterReady());
     });
+  }
+  _enterReady() {
+    ((this.state = "ready"), this.hud.toast("◆ MOVE TO CONTINUE"));
+  }
+  _checkReady() {
+    Math.hypot(this.input.moveX, this.input.moveY) > 0.2 &&
+      (this.state = "playing");
   }
   gameOver() {
     if (this.state !== "playing") return;
@@ -25051,6 +25058,7 @@ class pm {
       this.input.update(),
       (this.input.wasPressed("Escape") || this.input.wasPressed("KeyP")) &&
         this.togglePause(),
+      this.state === "ready" && this._checkReady(),
       this.state === "playing" && this._updatePlaying(t),
       this.cameraRig.follow(this.player.x, this.player.y, t),
       this.renderer.render(),
