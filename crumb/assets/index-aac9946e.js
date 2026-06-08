@@ -22983,6 +22983,7 @@ function Op() {
     revives: 0,
     lifesteal: 0,
     luck: 0,
+    vacuum: 0,
   };
 }
 const CRUMB_CHARS = [
@@ -23832,6 +23833,12 @@ class Kp {
     }
     this.instances.finalize(t);
   }
+  collectAll(e, t) {
+    const n = this.pool.items,
+      s = this.pool.count;
+    for (let r = 0; r < s; r++) (e.addXp(n[r].value), t.emit("xpCollected", n[r].value));
+    return ((this.pool.clear(), this.instances.finalize(0)), s);
+  }
   clear() {
     (this.pool.clear(), this.instances.finalize(0));
   }
@@ -24501,6 +24508,14 @@ const ll = [
     stat: "moveMul",
     perLevel: 0.11,
     desc: "+11% movement speed.",
+  },
+  {
+    id: "vacuum",
+    name: "Dinner Bell",
+    icon: "🔔",
+    stat: "vacuum",
+    perLevel: 1,
+    desc: "Rings out and sweeps up every crumb on the floor every few seconds — faster with each level.",
   },
 ];
 Object.fromEntries(ll.map((i) => [i.id, i]));
@@ -25260,6 +25275,7 @@ class pm {
       (this.selStage = CRUMB_STAGES[0]),
       (this._chests = []),
       (this._bossMinionT = 0),
+      (this._vacuumT = 0),
       (this.state = "menu"),
       (this.runState = null),
       (this.boss = null),
@@ -25363,6 +25379,7 @@ class pm {
       this.pickups.clear(),
       this._clearChests(),
       this.prizeScreen.hide(),
+      (this._vacuumT = 0),
       this.player.reset(),
       this.weapons.reset(),
       this.spawner.reset(),
@@ -25530,6 +25547,17 @@ class pm {
       this.enemies.compact(this._onDeath, this.player),
       this.spawner.update(e, t, this.player, this.cameraRig, this.events),
       this.pickups.update(e, this.player, t, this.events),
+      t.stats.vacuum > 0 &&
+        ((this._vacuumT += e),
+        this._vacuumT >= Math.max(2.5, 9 - t.stats.vacuum * 0.8) &&
+          ((this._vacuumT = 0),
+          this.pickups.collectAll(t, this.events) > 0 &&
+            this.explosions.spawn(
+              this.player.x,
+              this.player.y,
+              J.pickups.gemColor,
+              2.4,
+            ))),
       this._updateChests(e),
       this.boss &&
         this.boss.id === this.bossId &&
