@@ -76,9 +76,9 @@ const J = {
     gemRadius: 0.75,
   },
   spawn: {
-    baseInterval: 1.1,
-    baseBatch: 3,
-    rampSeconds: 600,
+    baseInterval: 1.2,
+    baseBatch: 2,
+    rampSeconds: 660,
     endIntervalMul: 0.32,
     endBatchMul: 5,
     endHpMul: 14,
@@ -22371,7 +22371,7 @@ class Ap {
   }
   _zoom() {
     const e = this.camera.aspect || 1;
-    return Math.min(1.9, Math.max(1, 0.92 / e));
+    return Math.min(1.35, Math.max(0.92, 0.78 / e));
   }
   viewHalfExtents() {
     const e = J.camera.height * this._zoom(),
@@ -24056,13 +24056,13 @@ const To = [
     {
       id: "runner",
       name: "Roach",
-      hp: 10,
-      speed: 22,
-      damage: 6,
-      radius: 0.9,
-      scale: 0.9,
-      height: 0.9,
-      xp: 2,
+      hp: 24,
+      speed: 12,
+      damage: 7,
+      radius: 1.4,
+      scale: 1.45,
+      height: 1.35,
+      xp: 3,
       color: 7226400,
       tier: 45,
       weight: 7,
@@ -24085,7 +24085,7 @@ const To = [
       id: "shade",
       name: "Mould Spore",
       hp: 22,
-      speed: 17,
+      speed: 14,
       damage: 9,
       radius: 1.1,
       scale: 1.15,
