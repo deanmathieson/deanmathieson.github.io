@@ -23513,6 +23513,7 @@ function Vp() {
     dotCooldown: 0,
     contactCooldown: 0,
     isBoss: !1,
+    typeId: "swarm",
   };
 }
 function buildEyesGeo() {
@@ -23542,23 +23543,117 @@ function buildEyesGeo() {
     geo
   );
 }
+function mergeParts(parts) {
+  const wantCol = parts.some((p) => p.c),
+    pos = [],
+    nor = [],
+    col = [];
+  for (const p of parts) {
+    let g = p.geo;
+    (g.index && (g = g.toNonIndexed()),
+      p.s && g.scale(p.s[0], p.s[1], p.s[2]),
+      p.rz && g.rotateZ(p.rz),
+      p.t && g.translate(p.t[0], p.t[1], p.t[2]));
+    const pa = g.attributes.position.array,
+      na = g.attributes.normal.array;
+    for (let i = 0; i < pa.length; i++) (pos.push(pa[i]), nor.push(na[i]));
+    if (wantCol) {
+      const c = p.c || [1, 1, 1];
+      for (let i = 0; i < pa.length / 3; i++) col.push(c[0], c[1], c[2]);
+    }
+  }
+  const geo = new Lt();
+  return (
+    geo.setAttribute("position", new rt(new Float32Array(pos), 3)),
+    geo.setAttribute("normal", new rt(new Float32Array(nor), 3)),
+    wantCol && geo.setAttribute("color", new rt(new Float32Array(col), 3)),
+    geo
+  );
+}
+function geoAnt() {
+  return mergeParts([
+    { geo: new ms(0.3, 0), t: [0, 0, 0.55] },
+    { geo: new ms(0.36, 0), t: [0, 0, 0.05] },
+    { geo: new ms(0.52, 0), s: [1, 1, 1.2], t: [0, 0, -0.6] },
+  ]);
+}
+function geoRoach() {
+  return mergeParts([
+    { geo: new ms(0.6, 0), s: [1.25, 0.55, 1], t: [0, 0, 0] },
+    { geo: new ms(0.28, 0), t: [0, 0.05, 0.65] },
+  ]);
+}
+function geoRat() {
+  return mergeParts([
+    { geo: new ms(0.7, 0), s: [1, 0.9, 1.3], t: [0, 0, -0.1] },
+    { geo: new ms(0.3, 0), s: [0.8, 0.7, 1], t: [0, -0.05, 0.8] },
+    { geo: new ms(0.22, 0), t: [-0.35, 0.55, 0.1] },
+    { geo: new ms(0.22, 0), t: [0.35, 0.55, 0.1] },
+  ]);
+}
+function geoSpore() {
+  return mergeParts([
+    { geo: new ms(0.55, 1), s: [1, 0.8, 1], t: [0, 0.1, 0] },
+    { geo: new ms(0.2, 0), t: [0.3, 0.35, 0.25] },
+    { geo: new ms(0.2, 0), t: [-0.3, 0.35, 0.25] },
+    { geo: new ms(0.2, 0), t: [0.3, 0.35, -0.25] },
+    { geo: new ms(0.2, 0), t: [-0.3, 0.35, -0.25] },
+    { geo: new ms(0.2, 0), t: [0, 0.5, 0] },
+  ]);
+}
+function geoBlob() {
+  return mergeParts([
+    { geo: new ms(0.9, 1), t: [0, 0, 0] },
+    { geo: new ms(0.7, 0), s: [1.3, 0.4, 1.3], t: [0, -0.45, 0] },
+    { geo: new ms(0.25, 0), t: [0.4, -0.2, 0.3] },
+  ]);
+}
+function buildEyesFor(type) {
+  const E =
+    {
+      swarm: { r: 0.18, sep: 0.22, h: 0.18, fz: 0.72 },
+      runner: { r: 0.16, sep: 0.16, h: 0.12, fz: 0.7 },
+      brute: { r: 0.2, sep: 0.28, h: 0.4, fz: 0.45 },
+      shade: { r: 0.18, sep: 0.26, h: 0.6, fz: 0.3 },
+      tank: { r: 0.34, sep: 0.36, h: 0.5, fz: 0.4 },
+    }[type] || { r: 0.3, sep: 0.3, h: 0.4, fz: 0.3 };
+  return mergeParts([
+    { geo: new ms(E.r, 1), t: [-E.sep, E.h, E.fz], c: [1, 1, 1] },
+    { geo: new ms(E.r, 1), t: [E.sep, E.h, E.fz], c: [1, 1, 1] },
+    { geo: new ms(E.r * 0.6, 1), t: [-E.sep, E.h + 0.02, E.fz + 0.16], c: [0.04, 0.04, 0.07] },
+    { geo: new ms(E.r * 0.6, 1), t: [E.sep, E.h + 0.02, E.fz + 0.16], c: [0.04, 0.04, 0.07] },
+  ]);
+}
 class Wp {
   constructor(e) {
     ((this.pool = new aa(J.enemies.maxAlive, Vp)),
       (this.grid = new Hp(8)),
       (this._nextId = 1),
-      (this._neighbors = []));
-    const t = new ms(1, 0),
-      n = new sl({ flatShading: !0 });
-    ((this.instances = new oa(t, n, J.enemies.maxAlive)),
-      e.add(this.instances.mesh),
-      (this.eyes = new oa(
-        buildEyesGeo(),
-        new yi({ vertexColors: !0, fog: !0 }),
-        J.enemies.maxAlive,
-        !1,
-      )),
-      e.add(this.eyes.mesh));
+      (this._neighbors = []),
+      (this._order = ["swarm", "runner", "brute", "shade", "tank"]),
+      (this.layers = {}),
+      (this._counts = {}));
+    const geos = {
+      swarm: geoAnt(),
+      runner: geoRoach(),
+      brute: geoRat(),
+      shade: geoSpore(),
+      tank: geoBlob(),
+    };
+    for (const k of this._order) {
+      const body = new oa(
+          geos[k],
+          new sl({ flatShading: !0 }),
+          J.enemies.maxAlive,
+        ),
+        eyes = new oa(
+          buildEyesFor(k),
+          new yi({ vertexColors: !0, fog: !0 }),
+          J.enemies.maxAlive,
+          !1,
+        );
+      (e.add(body.mesh), e.add(eyes.mesh), (this.layers[k] = { body, eyes }));
+    }
   }
   get count() {
     return this.pool.count;
@@ -23582,6 +23677,7 @@ class Wp {
         (a.height = e.height),
         (a.name = e.name || ""),
         (a.minion = e.minion || null),
+        (a.typeId = e.minion || e.id),
         (a.flash = 0),
         (a.dotCooldown = 0),
         (a.contactCooldown = 0),
@@ -23625,18 +23721,27 @@ class Wp {
   }
   render() {
     const e = this.pool.items,
-      t = this.pool.count;
+      t = this.pool.count,
+      o = this._order;
+    for (const k of o) this._counts[k] = 0;
     for (let n = 0; n < t; n++) {
       const s = e[n],
+        key = this.layers[s.typeId] ? s.typeId : "swarm",
+        layer = this.layers[key],
+        i = this._counts[key]++,
         r = Math.atan2(s.vx, s.vy);
-      (this.instances.write(n, s.x, s.height, s.y, s.scale, r),
-        this.instances.setColor(n, s.flash > 0 ? 16777215 : s.color),
-        this.eyes.write(n, s.x, s.height, s.y, s.scale, r));
+      (layer.body.write(i, s.x, s.height, s.y, s.scale, r),
+        layer.body.setColor(i, s.flash > 0 ? 16777215 : s.color),
+        layer.eyes.write(i, s.x, s.height, s.y, s.scale, r));
     }
-    (this.instances.finalize(t), this.eyes.finalize(t));
+    for (const k of o)
+      (this.layers[k].body.finalize(this._counts[k]),
+        this.layers[k].eyes.finalize(this._counts[k]));
   }
   clear() {
-    (this.pool.clear(), this.instances.finalize(0), this.eyes.finalize(0));
+    this.pool.clear();
+    for (const k of this._order)
+      (this.layers[k].body.finalize(0), this.layers[k].eyes.finalize(0));
   }
 }
 const yo = 100;
