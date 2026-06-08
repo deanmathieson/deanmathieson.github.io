@@ -22978,12 +22978,93 @@ const ol = [
       }),
       levelDesc: () => "+radius, +burn",
     },
+    turret_flame: {
+      id: "turret_flame",
+      name: "Flamethrower Sentry",
+      icon: "🔥",
+      pattern: "turret",
+      color: 16742970,
+      fireMode: "flame",
+      fireCount: 9,
+      desc: "Sentries belch a ring of scorching flame at point-blank.",
+      stats: (i) => ({
+        cooldown: Math.max(0.22, 0.45 - (i - 1) * 0.03),
+        damage: 9 + (i - 1) * 5,
+        count: 2 + Math.floor(i / 2),
+        pierce: 99,
+        speed: 30,
+        area: 1.3 + (i - 1) * 0.07,
+      }),
+      levelDesc: () => "+sentries, +burn",
+    },
+    turret_mortar: {
+      id: "turret_mortar",
+      name: "Mortar Sentry",
+      icon: "💥",
+      pattern: "turret",
+      color: 16747066,
+      fireMode: "nova",
+      fireCount: 10,
+      desc: "Sentries lob scattering bursts in every direction.",
+      stats: (i) => ({
+        cooldown: Math.max(0.5, 1 - (i - 1) * 0.05),
+        damage: 11 + (i - 1) * 6,
+        count: 2 + Math.floor(i / 2),
+        pierce: 2,
+        speed: 40,
+        area: 1.1 + (i - 1) * 0.05,
+      }),
+      levelDesc: () => "+sentries, +damage",
+    },
+    turret_tesla: {
+      id: "turret_tesla",
+      name: "Tesla Sentry",
+      icon: "⚡",
+      pattern: "turret",
+      color: 10148095,
+      fireMode: "spread",
+      fireCount: 5,
+      fireHoming: !0,
+      desc: "Sentries fire seeking arcs of static into the swarm.",
+      stats: (i) => ({
+        cooldown: Math.max(0.3, 0.7 - (i - 1) * 0.04),
+        damage: 10 + (i - 1) * 5,
+        count: 2 + Math.floor(i / 2),
+        pierce: 2,
+        speed: 55,
+        area: 1 + (i - 1) * 0.05,
+      }),
+      levelDesc: () => "+sentries, +arcs",
+    },
+    turret_cleaver: {
+      id: "turret_cleaver",
+      name: "Cleaver Sentry",
+      icon: "⚔",
+      pattern: "turret",
+      color: 15660280,
+      fireMode: "spread",
+      fireCount: 3,
+      desc: "Sentries hurl piercing cleavers that carve through ranks.",
+      stats: (i) => ({
+        cooldown: Math.max(0.28, 0.6 - (i - 1) * 0.04),
+        damage: 16 + (i - 1) * 8,
+        count: 2 + Math.floor(i / 2),
+        pierce: 5,
+        speed: 72,
+        area: 1.1 + (i - 1) * 0.05,
+      }),
+      levelDesc: () => "+sentries, +pierce",
+    },
   },
   Np = [
     { a: "bolt", b: "homing", into: "bolt_storm" },
     { a: "orbit", b: "aura", into: "aegis" },
     { a: "chain", b: "nova", into: "tempest" },
     { a: "aura", b: "mine", into: "inferno" },
+    { a: "turret", b: "aura", into: "turret_flame" },
+    { a: "turret", b: "nova", into: "turret_mortar" },
+    { a: "turret", b: "chain", into: "turret_tesla" },
+    { a: "turret", b: "bolt", into: "turret_cleaver" },
   ],
   Fp = Object.fromEntries(ol.map((i) => [i.id, i]));
 function Op() {
@@ -23938,13 +24019,21 @@ class jp {
           this._tickCooldown(o, l, e, () => this._fireHoming(o, l, n, s, r));
           break;
         case "turret":
-          this._updateTurrets(o, l, e, n, s, r);
+          this._updateTurrets(o, l, e, n, s, r, t);
           break;
       }
     }
+    if (this._turrets.length) {
+      let ids = null;
+      for (const w of t.weapons)
+        w.def.pattern === "turret" && (ids || (ids = new Set())).add(w.def.id);
+      for (let i = this._turrets.length - 1; i >= 0; i--)
+        (!ids || !ids.has(this._turrets[i].weaponId)) &&
+          (this.scene.remove(this._turrets[i].mesh), this._turrets.splice(i, 1));
+    }
     this.auraMesh.visible = a;
   }
-  _updateTurrets(weapon, stats, dt, player, enemies, projectiles) {
+  _updateTurrets(weapon, stats, dt, player, enemies, projectiles, runState) {
     const id = weapon.def.id,
       owned = this._turrets.filter((t) => t.weaponId === id);
     if (owned.length < stats.count) {
@@ -23962,45 +24051,145 @@ class jp {
           x: tx,
           y: ty,
           fireT: Math.random() * 0.4,
+          mirrorT: 1 + Math.random(),
           mesh: m,
         };
         (this._turrets.push(tr), owned.push(tr));
       }
     }
-    const range2 = 2500,
-      en = enemies.pool.items,
-      ec = enemies.pool.count;
+    const mode = weapon.def.fireMode || "spread",
+      fc = weapon.def.fireMode ? weapon.def.fireCount || 3 : 1,
+      homing = !!weapon.def.fireHoming,
+      canMirror = runState.weapons.some((w) => w.def.pattern !== "turret");
     for (const tr of owned) {
-      if (((tr.fireT -= dt), tr.fireT > 0)) continue;
-      let best = null,
-        bd = range2;
-      for (let k = 0; k < ec; k++) {
-        const e = en[k];
-        if (e.hp <= 0) continue;
-        const dx = e.x - tr.x,
-          dy = e.y - tr.y,
-          d2 = dx * dx + dy * dy;
-        d2 < bd && ((bd = d2), (best = e));
-      }
-      if (!best) continue;
-      tr.fireT = stats.cooldown;
-      const ang = Math.atan2(best.y - tr.y, best.x - tr.x);
-      ((tr.mesh.rotation.y = Math.atan2(best.x - tr.x, best.y - tr.y)),
-        projectiles.spawn(
-          tr.x,
-          tr.y,
-          Math.cos(ang) * stats.speed,
-          Math.sin(ang) * stats.speed,
-          {
-            damage: stats.damage,
-            radius: 0.42 * stats.area,
-            color: weapon.def.color,
-            pierce: stats.pierce,
-            life: 2.4,
-            weaponId: id,
-          },
-        ));
+      if (((tr.fireT -= dt), tr.fireT <= 0))
+        ((tr.fireT = stats.cooldown),
+          this._turretShoot(
+            tr,
+            {
+              mode: mode,
+              count: fc,
+              homing: homing,
+              damage: stats.damage,
+              pierce: stats.pierce,
+              speed: stats.speed,
+              area: stats.area,
+              color: weapon.def.color,
+              life: 2.4,
+            },
+            enemies,
+            projectiles,
+          ));
+      canMirror &&
+        ((tr.mirrorT -= dt),
+        tr.mirrorT <= 0 &&
+          ((tr.mirrorT = 1.9),
+          this._turretMirror(tr, runState, enemies, projectiles)));
     }
+  }
+  _turretShoot(tr, p, enemies, projectiles) {
+    if (p.mode === "nova") {
+      for (let c = 0; c < p.count; c++) {
+        const a = (c / p.count) * Math.PI * 2;
+        projectiles.spawn(tr.x, tr.y, Math.cos(a) * p.speed, Math.sin(a) * p.speed, {
+          damage: p.damage,
+          radius: 0.45 * p.area,
+          color: p.color,
+          pierce: p.pierce,
+          life: p.life,
+          weaponId: "turret",
+        });
+      }
+      return;
+    }
+    if (p.mode === "flame") {
+      for (let c = 0; c < p.count; c++) {
+        const a = (c / p.count) * Math.PI * 2 + Math.random() * 0.3;
+        projectiles.spawn(
+          tr.x + Math.cos(a) * 1.5,
+          tr.y + Math.sin(a) * 1.5,
+          Math.cos(a) * 16,
+          Math.sin(a) * 16,
+          {
+            damage: p.damage,
+            radius: 1.1 * p.area,
+            color: p.color,
+            pierce: 99,
+            life: 0.45,
+            weaponId: "turret",
+          },
+        );
+      }
+      return;
+    }
+    const en = enemies.pool.items,
+      ec = enemies.pool.count;
+    let best = null,
+      bd = 2500;
+    for (let k = 0; k < ec; k++) {
+      const e = en[k];
+      if (e.hp <= 0) continue;
+      const dx = e.x - tr.x,
+        dy = e.y - tr.y,
+        d2 = dx * dx + dy * dy;
+      d2 < bd && ((bd = d2), (best = e));
+    }
+    if (!best) return;
+    const baseAng = Math.atan2(best.y - tr.y, best.x - tr.x);
+    tr.mesh.rotation.y = Math.atan2(best.x - tr.x, best.y - tr.y);
+    const n = Math.max(1, p.count);
+    for (let c = 0; c < n; c++) {
+      const a = baseAng + (c - (n - 1) / 2) * 0.18;
+      projectiles.spawn(tr.x, tr.y, Math.cos(a) * p.speed, Math.sin(a) * p.speed, {
+        damage: p.damage,
+        radius: 0.42 * p.area,
+        color: p.color,
+        pierce: p.pierce,
+        life: p.life,
+        weaponId: "turret",
+        homing: !!p.homing,
+        turnRate: p.homing ? 6 : 0,
+      });
+    }
+  }
+  _turretMirror(tr, runState, enemies, projectiles) {
+    const ws = runState.weapons.filter((w) => w.def.pattern !== "turret");
+    if (!ws.length) return;
+    const w = ws[Math.floor(Math.random() * ws.length)],
+      st = $p(w.def, w.level, runState.stats),
+      pat = w.def.pattern;
+    if (pat === "mine") {
+      projectiles.spawn(tr.x, tr.y, 0, 0, {
+        damage: st.damage * 0.6,
+        radius: 1.2 * st.area,
+        color: w.def.color,
+        pierce: 6,
+        life: 3,
+        weaponId: "turret",
+      });
+      return;
+    }
+    this._turretShoot(
+      tr,
+      {
+        mode: pat === "nova" ? "nova" : pat === "aura" ? "flame" : "spread",
+        count:
+          pat === "nova"
+            ? Math.min(10, st.count)
+            : pat === "aura"
+              ? 6
+              : Math.min(4, Math.max(1, st.count || 1)),
+        homing: pat === "homing",
+        damage: st.damage * 0.6,
+        pierce: st.pierce || 1,
+        speed: Math.max(40, st.speed || 0),
+        area: st.area,
+        color: w.def.color,
+        life: 2.2,
+      },
+      enemies,
+      projectiles,
+    );
   }
   clearTurrets() {
     for (const t of this._turrets) this.scene.remove(t.mesh);
@@ -25844,5 +26033,8 @@ class pm {
 const mm = document.getElementById("game-canvas"),
   gm = document.getElementById("ui-root"),
   _m = new pm(mm, gm);
-((window.CRUMB = _m), (window.CRUMB_WEAPONS = Fp), _m.start());
+((window.CRUMB = _m),
+  (window.CRUMB_WEAPONS = Fp),
+  (window.CRUMB_EVOS = Up),
+  _m.start());
 //# sourceMappingURL=index-CbpTq9da.js.map
