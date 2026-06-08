@@ -14,13 +14,20 @@ minified-symbol map, the debug globals (`window.CRUMB`, `CRUMB_WEAPONS`,
 `CRUMB_EVOS`), and the Three.js helper aliases. Do not duplicate that here; follow it.
 
 ## Golden rules
-1. Copy the deployed JS to `/tmp/crumb.pretty.js`, edit there, `node --check`,
-   re-deploy under a NEW md5 hash, update `index.html`.
+1. The bundle lives at the STABLE path `crumb/assets/game.js` (no hashing).
+   `git pull --rebase origin master` first, copy `game.js` → `/tmp/crumb.pretty.js`,
+   make **surgical** edits (never reformat the whole file), `node --check`, copy
+   back over `game.js`. `index.html` only changes if you add/remove a tag.
 2. **Always verify with headless Playwright before pushing** — a single syntax
    slip blanks the whole game. Drive the run via `window.CRUMB`.
 3. Push to **`master`** (Pages deploys it); keep the feature branch in sync.
+   `git pull --rebase` again right before pushing.
 4. Gameplay numbers live in config `J`; content lives in the data arrays
    (`ol/Up/Np`, `ll`, `al`, `To/CRUMB_BOSSES`, `CRUMB_CHARS`, `CRUMB_STAGES`).
+5. **Concurrency:** other Claude instances edit this same repo. Before starting,
+   skim/append `crumb/WORKLOG.md` to claim the feature/region you'll touch, and
+   keep edits localized so git can 3-way-merge non-overlapping changes. See
+   CLAUDE.md → "Concurrency" for the full protocol.
 
 ## Adding content — quick recipes
 - **New weapon**: append to `ol` (pick a `pattern`); optionally add an evolution

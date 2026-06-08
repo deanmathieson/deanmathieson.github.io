@@ -17,32 +17,55 @@ House Games). Move, dodge, auto-firing weapons, level-up cards, heat zones,
 bosses, chests, rarities, turrets, auto-play.
 
 ### IMPORTANT: there is no source tree
-CRUMB ships **only as a built bundle**: `crumb/assets/index-<hash>.js` (+
-`index-<hash>.css`), referenced by hash from `crumb/index.html`. There is **no
-src/, no package.json, no sourcemap**. The shipped JS is already **beautified**
-(prettier), so it is directly editable/readable.
+CRUMB ships **only as a built bundle** at the **stable path**
+`crumb/assets/game.js` (+ `game.css`), referenced (un-hashed) by
+`crumb/index.html`. There is **no src/, no package.json, no sourcemap**. The
+shipped JS is already **beautified** (prettier), so it is directly
+editable/readable. Filenames are stable (NOT content-hashed) on purpose — see
+the concurrency section.
 
 ### Dev workflow (follow exactly)
-1. `cp crumb/assets/index-*.js /tmp/crumb.pretty.js` (it's already beautified).
-2. Edit `/tmp/crumb.pretty.js`. Three.js bundle is lines ~1–22000; **CRUMB game
-   code is ~line 22000 → end**. Use the symbol map below.
+1. **Sync first**: `git fetch origin master && git checkout master && git pull --rebase origin master`.
+   Then `cp crumb/assets/game.js /tmp/crumb.pretty.js` (it's already beautified).
+2. Edit `/tmp/crumb.pretty.js` with **targeted, localized changes**. Three.js is
+   lines ~1–22000; **CRUMB game code is ~line 22000 → end**. Use the symbol map
+   below. Do NOT reformat / re-beautify the whole file — it wrecks 3-way merges.
 3. `node --check /tmp/crumb.pretty.js` (must pass).
-4. Deploy with a fresh cache-busting hash:
+4. Deploy by overwriting the stable file in place (no rename, no hash):
    ```
-   cd crumb/assets; OLD=$(ls index-*.js); NEW=$(md5sum /tmp/crumb.pretty.js | cut -c1-8)
-   cp /tmp/crumb.pretty.js "index-$NEW.js"; rm -f "$OLD"
-   cd ../..; sed -i "s#assets/index-[a-f0-9]*\.js#assets/index-$NEW.js#" crumb/index.html
+   cp /tmp/crumb.pretty.js crumb/assets/game.js
    ```
-   (Same pattern for the CSS file when it changes.)
-5. **Verify in a real headless browser before pushing** (this is a minified
-   bundle — one typo blanks the game). Playwright + chromedriver are installed
-   globally:
+   (Edit `crumb/assets/game.css` directly when CSS changes. `index.html` only
+   changes if you add/remove a script/style tag.)
+5. **Verify in a real headless browser before pushing** (one typo blanks the
+   game). Playwright + chromedriver are installed globally:
    - Serve: `http-server . -p 8099 -c-1` (run in background).
    - Import: `import pkg from '/opt/node22/lib/node_modules/playwright/index.js'; const {chromium}=pkg;`
      launch with `--use-gl=angle --use-angle=swiftshader --ignore-gpu-blocklist`.
    - Navigate `http://127.0.0.1:8099/crumb/index.html`; capture `pageerror` +
      console `error`. Drive/inspect via the debug globals below.
-6. Commit, push `master`, sync the feature branch.
+6. **Re-sync, then push**: `git add -A && git commit`, then
+   `git pull --rebase origin master` (3-way auto-merges others' non-overlapping
+   edits to `game.js`; resolve any real overlap by re-applying your change),
+   re-verify if it merged, then `git push origin master`. Sync the feature branch.
+7. Cache: stable filenames mean returning players may need a **hard refresh**
+   (Ctrl/Cmd+Shift+R) or fresh incognito to see changes — GitHub Pages/browser
+   cache `game.js` (~10 min). This is expected; tell the user.
+
+### ⚠ Concurrency — multiple Claude instances edit this repo at once
+`game.js` is one big file but it's beautified (line-based), so git **can**
+3-way-merge concurrent edits **as long as they touch different regions** and
+the filename stays stable (hence no hashing). To keep merges clean:
+- **Always `git pull --rebase origin master` before editing AND before pushing.**
+- Make **surgical edits** to the existing beautified file; never reformat
+  unrelated lines or change whitespace globally.
+- **Claim your area** in `crumb/WORKLOG.md` (append a line: instance, the
+  feature/region you're touching, timestamp) and skim it before starting so two
+  instances don't edit the same function.
+- If a pull conflicts inside `game.js`, the other instance changed an
+  overlapping region — re-derive `/tmp/crumb.pretty.js` from the freshly pulled
+  `game.js` and re-apply your edit on top, then re-verify.
+- Push small and often to shrink the collision window.
 
 ### Debug globals (set at bundle entry)
 - `window.CRUMB` — the app instance (`pm`). e.g. `CRUMB.state`, `CRUMB.runState`,
