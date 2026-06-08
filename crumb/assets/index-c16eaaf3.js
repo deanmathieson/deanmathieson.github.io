@@ -23273,6 +23273,76 @@ class Bp {
     return this.goldRaw * this.stats.goldMul;
   }
 }
+const CHAR_BODY = {
+  roll: {
+    pale: 0xe8a86a,
+    gold: 0xe89a4a,
+    emiss: 0x6b3a18,
+    ring: 0xf0a24a,
+    bodyY: 1.45,
+    body: () => {
+      const g = new ms(1.5, 1);
+      return (g.scale(1.25, 1, 1), g);
+    },
+    accents: [
+      { geo: () => new sa(1.95, 2.35, 6), color: 0xffc24a, additive: !0, basic: !0, opacity: 0.85, side: Pt, pos: [0, 1.45, 0], rotX: -Math.PI / 2 },
+      { geo: () => new oi(2.4, 0.5, 1.7), color: 0x9c5a2c, emiss: 0.15, pos: [0, 2.3, 0], rotZ: 0.08 },
+    ],
+    face: { eyeR: 0.34, eyeSep: 0.6, eyeY: 0.5, fz: 1.4, pupR: 0.18, mouth: "smile", mouthY: -0.25 },
+  },
+  baguette: {
+    pale: 0xe8a86a,
+    gold: 0xe89a4a,
+    emiss: 0x5a3614,
+    ring: 0xe0b45a,
+    bodyY: 1.7,
+    bodyRotZ: 0.06,
+    body: () => new oi(1.5, 3.1, 0.9),
+    accents: [
+      { geo: () => new oi(0.9, 0.14, 0.06), color: 0xb06a30, pos: [0, 2.35, 0.47], rotZ: -0.5 },
+      { geo: () => new oi(0.9, 0.14, 0.06), color: 0xb06a30, pos: [0, 1.7, 0.47], rotZ: -0.5 },
+      { geo: () => new oi(0.9, 0.14, 0.06), color: 0xb06a30, pos: [0, 1.05, 0.47], rotZ: -0.5 },
+      { geo: () => { const g = new ms(0.55, 1); return (g.scale(1, 0.8, 1), g); }, color: 0xd9923e, pos: [0, 3.25, 0] },
+      { geo: () => { const g = new ms(0.55, 1); return (g.scale(1, 0.8, 1), g); }, color: 0xd9923e, pos: [0, 0.2, 0] },
+    ],
+    face: { eyeR: 0.3, eyeSep: 0.42, eyeY: 0.95, fz: 0.48, pupR: 0.16, mouth: "smile", mouthY: 0.35 },
+  },
+  kernel: {
+    pale: 0xfff0c2,
+    gold: 0xf0d090,
+    emiss: 0x7a5a10,
+    ring: 0xffd24a,
+    bodyY: 1.5,
+    body: () => {
+      const g = new ia(0.95, 1);
+      return (g.scale(1.1, 1, 1.1), g);
+    },
+    accents: [
+      { geo: () => new ia(0.55, 0), color: 0xfffbea, pos: [0.7, 2.1, 0] },
+      { geo: () => new ia(0.55, 0), color: 0xfffbea, pos: [-0.7, 2.1, 0] },
+      { geo: () => new ia(0.5, 0), color: 0xfffbea, pos: [0, 2.45, -0.3] },
+      { geo: () => new oi(0.55, 0.55, 0.55), color: 0x8a4a22, pos: [0, 0.8, 0] },
+    ],
+    face: { eyeR: 0.3, eyeSep: 0.4, eyeY: 0.1, fz: 0.95, pupR: 0.16, mouth: "o", mouthY: -0.45 },
+  },
+  cracker: {
+    pale: 0xeedca0,
+    gold: 0xd8b870,
+    emiss: 0x7a2a10,
+    ring: 0xff6b2e,
+    bodyY: 1.5,
+    body: () => new oi(2.6, 2.6, 0.35),
+    accents: [
+      { geo: () => new ms(0.4, 0), color: 0xff5a2a, additive: !0, basic: !0, pos: [1.3, 2.7, 0] },
+      { geo: () => new ms(0.4, 0), color: 0xff5a2a, additive: !0, basic: !0, pos: [-1.3, 2.7, 0] },
+      { geo: () => new ms(0.4, 0), color: 0xff5a2a, additive: !0, basic: !0, pos: [1.3, 0.3, 0] },
+      { geo: () => new ms(0.4, 0), color: 0xff5a2a, additive: !0, basic: !0, pos: [-1.3, 0.3, 0] },
+      { geo: () => new oi(0.09, 1.6, 0.4), color: 0x3a2a1a, pos: [0.1, 1.6, 0.2], rotZ: 0.4 },
+      { geo: () => new oi(0.09, 1.4, 0.4), color: 0x3a2a1a, pos: [-0.15, 1.4, 0.2], rotZ: -0.9 },
+    ],
+    face: { eyeR: 0.3, eyeSep: 0.55, eyeY: 0.45, fz: 0.3, pupR: 0.15, mouth: "fang", mouthY: -0.45 },
+  },
+};
 class zp {
   constructor(e) {
     ((this.x = 0),
@@ -23280,31 +23350,20 @@ class zp {
       (this.radius = J.player.radius),
       (this.aimX = 0),
       (this.aimY = -1),
-      (this.invuln = 0));
-    const t = new Kn(),
-      n = new ft(
-        new oi(2.4, 2.6, 0.7),
-        new ra({
-          color: J.player.color,
-          emissive: 3810320,
-          emissiveIntensity: 0.3,
-          roughness: 0.85,
-        }),
-      );
-    ((n.position.y = 1.5), t.add(n), (this.body = n));
-    const mkFace = (r, d, col) => new ft(new ms(r, d), new yi({ color: col })),
-      eyeL = mkFace(0.34, 1, 16777215),
-      eyeR = mkFace(0.34, 1, 16777215),
-      pupL = mkFace(0.17, 0, 1052688),
-      pupR = mkFace(0.17, 0, 1052688),
-      smile = mkFace(0.46, 1, 1052688);
-    (eyeL.position.set(-0.55, 0.45, 0.34),
-      eyeR.position.set(0.55, 0.45, 0.34),
-      pupL.position.set(-0.55, 0.42, 0.52),
-      pupR.position.set(0.55, 0.42, 0.52),
-      smile.scale.set(1.05, 0.32, 0.4),
-      smile.position.set(0, -0.5, 0.4),
-      n.add(eyeL, eyeR, pupL, pupR, smile));
+      (this.invuln = 0),
+      (this._t = 0),
+      (this._squash = 0),
+      (this._charId = null),
+      (this._accents = []),
+      (this._face = null),
+      (this.body = null),
+      (this._emissBase = 3810320),
+      (this._cPale = new Ae(15916198)),
+      (this._cGold = new Ae(15242570)),
+      (this._cBurnt = new Ae(4860438)),
+      (this._cTmp = new Ae()));
+    const t = new Kn();
+    this.mesh = t;
     const s = new ft(
       new sa(1.6, 2.1, 32),
       new yi({
@@ -23315,15 +23374,79 @@ class zp {
         depthWrite: !1,
       }),
     );
-    ((s.rotation.x = -Math.PI / 2),
-      (s.position.y = 0.06),
-      t.add(s),
-      (this.mesh = t),
-      (this._cPale = new Ae(15916198)),
-      (this._cGold = new Ae(15242570)),
-      (this._cBurnt = new Ae(4860438)),
-      (this._cTmp = new Ae()),
-      e.add(t));
+    ((s.rotation.x = -Math.PI / 2), (s.position.y = 0.06), t.add(s), (this.ring = s));
+    ((this.charGroup = new Kn()), t.add(this.charGroup), e.add(t));
+    this._buildBody(CRUMB_CHARS[0]);
+  }
+  _buildBody(char) {
+    if (this.body) {
+      (this.charGroup.remove(this.body),
+        this.body.geometry.dispose(),
+        this.body.material.dispose());
+      for (const m of this._accents)
+        (this.charGroup.remove(m), m.geometry.dispose(), m.material.dispose());
+      this._accents = [];
+    }
+    const spec = CHAR_BODY[char.id] || CHAR_BODY.baguette;
+    ((this._charId = char.id),
+      this._cPale.setHex(spec.pale),
+      this._cGold.setHex(spec.gold),
+      (this._emissBase = spec.emiss));
+    const body = new ft(
+      spec.body(),
+      new ra({ color: spec.pale, emissive: spec.emiss, emissiveIntensity: 0.3, roughness: 0.85 }),
+    );
+    ((body.position.y = spec.bodyY),
+      spec.bodyRotZ && (body.rotation.z = spec.bodyRotZ),
+      this.charGroup.add(body),
+      (this.body = body));
+    for (const a of spec.accents) {
+      let mat;
+      if (a.basic) {
+        const o = {
+          color: a.color,
+          transparent: !!(a.additive || a.opacity != null),
+          opacity: a.opacity ?? 1,
+          depthWrite: !(a.additive || a.opacity != null),
+        };
+        (a.additive && (o.blending = er), a.side && (o.side = a.side), (mat = new yi(o)));
+      } else
+        mat = new ra({
+          color: a.color,
+          emissive: a.emissive ?? 0,
+          emissiveIntensity: a.emiss ?? 0,
+          roughness: a.rough ?? 0.85,
+        });
+      const m = new ft(a.geo(), mat);
+      (a.pos && m.position.set(a.pos[0], a.pos[1], a.pos[2]),
+        a.rotX && (m.rotation.x = a.rotX),
+        a.rotZ && (m.rotation.z = a.rotZ),
+        this.charGroup.add(m),
+        this._accents.push(m));
+    }
+    (this.ring.material.color.setHex(spec.ring), this._buildFace(body, spec.face));
+  }
+  _buildFace(target, f) {
+    const w = (r) => new ft(new ms(r, 1), new yi({ color: 16777215 })),
+      d = (r) => new ft(new ms(r, 1), new yi({ color: f.pupCol ?? 1052688 })),
+      eL = w(f.eyeR),
+      eR = w(f.eyeR),
+      pL = d(f.pupR),
+      pR = d(f.pupR);
+    (eL.position.set(-f.eyeSep, f.eyeY, f.fz),
+      eR.position.set(f.eyeSep, f.eyeY, f.fz),
+      pL.position.set(-f.eyeSep, f.eyeY, f.fz + 0.14),
+      pR.position.set(f.eyeSep, f.eyeY, f.fz + 0.14));
+    let mouth;
+    f.mouth === "o"
+      ? (mouth = new ft(new ms(0.2, 1), new yi({ color: 1052688 })))
+      : f.mouth === "fang"
+        ? (mouth = new ft(new oi(0.7, 0.12, 0.06), new yi({ color: 1052688 })))
+        : ((mouth = new ft(new ms(0.46, 1), new yi({ color: 1052688 }))),
+          mouth.scale.set(1.05, 0.32, 0.4));
+    (mouth.position.set(0, f.mouthY, f.fz),
+      target.add(eL, eR, pL, pR, mouth),
+      (this._face = { pL, pR, baseSep: f.eyeSep, baseY: f.eyeY }));
   }
   setToast(e) {
     (e < 0.7
@@ -23331,29 +23454,51 @@ class zp {
       : this._cTmp.copy(this._cGold).lerp(this._cBurnt, (e - 0.7) / 0.3),
       this.body.material.color.copy(this._cTmp),
       (this.body.material.emissiveIntensity = 0.2 + e * 0.6),
-      this.body.material.emissive.setHex(e > 0.9 ? 16734762 : 3810320));
+      this.body.material.emissive.setHex(e > 0.9 ? 16734762 : this._emissBase));
   }
   update(e) {
-    (this.invuln > 0
-      ? ((this.invuln -= e),
-        (this.body.visible = Math.floor(this.invuln * 20) % 2 === 0))
-      : (this.body.visible = !0),
-      this.mesh.position.set(this.x, 0, this.y));
+    ((this._t += e),
+      this.invuln > 0
+        ? ((this.invuln -= e),
+          (this.body.visible = Math.floor(this.invuln * 20) % 2 === 0))
+        : (this.body.visible = !0),
+      (this._squash = Math.max(0, this._squash - e * 4)));
+    const bob = Math.sin(this._t * 3) * 0.08,
+      k = Math.min(1, e * 10),
+      breathe = 1 + Math.sin(this._t * 2.2) * 0.03,
+      g = this.charGroup;
+    (this.mesh.position.set(this.x, 0, this.y),
+      (g.position.y = bob),
+      (g.rotation.z += (-this.aimX * 0.16 - g.rotation.z) * k),
+      (g.rotation.x += (this.aimY * 0.1 - g.rotation.x) * k),
+      g.scale.set(1 + this._squash * 0.3, breathe * (1 - this._squash * 0.35), 1 + this._squash * 0.3));
+    if (this._face) {
+      const f = this._face;
+      ((f.pL.position.x = -f.baseSep + this.aimX * 0.05),
+        (f.pR.position.x = f.baseSep + this.aimX * 0.05),
+        (f.pL.position.y = f.baseY + this.aimY * 0.04),
+        (f.pR.position.y = f.baseY + this.aimY * 0.04));
+    }
   }
   isInvulnerable() {
     return this.invuln > 0;
   }
   triggerInvuln() {
-    this.invuln = J.player.invuln;
+    ((this.invuln = J.player.invuln), (this._squash = 1));
   }
-  reset() {
+  reset(char) {
     ((this.x = 0),
       (this.y = 0),
       (this.aimX = 0),
       (this.aimY = -1),
       (this.invuln = 0),
+      (this._squash = 0),
+      char && char.id !== this._charId && this._buildBody(char),
       (this.body.visible = !0),
-      this.mesh.position.set(0, 0, 0));
+      this.mesh.position.set(0, 0, 0),
+      this.charGroup.position.set(0, 0, 0),
+      this.charGroup.rotation.set(0, 0, 0),
+      this.charGroup.scale.set(1, 1, 1));
   }
 }
 class aa {
@@ -25820,7 +25965,7 @@ class pm {
       this._clearAutoTimers(),
       (this._vacuumT = 0),
       (this._autoVacT = 0),
-      this.player.reset(),
+      this.player.reset(e),
       this.weapons.reset(),
       this.spawner.reset(),
       (this.spawner.diff = t.spawn),
