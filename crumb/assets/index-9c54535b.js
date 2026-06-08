@@ -22371,7 +22371,7 @@ class Ap {
   }
   _zoom() {
     const e = this.camera.aspect || 1;
-    return Math.min(1.35, Math.max(0.92, 0.78 / e));
+    return Math.min(2.4, Math.max(1, 1.1 / e));
   }
   viewHalfExtents() {
     const e = J.camera.height * this._zoom(),
