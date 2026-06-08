@@ -24749,6 +24749,10 @@ class am {
       (this.el.innerHTML = `
       <div class="xp-bar"><div class="fill" data-xp></div></div>
       <div class="hud-level">LV <b data-level>1</b></div>
+      <div class="auto-btns">
+        <button class="auto-btn ui-interactive" data-automove>▶ Auto-move</button>
+        <button class="auto-btn ui-interactive" data-autopick>★ Auto-pick</button>
+      </div>
       <button class="pause-btn ui-interactive" data-pause aria-label="Pause">❚❚</button>
       <div class="hud-top">
         <div class="hud-timer" data-timer>0:00</div>
@@ -24792,6 +24796,8 @@ class am {
         toastLabel: this.el.querySelector("[data-toastlabel]"),
         goldBand: this.el.querySelector("[data-goldband]"),
         pause: this.el.querySelector("[data-pause]"),
+        autoMove: this.el.querySelector("[data-automove]"),
+        autoPick: this.el.querySelector("[data-autopick]"),
       }),
       (this._onPause = null),
       (this.refs.pause.onclick = () => {
@@ -24806,6 +24812,13 @@ class am {
   }
   setPauseHandler(e) {
     this._onPause = e;
+  }
+  setAutoHandlers(e, t) {
+    ((this.refs.autoMove.onclick = e), (this.refs.autoPick.onclick = t));
+  }
+  reflectAuto(e, t) {
+    (this.refs.autoMove.classList.toggle("on", !!e),
+      this.refs.autoPick.classList.toggle("on", !!t));
   }
   show() {
     this.el.style.display = "block";
@@ -25276,6 +25289,11 @@ class pm {
       (this._chests = []),
       (this._bossMinionT = 0),
       (this._vacuumT = 0),
+      (this._autoVacT = 0),
+      (this.autoMove = !1),
+      (this.autoPick = !1),
+      (this._autoPickTimer = null),
+      (this._autoPrizeTimer = null),
       (this.state = "menu"),
       (this.runState = null),
       (this.boss = null),
@@ -25283,6 +25301,12 @@ class pm {
       (this.onFrameBegin = null),
       (this.onFrameEnd = null),
       this.hud.setPauseHandler(() => this.togglePause()),
+      this._loadAuto(),
+      this.hud.setAutoHandlers(
+        () => this.toggleAutoMove(),
+        () => this.toggleAutoPick(),
+      ),
+      this.hud.reflectAuto(this.autoMove, this.autoPick),
       this._bindEvents(),
       (this._lastT = performance.now()),
       (this._loop = this._loop.bind(this)));
@@ -25322,6 +25346,7 @@ class pm {
       this.pauseScreen.hide(),
       this.selectScreen.hide(),
       this.prizeScreen.hide(),
+      this._clearAutoTimers(),
       this._clearChests(),
       this.enemies.clear(),
       this.projectiles.clear(),
@@ -25379,7 +25404,9 @@ class pm {
       this.pickups.clear(),
       this._clearChests(),
       this.prizeScreen.hide(),
+      this._clearAutoTimers(),
       (this._vacuumT = 0),
+      (this._autoVacT = 0),
       this.player.reset(),
       this.weapons.reset(),
       this.spawner.reset(),
@@ -25394,22 +25421,118 @@ class pm {
   }
   triggerLevelUp() {
     ((this.state = "levelup"), this.input.resetTouch());
-    const e = sm(this.runState, this.rng);
-    this.levelUpScreen.show(e, (t) => {
-      (t.apply(this.runState),
-        t.isEvolution && this.hud.toast(`★ ${t.name} — MERGED!`),
-        (this.runState.pendingLevelUps -= 1),
-        this.runState.pendingLevelUps > 0
-          ? this.triggerLevelUp()
-          : this._enterReady());
-    });
+    const e = sm(this.runState, this.rng),
+      pick = (t) => {
+        (this._autoPickTimer &&
+          (clearTimeout(this._autoPickTimer), (this._autoPickTimer = null)),
+          t.apply(this.runState),
+          t.isEvolution && this.hud.toast(`★ ${t.name} — MERGED!`),
+          (this.runState.pendingLevelUps -= 1),
+          this.runState.pendingLevelUps > 0
+            ? this.triggerLevelUp()
+            : this._enterReady());
+      };
+    (this.levelUpScreen.show(e, pick),
+      this.autoPick &&
+        (this._autoPickTimer = setTimeout(() => {
+          this.state === "levelup" &&
+            (this.levelUpScreen.hide(), pick(this._bestCard(e)));
+        }, 650)));
   }
   _enterReady() {
     ((this.state = "ready"), this.hud.toast("◆ MOVE TO CONTINUE"));
   }
   _checkReady() {
-    Math.hypot(this.input.moveX, this.input.moveY) > 0.2 &&
+    (this.autoMove || Math.hypot(this.input.moveX, this.input.moveY) > 0.2) &&
       (this.state = "playing");
+  }
+  _loadAuto() {
+    try {
+      ((this.autoMove = localStorage.getItem("crumb.auto.move") === "1"),
+        (this.autoPick = localStorage.getItem("crumb.auto.pick") === "1"));
+    } catch (e) {}
+  }
+  _saveAuto() {
+    try {
+      (localStorage.setItem("crumb.auto.move", this.autoMove ? "1" : "0"),
+        localStorage.setItem("crumb.auto.pick", this.autoPick ? "1" : "0"));
+    } catch (e) {}
+  }
+  toggleAutoMove() {
+    ((this.autoMove = !this.autoMove),
+      this._saveAuto(),
+      this.hud.reflectAuto(this.autoMove, this.autoPick));
+  }
+  toggleAutoPick() {
+    ((this.autoPick = !this.autoPick),
+      this._saveAuto(),
+      this.hud.reflectAuto(this.autoMove, this.autoPick));
+  }
+  _clearAutoTimers() {
+    (this._autoPickTimer && clearTimeout(this._autoPickTimer),
+      this._autoPrizeTimer && clearTimeout(this._autoPrizeTimer),
+      (this._autoPickTimer = null),
+      (this._autoPrizeTimer = null));
+  }
+  _bestCard(e) {
+    const t = e.find((n) => n.isEvolution);
+    if (t) return t;
+    let n = e[0],
+      s = -1;
+    for (const r of e) {
+      const a = r.rarity != null ? r.rarity : -1;
+      a > s && ((s = a), (n = r));
+    }
+    return n;
+  }
+  _autoSteer() {
+    const i = this.input;
+    if (Math.hypot(i.moveX, i.moveY) > 0.01) return;
+    const p = this.player,
+      R = 32,
+      R2 = R * R;
+    let ax = 0,
+      ay = 0;
+    const en = this.enemies.pool.items,
+      ec = this.enemies.pool.count;
+    for (let k = 0; k < ec; k++) {
+      const e = en[k],
+        dx = p.x - e.x,
+        dy = p.y - e.y,
+        d2 = dx * dx + dy * dy;
+      if (d2 < R2 && d2 > 0) {
+        const d = Math.sqrt(d2),
+          w = (R - d) / R,
+          f = w * w * w * 5.5;
+        ((ax += (dx / d) * f), (ay += (dy / d) * f));
+      }
+    }
+    let gx = 0,
+      gy = 0,
+      best = 1 / 0;
+    const gp = this.pickups.pool.items,
+      gc = this.pickups.pool.count;
+    for (let k = 0; k < gc; k++) {
+      const g = gp[k],
+        dx = g.x - p.x,
+        dy = g.y - p.y,
+        d2 = dx * dx + dy * dy;
+      d2 < best && ((best = d2), (gx = dx), (gy = dy));
+    }
+    if (best < 1 / 0) {
+      const d = Math.sqrt(best) || 1;
+      ((ax += (gx / d) * 0.9), (ay += (gy / d) * 0.9));
+    }
+    for (const c of this._chests) {
+      const dx = c.x - p.x,
+        dy = c.y - p.y,
+        d = Math.hypot(dx, dy) || 1;
+      ((ax += (dx / d) * 1.8), (ay += (dy / d) * 1.8));
+    }
+    const b = J.world.bounds;
+    ((ax += (-p.x / b) * 2.8), (ay += (-p.y / b) * 2.8));
+    const m = Math.hypot(ax, ay);
+    m > 0.01 ? ((i.moveX = ax / m), (i.moveY = ay / m)) : ((i.moveX = 0), (i.moveY = 0));
   }
   _dropChest(e, t) {
     const n = makeChestMesh();
@@ -25448,10 +25571,17 @@ class pm {
   _openChest() {
     if (this.state !== "playing") return;
     ((this.state = "prize"), this.input.resetTouch());
-    const e = rollChestRewards(this.runState, this.rng, 4);
-    this.prizeScreen.show(e, () => {
-      (this.prizeScreen.hide(), this._enterReady());
-    });
+    const e = rollChestRewards(this.runState, this.rng, 4),
+      done = () => {
+        this.state === "prize" &&
+          (this._autoPrizeTimer &&
+            (clearTimeout(this._autoPrizeTimer), (this._autoPrizeTimer = null)),
+          this.prizeScreen.hide(),
+          this._enterReady());
+      };
+    (this.prizeScreen.show(e, done),
+      (this.autoPick || this.autoMove) &&
+        (this._autoPrizeTimer = setTimeout(done, 1800)));
   }
   _bossMinions(e) {
     if (((this._bossMinionT += e), this._bossMinionT < 4.5)) return;
@@ -25511,6 +25641,7 @@ class pm {
     ((t.time += e),
       (t.goldRaw += J.meta.goldPerSecond * e),
       t.stats.regen > 0 && t.heal(t.stats.regen * e),
+      this.autoMove && this._autoSteer(),
       Gp(this.player, this.input, t, e),
       this.heat.update(e));
     const n = J.heat,
@@ -25547,6 +25678,17 @@ class pm {
       this.enemies.compact(this._onDeath, this.player),
       this.spawner.update(e, t, this.player, this.cameraRig, this.events),
       this.pickups.update(e, this.player, t, this.events),
+      this.autoMove &&
+        ((this._autoVacT += e),
+        this._autoVacT >= 3 &&
+          ((this._autoVacT = 0),
+          this.pickups.collectAll(t, this.events) > 0 &&
+            this.explosions.spawn(
+              this.player.x,
+              this.player.y,
+              J.pickups.gemColor,
+              1.8,
+            ))),
       t.stats.vacuum > 0 &&
         ((this._vacuumT += e),
         this._vacuumT >= Math.max(2.5, 9 - t.stats.vacuum * 0.8) &&
