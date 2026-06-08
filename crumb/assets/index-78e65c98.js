@@ -22890,6 +22890,24 @@ const ol = [
       }),
       levelDesc: () => "+sprinkles, +damage",
     },
+    {
+      id: "turret",
+      name: "Pop-Up Sentry",
+      icon: "🔫",
+      pattern: "turret",
+      color: 11184810,
+      desc: "Deploys a stationary sentry that auto-fires at the nearest pest. Builds up more sentries as it levels.",
+      stats: (i) => ({
+        cooldown: Math.max(0.3, 0.95 - (i - 1) * 0.07),
+        damage: 9 + (i - 1) * 5,
+        count: 1 + Math.floor(i / 2),
+        pierce: 1 + Math.floor(i / 4),
+        speed: 62,
+        area: 1 + (i - 1) * 0.05,
+      }),
+      levelDesc: (i) =>
+        i % 2 === 0 ? "+1 sentry, +damage" : "+damage, faster fire",
+    },
   ],
   Up = {
     bolt_storm: {
@@ -23870,6 +23888,8 @@ class jp {
     ((this.scene = e),
       (this._orbitSigs = new Map()),
       (this._nearScratch = []),
+      (this._turrets = []),
+      (this._turretDeploy = 0),
       (this._chainHit = new Set()));
     const t = new fs(1, 40),
       n = new yi({
@@ -23917,9 +23937,74 @@ class jp {
         case "homing":
           this._tickCooldown(o, l, e, () => this._fireHoming(o, l, n, s, r));
           break;
+        case "turret":
+          this._updateTurrets(o, l, e, n, s, r);
+          break;
       }
     }
     this.auraMesh.visible = a;
+  }
+  _updateTurrets(weapon, stats, dt, player, enemies, projectiles) {
+    const id = weapon.def.id,
+      owned = this._turrets.filter((t) => t.weaponId === id);
+    if (owned.length < stats.count) {
+      this._turretDeploy -= dt;
+      if (this._turretDeploy <= 0) {
+        this._turretDeploy = 1.6;
+        const ang = owned.length * 2.4,
+          rad = 3.4 + owned.length * 0.5,
+          tx = player.x + Math.cos(ang) * rad,
+          ty = player.y + Math.sin(ang) * rad,
+          m = makeTurretMesh(weapon.def.color);
+        (m.position.set(tx, 0, ty), this.scene.add(m));
+        const tr = {
+          weaponId: id,
+          x: tx,
+          y: ty,
+          fireT: Math.random() * 0.4,
+          mesh: m,
+        };
+        (this._turrets.push(tr), owned.push(tr));
+      }
+    }
+    const range2 = 2500,
+      en = enemies.pool.items,
+      ec = enemies.pool.count;
+    for (const tr of owned) {
+      if (((tr.fireT -= dt), tr.fireT > 0)) continue;
+      let best = null,
+        bd = range2;
+      for (let k = 0; k < ec; k++) {
+        const e = en[k];
+        if (e.hp <= 0) continue;
+        const dx = e.x - tr.x,
+          dy = e.y - tr.y,
+          d2 = dx * dx + dy * dy;
+        d2 < bd && ((bd = d2), (best = e));
+      }
+      if (!best) continue;
+      tr.fireT = stats.cooldown;
+      const ang = Math.atan2(best.y - tr.y, best.x - tr.x);
+      ((tr.mesh.rotation.y = Math.atan2(best.x - tr.x, best.y - tr.y)),
+        projectiles.spawn(
+          tr.x,
+          tr.y,
+          Math.cos(ang) * stats.speed,
+          Math.sin(ang) * stats.speed,
+          {
+            damage: stats.damage,
+            radius: 0.42 * stats.area,
+            color: weapon.def.color,
+            pierce: stats.pierce,
+            life: 2.4,
+            weaponId: id,
+          },
+        ));
+    }
+  }
+  clearTurrets() {
+    for (const t of this._turrets) this.scene.remove(t.mesh);
+    ((this._turrets.length = 0), (this._turretDeploy = 0));
   }
   _tickCooldown(e, t, n, s) {
     ((e.cooldownLeft -= n),
@@ -24069,7 +24154,7 @@ class jp {
     return r;
   }
   reset() {
-    (this._orbitSigs.clear(), (this.auraMesh.visible = !1));
+    (this._orbitSigs.clear(), (this.auraMesh.visible = !1), this.clearTurrets());
   }
 }
 const Zp = 0.35,
@@ -25154,6 +25239,40 @@ function makeChestMesh() {
   );
   return ((band.position.y = 1.25), g.add(base), g.add(lid), g.add(band), g);
 }
+function makeTurretMesh(color) {
+  const g = new Kn(),
+    base = new ft(
+      new oi(1.4, 0.7, 1.4),
+      new ra({
+        color: 4868682,
+        emissive: 1052688,
+        emissiveIntensity: 0.2,
+        roughness: 0.7,
+      }),
+    );
+  base.position.y = 0.45;
+  const head = new ft(
+    new ms(0.72, 1),
+    new ra({
+      color: color,
+      emissive: color,
+      emissiveIntensity: 0.45,
+      roughness: 0.5,
+    }),
+  );
+  head.position.y = 1.05;
+  const barrel = new ft(
+    new oi(0.34, 0.34, 1.3),
+    new ra({ color: 3158064, emissive: 1052688, emissiveIntensity: 0.2 }),
+  );
+  return (
+    barrel.position.set(0, 1.05, 0.75),
+    g.add(base),
+    g.add(head),
+    g.add(barrel),
+    g
+  );
+}
 class CrumbPrize {
   constructor(e) {
     ((this.el = document.createElement("div")),
@@ -25725,5 +25844,5 @@ class pm {
 const mm = document.getElementById("game-canvas"),
   gm = document.getElementById("ui-root"),
   _m = new pm(mm, gm);
-((window.CRUMB = _m), _m.start());
+((window.CRUMB = _m), (window.CRUMB_WEAPONS = Fp), _m.start());
 //# sourceMappingURL=index-CbpTq9da.js.map
