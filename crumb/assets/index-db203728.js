@@ -86,12 +86,12 @@ const J = {
   },
   level: {
     baseXp: 5,
-    curveMul: 1.18,
-    curveAdd: 3,
+    curveMul: 1.1,
+    curveAdd: 2,
     choices: 3,
     maxItemLevel: 8,
     maxWeapons: 4,
-    maxPassives: 4,
+    maxPassives: 5,
     mergeLevel: 4,
   },
   meta: { storageKey: "crumb.meta.v1", goldPerKill: 0.2, goldPerSecond: 0.4 },
@@ -22855,6 +22855,41 @@ const ol = [
       levelDesc: (i) =>
         i % 2 === 0 ? "+1 kernel, +damage" : "+damage, +pierce",
     },
+    {
+      id: "skillet",
+      name: "Cast-Iron Skillet",
+      icon: "🍳",
+      pattern: "nearest",
+      color: 4473924,
+      desc: "Hurls a heavy skillet that smashes through the nearest pests.",
+      stats: (i) => ({
+        cooldown: Math.max(0.5, 1.3 - (i - 1) * 0.08),
+        damage: 19 + (i - 1) * 9,
+        count: 1 + Math.floor(i / 4),
+        pierce: 2 + Math.floor(i / 3),
+        speed: 46,
+        area: 1.5 + (i - 1) * 0.1,
+      }),
+      levelDesc: (i) =>
+        i % 4 === 0 ? "+1 skillet, +damage" : "+damage, +pierce",
+    },
+    {
+      id: "sprinkles",
+      name: "Sprinkle Storm",
+      icon: "✨",
+      pattern: "nova",
+      color: 16743121,
+      desc: "Showers a wide ring of sugary sprinkles in every direction.",
+      stats: (i) => ({
+        cooldown: Math.max(0.45, 1.2 - (i - 1) * 0.08),
+        damage: 5 + (i - 1) * 3,
+        count: 10 + (i - 1) * 2,
+        pierce: 1,
+        speed: 50,
+        area: 1 + (i - 1) * 0.05,
+      }),
+      levelDesc: () => "+sprinkles, +damage",
+    },
   ],
   Up = {
     bolt_storm: {
@@ -22946,6 +22981,8 @@ function Op() {
     xpMul: 1,
     goldMul: 1,
     revives: 0,
+    lifesteal: 0,
+    luck: 0,
   };
 }
 const CRUMB_CHARS = [
@@ -24373,6 +24410,54 @@ const ll = [
     perLevel: 0.12,
     desc: "+12% projectile speed.",
   },
+  {
+    id: "vampjam",
+    name: "Vampire Jam",
+    icon: "🩸",
+    stat: "lifesteal",
+    perLevel: 1.4,
+    desc: "Heal +1.4 health every time you squash a pest.",
+  },
+  {
+    id: "luck",
+    name: "Four-Leaf Crouton",
+    icon: "🍀",
+    stat: "luck",
+    perLevel: 1,
+    desc: "Better odds of rare & legendary upgrade cards.",
+  },
+  {
+    id: "cheddar",
+    name: "Sharp Cheddar",
+    icon: "🧀",
+    stat: "damageMul",
+    perLevel: 0.09,
+    desc: "+9% damage from all sources.",
+  },
+  {
+    id: "convection",
+    name: "Convection Fan",
+    icon: "🌬",
+    stat: "cooldownMul",
+    perLevel: -0.06,
+    desc: "-6% weapon cooldown.",
+  },
+  {
+    id: "springform",
+    name: "Spring Form",
+    icon: "⭕",
+    stat: "areaMul",
+    perLevel: 0.13,
+    desc: "+13% weapon area / size.",
+  },
+  {
+    id: "sugarrush",
+    name: "Sugar Rush",
+    icon: "🍬",
+    stat: "moveMul",
+    perLevel: 0.11,
+    desc: "+11% movement speed.",
+  },
 ];
 Object.fromEntries(ll.map((i) => [i.id, i]));
 function nm() {
@@ -24401,63 +24486,92 @@ function im() {
     },
   };
 }
+const CRUMB_RARITIES = [
+  { name: "Common", color: "#9fb0cc", lvls: 1 },
+  { name: "Uncommon", color: "#5af07a", lvls: 2 },
+  { name: "Rare", color: "#5ad1ff", lvls: 3 },
+  { name: "Epic", color: "#c97aff", lvls: 4 },
+  { name: "Legendary", color: "#ffd45a", lvls: 5 },
+];
+function rollRarity(e, t) {
+  const n = e.next() + (t || 0) * 0.045;
+  return n > 0.985
+    ? 4
+    : n > 0.93
+      ? 3
+      : n > 0.8
+        ? 2
+        : n > 0.55
+          ? 1
+          : 0;
+}
+function applyDef(i, e, t) {
+  for (let n = 0; n < t; n++) e.type === "weapon" ? i.addWeapon(e.def) : i.addPassive(e.def);
+}
+function rarityCard(i, e, t, n) {
+  const s = rollRarity(t, n),
+    r = CRUMB_RARITIES[s],
+    a = r.lvls;
+  return {
+    type: e.type,
+    name: e.def.name,
+    icon: e.def.icon,
+    kind: e.kind,
+    desc: e.desc + (a > 1 ? ` (+${a} levels)` : ""),
+    level: e.level,
+    isNew: e.isNew,
+    rarity: s,
+    rarityName: r.name,
+    rarityColor: r.color,
+    apply: (o) => applyDef(o, e, a),
+  };
+}
 function sm(i, e) {
-  const t = [];
+  const luck = i.stats.luck || 0,
+    raw = [];
   for (const l of i.weapons)
-    if (l.level < J.level.maxItemLevel) {
-      const c = l.def,
-        h = l.level + 1;
-      t.push({
+    if (l.level < J.level.maxItemLevel)
+      raw.push({
         type: "weapon",
-        name: c.name,
-        icon: c.icon,
+        def: l.def,
         kind: "Weapon",
-        desc: c.levelDesc(h),
-        level: h,
-        isNew: !1,
-        apply: (u) => u.addWeapon(c),
-      });
-    }
-  for (const l of i.passives)
-    if (l.level < J.level.maxItemLevel) {
-      const c = l.def;
-      t.push({
-        type: "passive",
-        name: c.name,
-        icon: c.icon,
-        kind: "Passive",
-        desc: c.desc,
+        desc: l.def.levelDesc(l.level + 1),
         level: l.level + 1,
         isNew: !1,
-        apply: (h) => h.addPassive(c),
       });
-    }
+  for (const l of i.passives)
+    if (l.level < J.level.maxItemLevel)
+      raw.push({
+        type: "passive",
+        def: l.def,
+        kind: "Passive",
+        desc: l.def.desc,
+        level: l.level + 1,
+        isNew: !1,
+      });
   if (i.weapons.length < J.level.maxWeapons)
     for (const l of ol)
       i.weaponLevel(l.id) ||
-        t.push({
+        raw.push({
           type: "weapon",
-          name: l.name,
-          icon: l.icon,
+          def: l,
           kind: "New Weapon",
           desc: l.desc,
           level: 1,
           isNew: !0,
-          apply: (c) => c.addWeapon(l),
         });
   if (i.passives.length < J.level.maxPassives)
     for (const l of ll)
       i.passiveLevel(l.id) ||
-        t.push({
+        raw.push({
           type: "passive",
-          name: l.name,
-          icon: l.icon,
+          def: l,
           kind: "New Passive",
           desc: l.desc,
           level: 1,
           isNew: !0,
-          apply: (c) => c.addPassive(l),
         });
+  const t = raw.map((l) => rarityCard(i, l, e, luck));
   const n = [];
   for (const l of Np) {
     const c = i.weapons.find((f) => f.def.id === l.a),
@@ -24663,9 +24777,16 @@ class lm {
       a.className = `card ui-interactive${o ? " " + o : ""}`;
       const l = s.isEvolution
           ? '<span class="evo-badge">★ EVOLUTION</span>'
-          : `<span class="kind">${s.kind}</span>`,
+          : s.rarityName
+            ? `<span class="kind" style="color:${s.rarityColor};font-weight:700;letter-spacing:1px">${s.rarityName}</span><span class="kind">${s.kind}</span>`
+            : `<span class="kind">${s.kind}</span>`,
         c = s.level > 0 ? om(s.level, J.level.maxItemLevel) : "";
-      ((a.innerHTML = `
+      (s.rarity != null &&
+        !s.isEvolution &&
+        ((a.style.borderColor = s.rarityColor),
+        s.rarity >= 3 &&
+          (a.style.boxShadow = `0 0 0 1px ${s.rarityColor}, 0 0 26px ${s.rarityColor}66`)),
+        (a.innerHTML = `
         <div class="card-key">${r + 1}</div>
         <div class="icon">${s.icon}</div>
         ${l}
@@ -24971,6 +25092,8 @@ class pm {
       (this._onDeath = (e) => {
         ((this.runState.kills += 1),
           (this.runState.goldRaw += J.meta.goldPerKill),
+          this.runState.stats.lifesteal > 0 &&
+            this.runState.heal(this.runState.stats.lifesteal),
           this.explosions.spawn(e.x, e.y, e.color, (e.scale || 1) * 0.7),
           this.pickups.spawn(e.x, e.y, e.xp),
           this.events.emit("enemyKilled", e));
