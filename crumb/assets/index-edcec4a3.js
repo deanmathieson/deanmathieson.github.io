@@ -26018,6 +26018,7 @@ class pm {
   }
   toggleAutoMove() {
     ((this.autoMove = !this.autoMove),
+      (this._autoDir = { x: 0, y: 0 }),
       this._saveAuto(),
       this.hud.reflectAuto(this.autoMove, this.autoPick));
   }
@@ -26043,7 +26044,7 @@ class pm {
     }
     return n;
   }
-  _autoSteer() {
+  _autoSteer(dt) {
     const i = this.input;
     if (Math.hypot(i.moveX, i.moveY) > 0.01) return;
     const p = this.player,
@@ -26089,8 +26090,16 @@ class pm {
     }
     const b = J.world.bounds;
     ((ax += (-p.x / b) * 2.8), (ay += (-p.y / b) * 2.8));
-    const m = Math.hypot(ax, ay);
-    m > 0.01 ? ((i.moveX = ax / m), (i.moveY = ay / m)) : ((i.moveX = 0), (i.moveY = 0));
+    // Low-pass the raw steering force so the desired heading can't flip
+    // sign frame-to-frame when forces nearly cancel (the cause of the
+    // on-the-spot jitter). ~0.22s time constant => smooth but responsive.
+    const s = this._autoDir || (this._autoDir = { x: 0, y: 0 }),
+      k = 1 - Math.exp(-(dt || 0.016) / 0.22);
+    ((s.x += (ax - s.x) * k), (s.y += (ay - s.y) * k));
+    const m = Math.hypot(s.x, s.y);
+    // Deadzone: when the smoothed force settles near zero (balanced /
+    // surrounded), just stop instead of vibrating.
+    m > 0.3 ? ((i.moveX = s.x / m), (i.moveY = s.y / m)) : ((i.moveX = 0), (i.moveY = 0));
   }
   _dropChest(e, t) {
     const n = makeChestMesh();
@@ -26199,7 +26208,7 @@ class pm {
     ((t.time += e),
       (t.goldRaw += J.meta.goldPerSecond * e),
       t.stats.regen > 0 && t.heal(t.stats.regen * e),
-      this.autoMove && this._autoSteer(),
+      this.autoMove && this._autoSteer(e),
       Gp(this.player, this.input, t, e),
       this.heat.update(e));
     const n = J.heat,
