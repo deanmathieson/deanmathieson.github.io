@@ -23155,6 +23155,19 @@ class zp {
         }),
       );
     ((n.position.y = 1.5), t.add(n), (this.body = n));
+    const mkFace = (r, d, col) => new ft(new ms(r, d), new yi({ color: col })),
+      eyeL = mkFace(0.34, 1, 16777215),
+      eyeR = mkFace(0.34, 1, 16777215),
+      pupL = mkFace(0.17, 0, 1052688),
+      pupR = mkFace(0.17, 0, 1052688),
+      smile = mkFace(0.46, 1, 1052688);
+    (eyeL.position.set(-0.55, 0.45, 0.34),
+      eyeR.position.set(0.55, 0.45, 0.34),
+      pupL.position.set(-0.55, 0.42, 0.52),
+      pupR.position.set(0.55, 0.42, 0.52),
+      smile.scale.set(1.05, 0.32, 0.4),
+      smile.position.set(0, -0.5, 0.4),
+      n.add(eyeL, eyeR, pupL, pupR, smile));
     const s = new ft(
       new sa(1.6, 2.1, 32),
       new yi({
@@ -23365,6 +23378,33 @@ function Vp() {
     isBoss: !1,
   };
 }
+function buildEyesGeo() {
+  const parts = [
+    { r: 0.32, d: 1, t: [-0.33, 0.72, 0.26], c: [1, 1, 1] },
+    { r: 0.32, d: 1, t: [0.33, 0.72, 0.26], c: [1, 1, 1] },
+    { r: 0.2, d: 1, t: [-0.33, 0.82, 0.34], c: [0.04, 0.04, 0.07] },
+    { r: 0.2, d: 1, t: [0.33, 0.82, 0.34], c: [0.04, 0.04, 0.07] },
+  ];
+  const pos = [],
+    nor = [],
+    col = [];
+  for (const p of parts) {
+    let g = new ms(p.r, p.d);
+    (g.index && (g = g.toNonIndexed()), g.translate(p.t[0], p.t[1], p.t[2]));
+    const pa = g.attributes.position.array,
+      na = g.attributes.normal.array;
+    for (let i = 0; i < pa.length; i++) (pos.push(pa[i]), nor.push(na[i]));
+    for (let i = 0; i < pa.length / 3; i++) col.push(p.c[0], p.c[1], p.c[2]);
+    g.dispose && g.dispose();
+  }
+  const geo = new Lt();
+  return (
+    geo.setAttribute("position", new rt(new Float32Array(pos), 3)),
+    geo.setAttribute("normal", new rt(new Float32Array(nor), 3)),
+    geo.setAttribute("color", new rt(new Float32Array(col), 3)),
+    geo
+  );
+}
 class Wp {
   constructor(e) {
     ((this.pool = new aa(J.enemies.maxAlive, Vp)),
@@ -23374,7 +23414,14 @@ class Wp {
     const t = new ms(1, 0),
       n = new sl({ flatShading: !0 });
     ((this.instances = new oa(t, n, J.enemies.maxAlive)),
-      e.add(this.instances.mesh));
+      e.add(this.instances.mesh),
+      (this.eyes = new oa(
+        buildEyesGeo(),
+        new yi({ vertexColors: !0, fog: !0 }),
+        J.enemies.maxAlive,
+        !1,
+      )),
+      e.add(this.eyes.mesh));
   }
   get count() {
     return this.pool.count;
@@ -23444,12 +23491,13 @@ class Wp {
       const s = e[n],
         r = Math.atan2(s.vx, s.vy);
       (this.instances.write(n, s.x, s.height, s.y, s.scale, r),
-        this.instances.setColor(n, s.flash > 0 ? 16777215 : s.color));
+        this.instances.setColor(n, s.flash > 0 ? 16777215 : s.color),
+        this.eyes.write(n, s.x, s.height, s.y, s.scale, r));
     }
-    this.instances.finalize(t);
+    (this.instances.finalize(t), this.eyes.finalize(t));
   }
   clear() {
-    (this.pool.clear(), this.instances.finalize(0));
+    (this.pool.clear(), this.instances.finalize(0), this.eyes.finalize(0));
   }
 }
 const yo = 100;
