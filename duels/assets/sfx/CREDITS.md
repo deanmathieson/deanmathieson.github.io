@@ -26,7 +26,7 @@ npm run gen-sfx
 | `hero_hit.wav`      | A hero taking damage                      |
 | `victory_sting.wav` | Winning a match                           |
 | `defeat_sting.wav`  | Losing a match                            |
-| `ambient_menu.wav`  | Looping ambient track (menus / draft)     |
+| `ambient_menu.wav`  | Looping menu jingle (menus / draft)       |
 | `ambient_board.wav` | Looping ambient track (combat board)      |
 
 ## Swapping in a CC0 audio pack
